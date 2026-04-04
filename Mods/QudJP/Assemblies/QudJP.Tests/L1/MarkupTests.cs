@@ -46,6 +46,7 @@ public sealed class MarkupTests
             Assert.That(DummyMarkup.Strip("{{|small {{g|mossy}} tube}}"), Is.EqualTo("small mossy tube"));
             Assert.That(DummyMarkup.Strip("{{g|hi"), Is.EqualTo("hi"));
             Assert.That(DummyMarkup.Strip("{{y|want grey {{Y|white}} grey &Kblack}}"), Is.EqualTo("want grey white grey black"));
+            Assert.That(DummyMarkup.Strip("{{g|漢字}}"), Is.EqualTo("漢字"));
         });
     }
 }

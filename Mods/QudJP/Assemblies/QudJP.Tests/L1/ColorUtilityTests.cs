@@ -57,6 +57,14 @@ public sealed class ColorUtilityTests
 
         Assert.That(escaped, Is.EqualTo("A&&B^^C&&&&^^^^"));
     }
+
+    [Test]
+    public void StripFormatting_TopLevelClosingBraces_TreatedAsPrintable()
+    {
+        string stripped = DummyColorUtility.StripFormatting("abc}}def");
+
+        Assert.That(stripped, Is.EqualTo("abc}}def"));
+    }
 }
 
 #pragma warning restore CA1515
