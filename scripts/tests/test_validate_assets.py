@@ -29,7 +29,10 @@ class TestExtractPlaceholders:
     """Tests for extract_placeholders."""
 
     def test_template_vars(self) -> None:
-        assert "{{W|text}}" in extract_placeholders("Hello {{W|text}} world")
+        # Color markup {{X|text}} is normalised to {{X|...}} for comparison
+        result = extract_placeholders("Hello {{W|text}} world")
+        assert "{{W|...}}" in result
+        assert "{{W|text}}" not in result
 
     def test_color_codes(self) -> None:
         result = extract_placeholders("&Ytext&R")
@@ -224,3 +227,54 @@ class TestAmbiguousPositionalMatchSkipped:
         ovl_path = _write(tmp_path, "overlay.xml", overlay_xml)
         issues = check_overlay_placeholders(ovl_path, src_path)
         assert not any(i.severity == Severity.ERROR for i in issues)
+
+
+class TestTokenUnclosedFalsePositives:
+    """Regression tests for token_unclosed false positives."""
+
+    def test_double_equals_not_flagged(self, tmp_path: Path) -> None:
+        """Requires='OptionFoo==Yes' should not trigger token_unclosed."""
+        xml = '<options><option Requires="OptionFoo==Yes" ID="x" Value="test"/></options>'
+        path = _write(tmp_path, "test.xml", xml)
+        issues = check_placeholders_in_file(path)
+        assert not any(i.check == "token_unclosed" for i in issues)
+
+    def test_colon_token_recognized(self, tmp_path: Path) -> None:
+        """[=commandKey:Accept=] should be a valid closed token."""
+        xml = '<strings><string ID="x" Value="Press [=commandKey:Accept=]"/></strings>'
+        path = _write(tmp_path, "test.xml", xml)
+        issues = check_placeholders_in_file(path)
+        assert not any(i.check == "token_unclosed" for i in issues)
+
+
+class TestMarkupNormalization:
+    """Regression tests for {{X|text}} markup normalization."""
+
+    def test_color_markup_translated_text_passes(self, tmp_path: Path) -> None:
+        """{{W|English}} vs {{W|日本語}} should pass (same color code)."""
+        source = '<strings><string Context="" ID="x" Value="{{W|hello}}"/></strings>'
+        overlay = '<strings><string Context="" ID="x" Value="{{W|こんにちは}}"/></strings>'
+        src = _write(tmp_path, "src.xml", source)
+        ovl = _write(tmp_path, "ovl.xml", overlay)
+        issues = check_overlay_placeholders(ovl, src)
+        assert not any(i.check == "placeholder_missing" for i in issues)
+
+    def test_inner_token_still_checked(self, tmp_path: Path) -> None:
+        """{{W|=name=}} vs {{W|こんにちは}} should report missing =name=."""
+        source = '<strings><string Context="" ID="x" Value="{{W|=name=}}"/></strings>'
+        overlay = '<strings><string Context="" ID="x" Value="{{W|こんにちは}}"/></strings>'
+        src = _write(tmp_path, "src.xml", source)
+        ovl = _write(tmp_path, "ovl.xml", overlay)
+        issues = check_overlay_placeholders(ovl, src)
+        assert any(i.check == "placeholder_missing" for i in issues)
+
+    def test_bare_template_var_still_opaque(self) -> None:
+        """{{foo}} without | should be treated as opaque placeholder."""
+        result = extract_placeholders("hello {{foo}} world")
+        assert "{{foo}}" in result
+
+    def test_color_markup_normalized(self) -> None:
+        """{{W|text}} should normalize to {{W|...}}."""
+        result = extract_placeholders("{{W|Aggressive stance}}")
+        assert "{{W|...}}" in result
+        assert "{{W|Aggressive stance}}" not in result
