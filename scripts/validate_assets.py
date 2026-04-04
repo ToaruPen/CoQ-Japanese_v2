@@ -68,18 +68,30 @@ class ValidationResult:
         return self.error_count == 0
 
 
+# Attributes whose values are game logic / metadata, not translatable text.
+# Shared by check_placeholders_in_file() and _compare_xml_trees().
+_SKIP_ATTRS: frozenset[str] = frozenset({"Lang", "Encoding", "Load", "Requires", "Gospel", "Hagiograph"})
+
 # ---------------------------------------------------------------------------
 # Placeholder extraction
 # ---------------------------------------------------------------------------
 
-# Order matters: match && and ^^ before the single-char variants
-PLACEHOLDER_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
-    ("double_ampersand", re.compile(r"&&")),
-    ("double_caret", re.compile(r"\^\^")),
-    ("template_var", re.compile(r"\{\{[^}]+\}\}")),
-    ("replacement_token", re.compile(r"=[a-zA-Z_][a-zA-Z0-9_.]*=")),
-    ("color_code", re.compile(r"&[a-zA-Z0-9]")),
-    ("format_code", re.compile(r"\^[a-zA-Z0-9]")),
+# && and ^^ must be consumed before their single-char counterparts (&X, ^x)
+_ESCAPE_PATTERNS: list[re.Pattern[str]] = [
+    re.compile(r"&&"),
+    re.compile(r"\^\^"),
+]
+
+_BRACE_PATTERN = re.compile(r"\{\{([^}]+)\}\}")
+
+# Compiled token patterns; applied after escapes and {{...}} are consumed
+_TOKEN_CLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*=(?![=\w])", re.ASCII)
+_TOKEN_UNCLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*(?![=\w])", re.ASCII)
+
+_REMAINING_PATTERNS: list[re.Pattern[str]] = [
+    _TOKEN_CLOSED,
+    re.compile(r"&[a-zA-Z0-9]"),
+    re.compile(r"\^[a-zA-Z0-9]"),
 ]
 
 
@@ -87,16 +99,37 @@ def extract_placeholders(text: str) -> list[str]:
     """Extract all placeholder tokens from a text string.
 
     Returns a sorted list of placeholder strings found in the text.
-    The extraction is order-aware: && and ^^ are consumed before &X and ^x
-    so that escaped literals are not double-counted.
+    Extraction order:
+      1. && / ^^ escapes (consumed first to avoid double-counting)
+      2. {{...}} brace patterns with markup normalization:
+         - {{X|text}} -> normalised to {{X|...}}; inner text is scanned
+           recursively so that nested placeholders (e.g. =name=) are found.
+         - {{foo}} bare vars are kept as opaque placeholders.
+      3. =token= replacement tokens
+      4. &X color codes
+      5. ^x format codes
     """
     result: list[str] = []
     remaining = text
-    for _name, pattern in PLACEHOLDER_PATTERNS:
-        matches = pattern.findall(remaining)
-        result.extend(matches)
-        # Remove matched spans to avoid double-counting
+
+    for pattern in _ESCAPE_PATTERNS:
+        result.extend(pattern.findall(remaining))
         remaining = pattern.sub("", remaining)
+
+    for match in _BRACE_PATTERN.finditer(remaining):
+        content = match.group(1)
+        if "|" in content:
+            code, inner = content.split("|", 1)
+            result.append(f"{{{{{code}|...}}}}")
+            result.extend(extract_placeholders(inner))
+        else:
+            result.append(match.group(0))
+    remaining = _BRACE_PATTERN.sub("", remaining)
+
+    for pattern in _REMAINING_PATTERNS:
+        result.extend(pattern.findall(remaining))
+        remaining = pattern.sub("", remaining)
+
     return sorted(result)
 
 
@@ -171,6 +204,8 @@ def check_placeholders_in_file(filepath: Path) -> list[ValidationIssue]:
     for elem in tree.iter():
         texts_to_check: list[tuple[str, str]] = []
         for attr_name, attr_value in elem.attrib.items():
+            if attr_name in _SKIP_ATTRS:
+                continue
             texts_to_check.append((f"@{attr_name}", attr_value))
         if elem.text and elem.text.strip():
             texts_to_check.append(("(text)", elem.text))
@@ -188,12 +223,12 @@ def check_placeholders_in_file(filepath: Path) -> list[ValidationIssue]:
                         message=f"Unbalanced {{{{ }}}} in {elem.tag}/{location}: {opens} opens vs {closes} closes",
                     )
                 )
-            # Unclosed =token= detection: find =word sequences not closed by a trailing =
-            closed_tokens = set(re.findall(r"=[a-zA-Z_][a-zA-Z0-9_.]*=", text))
+            # Unclosed =token= detection: remove closed tokens first, then scan for bare =word
+            closed_tokens = set(_TOKEN_CLOSED.findall(text))
             stripped = text
             for tok in closed_tokens:
                 stripped = stripped.replace(tok, "")
-            unclosed = re.findall(r"=[a-zA-Z_][a-zA-Z0-9_.]*(?!=)", stripped)
+            unclosed = _TOKEN_UNCLOSED.findall(stripped)
             if unclosed:
                 issues.append(
                     ValidationIssue(
@@ -433,7 +468,7 @@ def _compare_xml_trees(
 
         # Compare attribute placeholders
         for attr_name in src_child.attrib:
-            if attr_name in {"Lang", "Encoding", "Load"}:
+            if attr_name in _SKIP_ATTRS:
                 continue
             # Overlay files only specify changed values; skip if overlay has no value
             ovl_val = match.get(attr_name, "")
