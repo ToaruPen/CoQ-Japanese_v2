@@ -29,5 +29,5 @@ ruff check scripts/
 pytest scripts/tests/
 ```
 
-- Decompiled beta game source lives in `~/Dev/coq-decompiled_beta/` and must never be committed.
+- Decompiled beta game source lives in `~/Dev/coq-decompiled-beta-212.17/` and must never be committed.
 - Do not commit game binaries or Steam installation files.

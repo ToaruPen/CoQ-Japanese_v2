@@ -33,6 +33,6 @@ It is a migration away from the legacy `Caves-of-Qud_Japanese` implementation. O
 
 ## Notes
 
-- Decompiled beta game source is expected at `~/Dev/coq-decompiled_beta/` and must never be committed.
+- Decompiled beta game source is expected at `~/Dev/coq-decompiled-beta-212.17/` and must never be committed.
 - Game binaries such as `Assembly-CSharp.dll` must never be committed.
 - This repo may track source, tests, and tooling. Shipped output policy can differ from the old repo.

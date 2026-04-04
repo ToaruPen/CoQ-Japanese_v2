@@ -14,6 +14,6 @@
 
 ## Investigation Rules
 
-- Verify beta behavior against `~/Dev/coq-decompiled_beta/`.
+- Verify beta behavior against `~/Dev/coq-decompiled-beta-212.17/`.
 - Prefer stable producer or template ownership over sink-side translation.
 - Separate static/table-driven text from procedural/runtime text when planning coverage.
