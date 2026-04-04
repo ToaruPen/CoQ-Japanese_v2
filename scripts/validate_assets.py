@@ -374,6 +374,7 @@ def _compare_xml_trees(
         for attr_name in src_child.attrib:
             if attr_name in {"Lang", "Encoding", "Load"}:
                 continue
+            # Overlay files only specify changed values; skip if overlay has no value
             ovl_val = match.get(attr_name, "")
             if not ovl_val:
                 continue
@@ -386,6 +387,7 @@ def _compare_xml_trees(
         # Compare text content
         src_text = src_child.text or ""
         ovl_text = match.text or ""
+        # Overlay files only specify changed text; skip if empty
         if src_text.strip() and ovl_text.strip():
             issues.extend(_check_placeholder_diff(src_text, ovl_text, overlay_path, f"{child_path}/(text)"))
 

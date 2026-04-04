@@ -1,5 +1,6 @@
 """Tests for inventory_beta_strings module."""
 
+import io
 import json
 from pathlib import Path
 
@@ -8,6 +9,7 @@ from scripts.inventory_beta_strings import (
     build_inventory,
     extract_strings_from_file,
     extract_xml_entries,
+    inventory_to_csv,
     inventory_to_json,
 )
 
@@ -148,3 +150,13 @@ class TestOutputFormats:
         inv = Inventory()
         text = inventory_to_json(inv)
         assert '"string_entries": []' in text
+
+    def test_csv_output_has_expected_columns(self, tmp_path: Path) -> None:
+        _write_xml(tmp_path, "Strings.example.xml", '<strings><string Context="C" ID="x" Value="y"/></strings>')
+        inv = build_inventory(tmp_path)
+        buf = io.StringIO()
+        inventory_to_csv(inv, buf)
+        buf.seek(0)
+        lines = buf.readlines()
+        assert len(lines) >= 2  # header + at least one entry
+        assert "type" in lines[0]

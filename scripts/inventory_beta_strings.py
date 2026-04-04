@@ -235,8 +235,9 @@ def build_inventory(example_dir: Path) -> Inventory:
     # Per-root example files are scanned by glob below rather than by root name,
     # because the game's naming convention varies across documents.
 
+    generated_set = set(GENERATED_STRING_FILES)
     for path in sorted(example_dir.glob("*.example.xml")):
-        if path.name in set(GENERATED_STRING_FILES):
+        if path.name in generated_set:
             continue
         if path.name not in inv.files_found:
             inv.files_found.append(path.name)
