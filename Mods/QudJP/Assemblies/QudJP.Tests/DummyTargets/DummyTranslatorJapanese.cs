@@ -50,13 +50,17 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
         _ => string.Join("、", items),
     };
 
-    public override string MakeAndList(IReadOnlyList<string> items, bool serialComma = true) => items.Count switch
+    public override string MakeAndList(IReadOnlyList<string> items, bool serialComma = true)
     {
-        0 => string.Empty,
-        1 => items[0],
-        2 => string.Concat(items[0], "と", items[1]),
-        _ => string.Join("、", items),
-    };
+        _ = serialComma; // Oxford comma の概念は日本語に存在しないため未使用
+        return items.Count switch
+        {
+            0 => string.Empty,
+            1 => items[0],
+            2 => string.Concat(items[0], "と", items[1]),
+            _ => string.Join("、", items),
+        };
+    }
 
     public override void ExtractArticle(ref string name, out string article) => article = string.Empty;
 

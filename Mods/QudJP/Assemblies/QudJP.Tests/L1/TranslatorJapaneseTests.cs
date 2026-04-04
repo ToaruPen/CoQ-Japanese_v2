@@ -24,6 +24,7 @@ public sealed class TranslatorJapaneseTests
     [TestCase(-5, "-5")]
     public void Cardinal_ReturnsArabicDigits(long value, string expected) => Assert.That(translator.Cardinal(value), Is.EqualTo(expected));
 
+    [TestCase(0, "第〇")]
     [TestCase(1, "第一")]
     [TestCase(2, "第二")]
     [TestCase(3, "第三")]
@@ -100,6 +101,28 @@ public sealed class TranslatorJapaneseTests
         {
             Assert.That(breakBeforeIndex, Is.EqualTo(1));
             Assert.That(replaceIfBroken, Is.False);
+        });
+    }
+
+    [Test]
+    public void NextPossibleLineBreakIndex_EdgeCases()
+    {
+        Assert.Multiple(() =>
+        {
+            // 空文字列: breakBeforeIndex は 0
+            translator.NextPossibleLineBreakIndex("".AsSpan(), 0, out int idx1, out bool replace1);
+            Assert.That(idx1, Is.EqualTo(0));
+            Assert.That(replace1, Is.False);
+
+            // startIndex が末尾（length - 1）: breakBeforeIndex は length
+            translator.NextPossibleLineBreakIndex("あ".AsSpan(), 0, out int idx2, out bool replace2);
+            Assert.That(idx2, Is.EqualTo(1));
+            Assert.That(replace2, Is.False);
+
+            // 負の startIndex: 0 として正規化され次の文字位置を返す
+            translator.NextPossibleLineBreakIndex("あい".AsSpan(), -1, out int idx3, out bool replace3);
+            Assert.That(idx3, Is.EqualTo(1));
+            Assert.That(replace3, Is.False);
         });
     }
 
