@@ -24,6 +24,7 @@ import argparse
 import re
 import sys
 import xml.etree.ElementTree as ET
+from collections import Counter
 from dataclasses import dataclass, field
 from enum import StrEnum
 from pathlib import Path
@@ -189,13 +190,21 @@ def check_placeholders_in_file(filepath: Path) -> list[ValidationIssue]:
                         message=f"Unbalanced {{{{ }}}} in {elem.tag}/{location}: {opens} opens vs {closes} closes",
                     )
                 )
-            # Unclosed =token= (odd count of = around word chars)
-            token_matches = re.findall(r"=[a-zA-Z_][a-zA-Z0-9_.]*=", text)
-            lone_equals = re.findall(r"(?<!=)=[a-zA-Z_][a-zA-Z0-9_.]*(?!=)", text)
-            # Remove already-matched tokens from lone search
-            for _m in token_matches:
-                if _m[1:-1] in [le[1:] for le in lone_equals]:
-                    pass  # properly closed
+            # Unclosed =token= detection: find =word sequences not closed by a trailing =
+            closed_tokens = set(re.findall(r"=[a-zA-Z_][a-zA-Z0-9_.]*=", text))
+            stripped = text
+            for tok in closed_tokens:
+                stripped = stripped.replace(tok, "")
+            unclosed = re.findall(r"=[a-zA-Z_][a-zA-Z0-9_.]*(?!=)", stripped)
+            if unclosed:
+                issues.append(
+                    ValidationIssue(
+                        file=str(filepath),
+                        severity=Severity.WARNING,
+                        check="token_unclosed",
+                        message=f"Possibly unclosed =token in {elem.tag}/{location}: {unclosed}",
+                    )
+                )
 
     return issues
 
@@ -235,10 +244,10 @@ def check_overlay_placeholders(
             val = elem.text or elem.get("Value", "")
             key = (ctx, sid)
             if key in source_map:
-                src_ph = extract_placeholders(source_map[key])
-                ovl_ph = extract_placeholders(val)
-                missing = sorted(set(src_ph) - set(ovl_ph))
-                added = sorted(set(ovl_ph) - set(src_ph))
+                src_ph = Counter(extract_placeholders(source_map[key]))
+                ovl_ph = Counter(extract_placeholders(val))
+                missing = sorted((src_ph - ovl_ph).elements())
+                added = sorted((ovl_ph - src_ph).elements())
                 if missing:
                     issues.append(
                         ValidationIssue(
@@ -264,15 +273,27 @@ def check_overlay_placeholders(
     return issues
 
 
-def _find_overlay_match(src_child: ET.Element, overlay: ET.Element) -> ET.Element | None:
-    """Find the overlay element matching a source child by tag and key attributes."""
+def _find_overlay_match(
+    src_child: ET.Element,
+    src_index: int,
+    overlay: ET.Element,
+) -> ET.Element | None:
+    """Find the overlay element matching a source child by tag and key attributes.
+
+    When no key attributes (Name, ID, Command) are present, falls back to
+    positional matching among same-tag siblings.
+    """
     key_attrs = {k: v for k, v in src_child.attrib.items() if k in {"Name", "ID", "Command"}}
-    for ovl_child in overlay:
-        if ovl_child.tag != src_child.tag:
-            continue
-        if all(ovl_child.get(k) == v for k, v in key_attrs.items()):
-            return ovl_child
-    return None
+    if key_attrs:
+        for ovl_child in overlay:
+            if ovl_child.tag != src_child.tag:
+                continue
+            if all(ovl_child.get(k) == v for k, v in key_attrs.items()):
+                return ovl_child
+        return None
+    # Positional fallback: match the Nth same-tag sibling
+    same_tag = [c for c in overlay if c.tag == src_child.tag]
+    return same_tag[src_index] if src_index < len(same_tag) else None
 
 
 def _build_child_path(src_child: ET.Element, parent_path: str) -> str:
@@ -292,9 +313,9 @@ def _check_missing_placeholders(
     location: str,
 ) -> ValidationIssue | None:
     """Return a ValidationIssue if the overlay is missing placeholders from the source."""
-    src_ph = extract_placeholders(src_val)
-    ovl_ph = extract_placeholders(ovl_val)
-    missing = sorted(set(src_ph) - set(ovl_ph))
+    src_ph = Counter(extract_placeholders(src_val))
+    ovl_ph = Counter(extract_placeholders(ovl_val))
+    missing = sorted((src_ph - ovl_ph).elements())
     if missing:
         return ValidationIssue(
             file=str(overlay_path),
@@ -313,8 +334,12 @@ def _compare_xml_trees(
     path: str = "",
 ) -> None:
     """Recursively compare attributes of matching elements between source and overlay."""
+    # Track positional index per tag for keyless sibling matching
+    tag_counts: dict[str, int] = {}
     for src_child in source:
-        match = _find_overlay_match(src_child, overlay)
+        idx = tag_counts.get(src_child.tag, 0)
+        tag_counts[src_child.tag] = idx + 1
+        match = _find_overlay_match(src_child, idx, overlay)
         if match is None:
             continue
 

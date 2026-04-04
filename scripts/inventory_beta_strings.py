@@ -121,8 +121,8 @@ def extract_strings_from_file(filepath: Path) -> list[StringEntry]:
     for elem in root.iter("string"):
         context = elem.get("Context", "")
         string_id = elem.get("ID", "")
-        value = elem.text or elem.get("Value", "")
-        value = value.strip()
+        raw_text = (elem.text or "").strip()
+        value = raw_text or elem.get("Value", "").strip()
         # Strip the triangle marker if present
         value = value.removeprefix(TRIANGLE_RIGHT)
         if string_id:
@@ -137,10 +137,19 @@ def extract_strings_from_file(filepath: Path) -> list[StringEntry]:
     return entries
 
 
-def _build_path(parents: list[str], tag: str) -> str:
-    """Build a dot-separated XML path."""
+_KEY_ATTRS = ("Name", "ID", "Command")
+
+
+def _build_path(parents: list[str], tag: str, attrib: dict[str, str] | None = None) -> str:
+    """Build a dot-separated XML path with optional key-attribute qualifiers."""
     parts = [*parents, tag]
-    return ".".join(parts)
+    base = ".".join(parts)
+    if attrib:
+        keys = {k: v for k, v in attrib.items() if k in _KEY_ATTRS and v}
+        if keys:
+            qualifier = ",".join(f"{k}={v}" for k, v in sorted(keys.items()))
+            return f"{base}[{qualifier}]"
+    return base
 
 
 def extract_xml_entries(filepath: Path) -> list[XmlEntry]:
@@ -158,7 +167,7 @@ def extract_xml_entries(filepath: Path) -> list[XmlEntry]:
     root_tag = tree.getroot().tag
 
     def _walk(elem: ET.Element, parents: list[str]) -> None:
-        current_path = _build_path(parents, elem.tag)
+        current_path = _build_path(parents, elem.tag, elem.attrib)
         for attr_name, attr_value in elem.attrib.items():
             if attr_name in {"Lang", "Encoding", "Load"}:
                 continue
