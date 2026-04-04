@@ -1,0 +1,42 @@
+# Build outputs
+bin/
+obj/
+dist/
+TestResults/
+*.dll
+*.pdb
+*.exe
+*.nupkg
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# IDE / editor
+.vs/
+.vscode/
+*.user
+*.suo
+*.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local state
+.claude/handoff.md
+.claude/worktrees/
+.worktrees/
+
+# Game references and decompiled source
+references/
+docs/ilspy-raw/
+
+# Game binaries and local install artifacts
+Assembly-CSharp.dll
+*.unitypackage

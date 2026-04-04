@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Build runtime project
+        if: hashFiles('Mods/QudJP/Assemblies/QudJP.csproj') != ''
+        run: dotnet build Mods/QudJP/Assemblies/QudJP.csproj --configuration Release
+
+      - name: Build test project
+        if: hashFiles('Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj') != ''
+        run: dotnet build Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj --configuration Release
+
+      - name: Run .NET tests
+        if: hashFiles('Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj') != ''
+        run: dotnet test Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj --configuration Release --no-build
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: pip install ruff
+
+      - name: Lint Python
+        if: hashFiles('scripts/**/*.py') != ''
+        run: ruff check scripts/
+
+      - name: Install pytest
+        if: hashFiles('scripts/tests/**/*.py') != ''
+        run: pip install pytest
+
+      - name: Run Python tests
+        if: hashFiles('scripts/tests/**/*.py') != ''
+        run: pytest scripts/tests/

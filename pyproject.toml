@@ -1,0 +1,27 @@
+[project]
+name = "coq-japanese-v2-tools"
+version = "0.1.0"
+description = "Python tooling for the Caves of Qud beta Japanese localization workspace"
+requires-python = ">=3.12"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D100",
+  "D104",
+  "COM812",
+  "ISC001",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/tests/**" = ["S101", "PLR2004"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["scripts/tests"]

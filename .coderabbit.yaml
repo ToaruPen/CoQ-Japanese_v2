@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: ja-JP
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  high_level_summary: true
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_instructions:
+    - path: "Mods/QudJP/Assemblies/src/**/*.cs"
+      instructions: |
+        Review beta-first runtime code for the Japanese localization mod.
+
+        Rules:
+        - Prefer official beta localization surfaces before new Harmony patches.
+        - Keep route ownership narrow and explicit.
+        - New runtime routes should include tests.
+        - Avoid carrying legacy pre-beta architecture forward without a concrete need.
+
+    - path: "Mods/QudJP/Assemblies/QudJP.Tests/**/*.cs"
+      instructions: |
+        Tests define the intended migration behavior.
+
+        Rules:
+        - Verify actual Japanese output or token behavior, not only execution.
+        - Keep L1/L2/L2G boundaries clear.
+        - Do not delete tests to make migration easier.
+
+    - path: "Mods/QudJP/Localization/**"
+      instructions: |
+        Review XML, JSON, and corpus assets for beta compatibility.
+
+        Rules:
+        - Preserve markup and placeholders exactly.
+        - Validate schema, IDs, and token forms against beta decompiled data.
+        - Distinguish static assets from procedural/runtime text.
+
+    - path: "scripts/**/*.py"
+      instructions: |
+        Python tooling must stay deterministic, lint-clean, and migration-focused.
+
+chat:
+  auto_reply: true
