@@ -656,7 +656,6 @@
 		<UITile Tile="Mutations/temporal_fugue.bmp" Foreground="y" Detail="G" />
   </ability>
   <ability Command="CommandQuantumFugue">
-    <!-- TODO: verify Quantum Fugue description accuracy (Issue #8) -->
     <description>
       <p>素早く時間を行き来し、自分の複数のコピーを作り出す。</p>
       <br />

@@ -91,6 +91,7 @@ def _load_beta_file_entries(filepath: Path) -> tuple[str, dict[str, str]]:
         keys = {_make_key_xml(e.element_path, e.attribute): e.value for e in xml_entries}
         return xml_entries[0].root, keys
 
+    print(f"WARNING: no entries extracted from {filepath}", file=sys.stderr)  # noqa: T201
     return "unknown", {}
 
 

@@ -176,6 +176,32 @@ class TestXmlRootDiff:
         assert len(report.orphaned) == 0
         assert len(report.entries) == 2
 
+    def test_xml_root_level_attribute(self, tmp_path: Path) -> None:
+        """Root-level triangle-marked attribute is extracted and matched correctly."""
+        v1_dir = tmp_path / "v1"
+        beta_dir = tmp_path / "beta"
+        v1_dir.mkdir()
+        beta_dir.mkdir()
+
+        # v1 file: root has a DisplayName attribute (no triangle in v1)
+        _write(v1_dir, "Factions.jp.xml", '<factions DisplayName="Fungi" />')
+        # Beta file: same attribute with triangle marker on root element
+        _write(
+            beta_dir,
+            "Factions.example.xml",
+            f'<factions DisplayName="{TRIANGLE}Fungi" />',
+        )
+
+        v1_map = load_v1_entries(v1_dir)
+        beta_map = load_beta_entries(beta_dir)
+        report = diff_entries(v1_map, beta_map)
+
+        # The root-level DisplayName should be detected as covered
+        assert len(report.covered) == 1
+        assert "DisplayName" in report.covered[0].key
+        assert len(report.missing) == 0
+        assert len(report.orphaned) == 0
+
 
 # ---------------------------------------------------------------------------
 # test_summary_counts

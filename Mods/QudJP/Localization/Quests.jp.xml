@@ -293,8 +293,7 @@
          Accomplishment="捨てられた恋文を見つけて届けた。"
          Hagiograph="なんと鼓舞的だろう、=name=の存在は。『柔和なるエスキンド』を救い、彼女がベイ・ラー最強の戦士に手を求めるほどに贖ったのだから！"
          HagiographCategory="ReunitesLovers"
-         Gospel="朽ちた切り株の中心で、=name=はエスキンドと監視官ニーラヒンドを結婚させ、ベイ・ラーのヒンドレンとの友情を固めた。"
-    >
+         Gospel="朽ちた切り株の中心で、=name=はエスキンドと監視官ニーラヒンドを結婚させ、ベイ・ラーのヒンドレンとの友情を固めた。">
     <step Name="Rescue an Imperiled Love" XP="0">
       <text>恋人たちの運命が固まる前に介入する。</text>
     </step>
