@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Language registration for QudJP.
+  Root element is <languages> (no Lang attribute) so DataManager always indexes this
+  file regardless of the active language. LanguageLoader.LoadLanguages() iterates
+  YieldXMLStreamsWithRoot("languages") and calls HandleLangNode for each <lang> child.
+
+  FontFamily must match TMP_FontAsset.faceInfo.familyName in FontManager.Fonts.
+  "Source Han Mono JP" is the Japanese-script variant bundled by the game; when it
+  is specified here, FontManager.UpdateFontFallbacks() automatically inserts it into
+  TMP_Settings.fallbackFontAssets so every UITextSkin picks it up.
+-->
+<languages>
+  <lang Code="ja" DisplayName="日本語" FontFamily="Source Han Mono JP" />
+</languages>
