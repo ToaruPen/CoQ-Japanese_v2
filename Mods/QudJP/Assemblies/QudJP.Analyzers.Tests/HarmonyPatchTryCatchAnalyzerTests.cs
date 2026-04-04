@@ -107,6 +107,32 @@ public static class SamplePatch
     }
 
     [Test]
+    public async Task Diagnostic_WhenAttributeBasedPatchMethodMissingTryCatchAsync()
+    {
+        var source = """
+using System;
+using HarmonyLib;
+""" + HarmonyStubs + """
+[HarmonyPatch]
+public static class SamplePatch
+{
+    [HarmonyPrefix]
+    public static bool {|#0:ApplyCustomPrefix|}(ref string __result)
+    {
+        __result = "ok";
+        return false;
+    }
+}
+""";
+
+        var expected = VerifyCS.Diagnostic(HarmonyPatchTryCatchAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("ApplyCustomPrefix", "SamplePatch");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task NoDiagnostic_ForTargetMethodEvenWithoutTryCatchAsync()
     {
         var source = """

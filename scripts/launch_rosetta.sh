@@ -37,7 +37,7 @@
 
 set -euo pipefail
 
-GAME_BINARY="${HOME}/Library/Application Support/Steam/steamapps/common/Caves of Qud/CoQ.app/Contents/MacOS/CoQ"
+GAME_BINARY="${QUDJP_GAME_BINARY:-${HOME}/Library/Application Support/Steam/steamapps/common/Caves of Qud/CoQ.app/Contents/MacOS/CoQ}"
 
 # ---------------------------------------------------------------------------
 # --help

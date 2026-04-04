@@ -106,12 +106,19 @@ public sealed class FallbackLoggingAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (containingStatement.Parent is not BlockSyntax block)
+        var siblingStatements = containingStatement.Parent switch
+        {
+            BlockSyntax block => block.Statements,
+            SwitchSectionSyntax section => section.Statements,
+            _ => default,
+        };
+
+        if (siblingStatements.Count == 0)
         {
             return false;
         }
 
-        var statementIndex = block.Statements.IndexOf(containingStatement);
+        var statementIndex = siblingStatements.IndexOf(containingStatement);
         if (statementIndex <= 0)
         {
             return false;
@@ -119,7 +126,7 @@ public sealed class FallbackLoggingAnalyzer : DiagnosticAnalyzer
 
         for (var index = statementIndex - 1; index >= 0; index--)
         {
-            if (ContainsTraceWarningOrError(block.Statements[index], semanticModel, cancellationToken))
+            if (ContainsTraceWarningOrError(siblingStatements[index], semanticModel, cancellationToken))
             {
                 return true;
             }

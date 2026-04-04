@@ -54,6 +54,33 @@ public static class Sample
     }
 
     [Test]
+    public async Task NoDiagnostic_WhenMethodCallFallbackInSwitchCaseHasPrecedingTraceWarningAsync()
+    {
+        const string source = """
+using System.Diagnostics;
+
+public static class Sample
+{
+    public static string Resolve(int mode)
+    {
+        switch (mode)
+        {
+            case 1:
+                Trace.TraceWarning("QudJP: Resolve fallback is used.");
+                return GetValue() ?? "fallback";
+            default:
+                return "default";
+        }
+    }
+
+    private static string? GetValue() => null;
+}
+""";
+
+        await VerifyCS.VerifyAnalyzerAsync(source).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task NoDiagnostic_ForSimpleParameterFallbackAsync()
     {
         const string source = """
