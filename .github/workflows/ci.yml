@@ -7,7 +7,35 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  python_quality:
+    name: Python quality gates
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: pip install ruff
+
+      - name: Lint Python
+        if: hashFiles('scripts/**/*.py') != ''
+        run: ruff check scripts/
+
+      - name: Install pytest
+        if: hashFiles('scripts/tests/**/*.py') != ''
+        run: pip install pytest
+
+      - name: Run Python tests
+        if: hashFiles('scripts/tests/**/*.py') != ''
+        run: pytest scripts/tests/
+
+  beta_quality:
+    name: Beta quality gates
     runs-on: ubuntu-latest
 
     steps:
@@ -31,23 +59,3 @@ jobs:
       - name: Run .NET tests
         if: hashFiles('Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj') != ''
         run: dotnet test Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj --configuration Release --no-build
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Install Ruff
-        run: pip install ruff
-
-      - name: Lint Python
-        if: hashFiles('scripts/**/*.py') != ''
-        run: ruff check scripts/
-
-      - name: Install pytest
-        if: hashFiles('scripts/tests/**/*.py') != ''
-        run: pip install pytest
-
-      - name: Run Python tests
-        if: hashFiles('scripts/tests/**/*.py') != ''
-        run: pytest scripts/tests/
