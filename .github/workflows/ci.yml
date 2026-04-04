@@ -48,6 +48,10 @@ jobs:
             8.0.x
             10.0.x
 
+      - name: Build solution
+        if: hashFiles('Mods/QudJP/Assemblies/QudJP.sln') != ''
+        run: dotnet build Mods/QudJP/Assemblies/QudJP.sln --configuration Release
+
       - name: Build runtime project
         if: hashFiles('Mods/QudJP/Assemblies/QudJP.csproj') != ''
         run: dotnet build Mods/QudJP/Assemblies/QudJP.csproj --configuration Release
@@ -59,3 +63,7 @@ jobs:
       - name: Run .NET tests
         if: hashFiles('Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj') != ''
         run: dotnet test Mods/QudJP/Assemblies/QudJP.Tests/QudJP.Tests.csproj --configuration Release --no-build
+
+      - name: Run analyzer tests
+        if: hashFiles('Mods/QudJP/Assemblies/QudJP.Analyzers.Tests/QudJP.Analyzers.Tests.csproj') != ''
+        run: dotnet test Mods/QudJP/Assemblies/QudJP.Analyzers.Tests/QudJP.Analyzers.Tests.csproj --configuration Release --no-build

@@ -1,0 +1,151 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <IsPackable>false</IsPackable>
+    <!-- macOS default. Override with -p:GameDir=... for Windows (mirrors QudJP.csproj) -->
+    <GameDir Condition="'$(GameDir)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Caves of Qud/CoQ.app/Contents/Resources/Data</GameDir>
+    <ManagedDir>$(GameDir)/Managed</ManagedDir>
+    <AssemblyCSharpPath>$(ManagedDir)/Assembly-CSharp.dll</AssemblyCSharpPath>
+    <!-- Gate HAS_TMP on all required Unity DLLs to prevent partial-install build failures -->
+    <HasTmpDeps Condition="
+      Exists('$(ManagedDir)/Unity.TextMeshPro.dll') and
+      Exists('$(ManagedDir)/UnityEngine.UI.dll') and
+      Exists('$(ManagedDir)/UnityEngine.CoreModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.SharedInternalsModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.TextRenderingModule.dll')
+    ">true</HasTmpDeps>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(AssemblyCSharpPath)')">
+    <DefineConstants>$(DefineConstants);HAS_GAME_DLL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(HasTmpDeps)' == 'true'">
+    <DefineConstants>$(DefineConstants);HAS_TMP</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Double-compilation pattern: ReferenceOutputAssembly="false" prevents linking against
+      the net48 QudJP output assembly. Instead, the Compile items below re-compile the same
+      production sources under net10.0 so tests exercise the real code without requiring a
+      net48 build or game DLLs.
+
+      Caveats to be aware of:
+        - API differences between net48 and net10.0 may produce subtly different behaviour.
+        - Any #if conditional compilation symbols defined for net48 (e.g. !NET5_0_OR_GREATER)
+          will evaluate differently here; check both paths when modifying guarded code.
+    -->
+    <ProjectReference Include="../QudJP.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../src/**/*.cs" Exclude="../src/AssemblyInfo.cs" Link="Production/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(AssemblyCSharpPath)')">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(AssemblyCSharpPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(AssemblyCSharpPath)')">
+    <None Include="$(AssemblyCSharpPath)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Assembly-CSharp.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(HasTmpDeps)' == 'true'">
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(ManagedDir)/Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedDir)/UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>$(ManagedDir)/UnityEngine.SharedInternalsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(HasTmpDeps)' == 'true'">
+    <None Include="$(ManagedDir)/Unity.TextMeshPro.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Unity.TextMeshPro.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.UI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.UI.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.CoreModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.CoreModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.SharedInternalsModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.SharedInternalsModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.TextCoreFontEngineModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.TextCoreTextEngineModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.TextRenderingModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.TextRenderingModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+</Project>
