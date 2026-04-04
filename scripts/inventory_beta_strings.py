@@ -138,16 +138,15 @@ def extract_strings_from_file(filepath: Path) -> list[StringEntry]:
 _KEY_ATTRS = ("Name", "ID", "Command")
 
 
-def _build_path(parents: list[str], tag: str, attrib: dict[str, str] | None = None) -> str:
-    """Build a dot-separated XML path with optional key-attribute qualifiers."""
-    parts = [*parents, tag]
-    base = ".".join(parts)
-    if attrib:
-        keys = {k: v for k, v in attrib.items() if k in _KEY_ATTRS and v}
-        if keys:
-            qualifier = ",".join(f"{k}={v}" for k, v in sorted(keys.items()))
-            return f"{base}[{qualifier}]"
-    return base
+def _qualify_segment(tag: str, attrib: dict[str, str], *, sibling_index: int | None = None) -> str:
+    """Build a qualified path segment from tag, key attributes, or sibling index."""
+    keys = {k: v for k, v in attrib.items() if k in _KEY_ATTRS and v}
+    if keys:
+        qualifier = ",".join(f"{k}={v}" for k, v in sorted(keys.items()))
+        return f"{tag}[{qualifier}]"
+    if sibling_index is not None:
+        return f"{tag}[{sibling_index}]"
+    return tag
 
 
 def extract_xml_entries(filepath: Path) -> list[XmlEntry]:
@@ -164,8 +163,16 @@ def extract_xml_entries(filepath: Path) -> list[XmlEntry]:
 
     root_tag = tree.getroot().tag
 
-    def _walk(elem: ET.Element, parents: list[str]) -> None:
-        current_path = _build_path(parents, elem.tag, elem.attrib)
+    def _walk(
+        elem: ET.Element,
+        parent_segments: list[str],
+        *,
+        sibling_index: int | None = None,
+    ) -> None:
+        my_segment = _qualify_segment(elem.tag, elem.attrib, sibling_index=sibling_index)
+        current_segments = [*parent_segments, my_segment]
+        current_path = ".".join(current_segments)
+
         for attr_name, attr_value in elem.attrib.items():
             if attr_name in {"Lang", "Encoding", "Load"}:
                 continue
@@ -193,8 +200,19 @@ def extract_xml_entries(filepath: Path) -> list[XmlEntry]:
                         source_file=filepath.name,
                     )
                 )
-        for child in elem:
-            _walk(child, [*parents, elem.tag])
+
+        # Compute sibling context for children
+        children = list(elem)
+        tag_totals: dict[str, int] = {}
+        for c in children:
+            tag_totals[c.tag] = tag_totals.get(c.tag, 0) + 1
+        tag_idx: dict[str, int] = {}
+        for child in children:
+            idx = tag_idx.get(child.tag, 0)
+            tag_idx[child.tag] = idx + 1
+            child_key_attrs = {k: v for k, v in child.attrib.items() if k in _KEY_ATTRS and v}
+            needs_index = not child_key_attrs and tag_totals[child.tag] > 1
+            _walk(child, current_segments, sibling_index=idx if needs_index else None)
 
     _walk(tree.getroot(), [])
     return entries

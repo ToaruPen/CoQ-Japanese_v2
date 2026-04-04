@@ -125,6 +125,43 @@ class TestCheckOverlayPlaceholders:
         assert any(i.check == "placeholder_missing" for i in issues)
 
 
+class TestOverlayPlaceholderAdded:
+    """Tests for placeholder_added detection."""
+
+    def test_added_placeholder_reported(self, tmp_path: Path) -> None:
+        source = '<strings><string Context="" ID="x" Value="hello"/></strings>'
+        overlay = '<strings><string Context="" ID="x" Value="hello =extra="/></strings>'
+        src_path = _write(tmp_path, "source.xml", source)
+        ovl_path = _write(tmp_path, "overlay.xml", overlay)
+        issues = check_overlay_placeholders(ovl_path, src_path)
+        assert any(i.check == "placeholder_added" for i in issues)
+        assert any(i.severity == Severity.WARNING for i in issues)
+
+
+class TestOverlayRootTagMismatch:
+    """Tests for root tag consistency check."""
+
+    def test_root_tag_mismatch_reported(self, tmp_path: Path) -> None:
+        source = '<strings><string Context="" ID="x" Value="hi"/></strings>'
+        overlay = '<mutations><string Context="" ID="x" Value="hi"/></mutations>'
+        src_path = _write(tmp_path, "source.xml", source)
+        ovl_path = _write(tmp_path, "overlay.xml", overlay)
+        issues = check_overlay_placeholders(ovl_path, src_path)
+        assert any(i.check == "root_tag_mismatch" for i in issues)
+
+
+class TestWhitespaceTextFallback:
+    """Tests for whitespace-only elem.text falling back to Value attribute."""
+
+    def test_whitespace_text_uses_value_attr(self, tmp_path: Path) -> None:
+        source = '<strings><string Context="" ID="x" Value="=name=">   </string></strings>'
+        overlay = '<strings><string Context="" ID="x" Value="hello">   </string></strings>'
+        src_path = _write(tmp_path, "source.xml", source)
+        ovl_path = _write(tmp_path, "overlay.xml", overlay)
+        issues = check_overlay_placeholders(ovl_path, src_path)
+        assert any(i.check == "placeholder_missing" for i in issues)
+
+
 class TestValidateFile:
     """Integration tests for validate_file."""
 
@@ -137,3 +174,10 @@ class TestValidateFile:
         path = _write_bytes(tmp_path, "bad.xml", b"\xef\xbb\xbf<root><unclosed")
         result = validate_file(path)
         assert result.error_count >= 2  # BOM + parse error
+
+    def test_missing_source_file_reported(self, tmp_path: Path) -> None:
+        ovl = _write(tmp_path, "Strings.jp.xml", '<strings><string Context="" ID="x" Value="hi"/></strings>')
+        source_dir = tmp_path / "sources"
+        source_dir.mkdir()
+        result = validate_file(ovl, source_dir=source_dir)
+        assert any(i.check == "source_not_found" for i in result.issues)

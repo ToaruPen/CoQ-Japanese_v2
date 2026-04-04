@@ -80,6 +80,35 @@ class TestExtractXmlEntries:
         assert entries[0].value == "Help text here"
 
 
+class TestElementPathUniqueness:
+    """Regression tests: element_path must be unique across parents and siblings."""
+
+    def test_different_parent_keys_produce_distinct_paths(self, tmp_path: Path) -> None:
+        xml = (
+            "<quests>"
+            '  <quest ID="A"><step Name="\u25b6Step A"/></quest>'
+            '  <quest ID="B"><step Name="\u25b6Step B"/></quest>'
+            "</quests>"
+        )
+        path = _write_xml(tmp_path, "test.xml", xml)
+        entries = extract_xml_entries(path)
+        paths = [e.element_path for e in entries]
+        assert len(paths) == len(set(paths)), f"Duplicate paths: {paths}"
+        # Parent qualifier must propagate
+        assert any("quest[ID=A]" in p for p in paths)
+        assert any("quest[ID=B]" in p for p in paths)
+
+    def test_keyless_siblings_get_positional_index(self, tmp_path: Path) -> None:
+        xml = '<items>  <item><name Name="\u25b6Sword"/></item>  <item><name Name="\u25b6Shield"/></item></items>'
+        path = _write_xml(tmp_path, "test.xml", xml)
+        entries = extract_xml_entries(path)
+        paths = [e.element_path for e in entries]
+        assert len(paths) == len(set(paths)), f"Duplicate paths: {paths}"
+        # Items should be disambiguated by index
+        assert any("item[0]" in p for p in paths)
+        assert any("item[1]" in p for p in paths)
+
+
 class TestBuildInventory:
     """Tests for build_inventory."""
 

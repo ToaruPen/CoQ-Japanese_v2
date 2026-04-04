@@ -227,19 +227,33 @@ def check_overlay_placeholders(
     overlay_root = overlay_tree.getroot()
     source_root = source_tree.getroot()
 
+    # Root tag consistency
+    if overlay_root.tag != source_root.tag:
+        issues.append(
+            ValidationIssue(
+                file=str(overlay_path),
+                severity=Severity.ERROR,
+                check="root_tag_mismatch",
+                message=f"Overlay root <{overlay_root.tag}> does not match source <{source_root.tag}>",
+            )
+        )
+        return issues
+
     # Strings-style files: <strings> with <string Context="" ID="">
     if source_root.tag == "strings":
         source_map: dict[tuple[str, str], str] = {}
         for elem in source_root.iter("string"):
             ctx = elem.get("Context", "")
             sid = elem.get("ID", "")
-            val = elem.text or elem.get("Value", "")
+            raw_text = (elem.text or "").strip()
+            val = raw_text or elem.get("Value", "")
             source_map[(ctx, sid)] = val
 
         for elem in overlay_root.iter("string"):
             ctx = elem.get("Context", "")
             sid = elem.get("ID", "")
-            val = elem.text or elem.get("Value", "")
+            raw_text = (elem.text or "").strip()
+            val = raw_text or elem.get("Value", "")
             key = (ctx, sid)
             if key in source_map:
                 src_ph = Counter(extract_placeholders(source_map[key]))
@@ -304,24 +318,37 @@ def _build_child_path(src_child: ET.Element, parent_path: str) -> str:
     return child_path
 
 
-def _check_missing_placeholders(
+def _check_placeholder_diff(
     src_val: str,
     ovl_val: str,
     overlay_path: Path,
     location: str,
-) -> ValidationIssue | None:
-    """Return a ValidationIssue if the overlay is missing placeholders from the source."""
+) -> list[ValidationIssue]:
+    """Return issues for missing or added placeholders between source and overlay."""
     src_ph = Counter(extract_placeholders(src_val))
     ovl_ph = Counter(extract_placeholders(ovl_val))
+    result: list[ValidationIssue] = []
     missing = sorted((src_ph - ovl_ph).elements())
     if missing:
-        return ValidationIssue(
-            file=str(overlay_path),
-            severity=Severity.ERROR,
-            check="placeholder_missing",
-            message=f"{location}: missing placeholders: {missing}",
+        result.append(
+            ValidationIssue(
+                file=str(overlay_path),
+                severity=Severity.ERROR,
+                check="placeholder_missing",
+                message=f"{location}: missing placeholders: {missing}",
+            )
         )
-    return None
+    added = sorted((ovl_ph - src_ph).elements())
+    if added:
+        result.append(
+            ValidationIssue(
+                file=str(overlay_path),
+                severity=Severity.WARNING,
+                check="placeholder_added",
+                message=f"{location}: new placeholders not in source: {added}",
+            )
+        )
+    return result
 
 
 def _compare_xml_trees(
@@ -350,19 +377,17 @@ def _compare_xml_trees(
             ovl_val = match.get(attr_name, "")
             if not ovl_val:
                 continue
-            issue = _check_missing_placeholders(
-                src_child.get(attr_name, ""), ovl_val, overlay_path, f"{child_path}/@{attr_name}"
+            issues.extend(
+                _check_placeholder_diff(
+                    src_child.get(attr_name, ""), ovl_val, overlay_path, f"{child_path}/@{attr_name}"
+                )
             )
-            if issue:
-                issues.append(issue)
 
         # Compare text content
         src_text = src_child.text or ""
         ovl_text = match.text or ""
         if src_text.strip() and ovl_text.strip():
-            issue = _check_missing_placeholders(src_text, ovl_text, overlay_path, f"{child_path}/(text)")
-            if issue:
-                issues.append(issue)
+            issues.extend(_check_placeholder_diff(src_text, ovl_text, overlay_path, f"{child_path}/(text)"))
 
         _compare_xml_trees(src_child, match, overlay_path, issues, child_path)
 
@@ -386,6 +411,15 @@ def validate_file(filepath: Path, source_dir: Path | None = None) -> ValidationR
         source_path = source_dir / source_name
         if source_path.exists():
             result.issues.extend(check_overlay_placeholders(filepath, source_path))
+        else:
+            result.issues.append(
+                ValidationIssue(
+                    file=str(filepath),
+                    severity=Severity.WARNING,
+                    check="source_not_found",
+                    message=f"Expected source {source_name} not found in {source_dir}",
+                )
+            )
 
     return result
 
