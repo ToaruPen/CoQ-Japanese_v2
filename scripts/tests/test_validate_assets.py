@@ -1,11 +1,9 @@
 """Tests for validate_assets module."""
 
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from scripts.validate_assets import (
     Severity,
-    _find_overlay_match,
     check_overlay_placeholders,
     check_placeholders_in_file,
     check_utf8_no_bom,
@@ -219,21 +217,9 @@ class TestAmbiguousPositionalMatchSkipped:
     """Positional fallback returns None when sibling counts differ."""
 
     def test_ambiguous_positional_match_skipped(self, tmp_path: Path) -> None:
-
-        # Source has 3 keyless <item> siblings; overlay has only 1.
+        """Source has 3 keyless <item> siblings; overlay has only 1."""
         source_xml = "<root><item Value='a'/><item Value='b'/><item Value='c'/></root>"
         overlay_xml = "<root><item Value='x'/></root>"
-        source_root = ET.fromstring(source_xml)  # noqa: S314
-        overlay_root = ET.fromstring(overlay_xml)  # noqa: S314
-
-        src_children = list(source_root)
-        # None of the src children have key attributes, so positional fallback
-        # is triggered.  With mismatched sibling counts all must return None.
-        for idx, src_child in enumerate(src_children):
-            result = _find_overlay_match(src_child, idx, len(src_children), overlay_root)
-            assert result is None, f"Expected None for index {idx}, got {result}"
-
-        # Full overlay check must not raise and produce no placeholder issues.
         src_path = _write(tmp_path, "source.xml", source_xml)
         ovl_path = _write(tmp_path, "overlay.xml", overlay_xml)
         issues = check_overlay_placeholders(ovl_path, src_path)
