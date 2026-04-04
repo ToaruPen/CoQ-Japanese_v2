@@ -67,7 +67,7 @@
   <option ID="OptionOverlayNearbyObjectsPlants" Requires="OptionModernUI==Yes,OptionOverlayNearbyObjects==Yes,OptionShowAdvancedOptions==Yes" DisplayText="周囲一覧: 植物を表示" Category="UI" Type="Checkbox" Default="No"></option>
   <option ID="OptionOverlayNearbyObjectsTakeable" Requires="OptionModernUI==Yes,OptionOverlayNearbyObjects==Yes,OptionShowAdvancedOptions==Yes" DisplayText="周囲一覧: 取得可能なもののみ" Category="UI" Type="Checkbox" Default="No"></option>
   <option ID="OptionMessageLineLogScale" Requires="OptionModernUI==Yes" DisplayText="メッセージログのフォントサイズ (pt)" Category="UI" Type="Slider" Min="-12" Max="24" Increment="1" Default="0"></option>
-  <option ID="OptionDockMovable" Requires="OptionModernUI==Yes,OptionShowAdvancedOptions==Yes" DisplayText="ログとミニマップのドック配置" Category="UI" Type="Combo" Values="Unset,Right,Left,Flip" Default="Right"></option>
+  <option ID="OptionDockMovable" Requires="OptionModernUI==Yes,OptionShowAdvancedOptions==Yes" DisplayText="メッセージログ &amp;&amp; ミニマップのドック配置" Category="UI" Type="Combo" Values="Unset,Right,Left,Flip" Default="Right"></option>
   <option ID="OptionDockOpacity" Requires="OptionModernUI==Yes,OptionDockMovable!=Unset" DisplayText="ドックの背景不透明度" Category="UI" Type="Slider" Min="0" Max="100" Increment="10" Default="100"></option>
   <option ID="OptionMouseCursor" Requires="OptionModernUI==Yes" DisplayText="マウスカーソルの見た目" Category="UI" Type="Combo" Values="System,Default,Alternate" Default="Default"></option>
   <option ID="OptionMouseAutoHideCursorEnabled" Requires="OptionModernUI==Yes,OptionShowAdvancedOptions==Yes" DisplayText="未操作時にマウスカーソルを自動で隠す" Category="UI" Type="Checkbox" Default="Yes"></option>
