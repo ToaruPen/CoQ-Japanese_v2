@@ -8,9 +8,9 @@ namespace QudJP.Tests.DummyTargets;
 [DummyLanguageProvider("ja")]
 internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
 {
-    private static readonly string[] Digits =
+    private static readonly string[] KanjiDigits =
     [
-        "零",
+        "〇",
         "一",
         "二",
         "三",
@@ -22,31 +22,23 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
         "九",
     ];
 
-    private static readonly (ulong Value, string Name)[] LargeMagnitudes =
-    [
-        (1_0000_0000_0000UL, "兆"),
-        (1_0000_0000UL, "億"),
-        (1_0000UL, "万"),
-    ];
-
     private CultureInfo? cultureInfo;
     private StringComparer? stringComparer;
     private StringComparer? stringComparerIgnoreCase;
 
-    public override string Cardinal(long number)
-    {
-        bool negative = number < 0;
-        ulong absolute = GetAbsoluteValue(number);
-        string cardinal = Cardinal(absolute);
-        return negative ? string.Concat("マイナス", cardinal) : cardinal;
-    }
+    // --- 数量: 英数字 ---
+    public override string Cardinal(long number) => number.ToString(CultureInfo.InvariantCulture);
 
-    public override string Ordinal(long number) => string.Concat("第", Cardinal(number));
+    // --- 序列: 漢数字 ---
+    public override string Ordinal(long number) => string.Concat("第", ToKanjiCardinal(number));
 
-    public override string OrdinalWithDigits(long number) => string.Concat("第", number.ToString(CultureInfo.InvariantCulture));
+    // --- 日付等: 英数字のみ ---
+    public override string OrdinalWithDigits(long number) => number.ToString(CultureInfo.InvariantCulture);
 
-    public override string CardinalNo(long number) => number == 0 ? "零" : Cardinal(number);
+    // --- ゼロ個: 英数字 ---
+    public override string CardinalNo(long number) => number.ToString(CultureInfo.InvariantCulture);
 
+    // --- 回数: 英数字+回, 0は特殊 ---
     public override string Multiplicative(long number) => number == 0
         ? "一度もない"
         : string.Concat(number.ToString(CultureInfo.InvariantCulture), "回");
@@ -91,54 +83,57 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
 
     public override string IndefiniteArticle(string name) => string.Empty;
 
-    private static ulong GetAbsoluteValue(long number) => number < 0 ? unchecked((ulong)(-(number + 1))) + 1UL : (ulong)number;
-
-    private static string Cardinal(ulong number)
+    /// <summary>Kanji cardinal for Ordinal use: 一, 十二, 百二十三.</summary>
+    private static string ToKanjiCardinal(long number)
     {
+        if (number < 0)
+        {
+            return string.Concat("マイナス", ToKanjiCardinal(-number));
+        }
+
         if (number == 0)
         {
-            return Digits[0];
+            return KanjiDigits[0];
         }
 
-        foreach ((ulong magnitude, string name) in LargeMagnitudes)
-        {
-            if (number >= magnitude)
-            {
-                ulong quotient = number / magnitude;
-                ulong remainder = number % magnitude;
-                string prefix = string.Concat(Cardinal(quotient), name);
-                return remainder == 0 ? prefix : string.Concat(prefix, Cardinal(remainder));
-            }
-        }
-
-        return CardinalBelowTenThousand(number);
+        ulong abs = (ulong)number;
+        StringBuilder sb = new();
+        AppendKanjiGroup(sb, ref abs, 1_0000_0000_0000UL, "兆");
+        AppendKanjiGroup(sb, ref abs, 1_0000_0000UL, "億");
+        AppendKanjiGroup(sb, ref abs, 1_0000UL, "万");
+        AppendKanjiBelowTenThousand(sb, abs);
+        return sb.ToString();
     }
 
-    private static string CardinalBelowTenThousand(ulong number)
+    private static void AppendKanjiGroup(StringBuilder sb, ref ulong number, ulong magnitude, string name)
     {
-        if (number == 0)
+        if (number < magnitude)
         {
-            return string.Empty;
+            return;
         }
 
-        StringBuilder builder = new();
+        ulong quotient = number / magnitude;
+        AppendKanjiBelowTenThousand(sb, quotient);
+        sb.Append(name);
+        number %= magnitude;
+    }
 
-        AppendMagnitude(builder, number / 1000, "千");
+    private static void AppendKanjiBelowTenThousand(StringBuilder sb, ulong number)
+    {
+        AppendKanjiMagnitude(sb, number / 1000, "千");
         number %= 1000;
-        AppendMagnitude(builder, number / 100, "百");
+        AppendKanjiMagnitude(sb, number / 100, "百");
         number %= 100;
-        AppendMagnitude(builder, number / 10, "十");
+        AppendKanjiMagnitude(sb, number / 10, "十");
 
         ulong ones = number % 10;
         if (ones > 0)
         {
-            builder.Append(Digits[(int)ones]);
+            sb.Append(KanjiDigits[(int)ones]);
         }
-
-        return builder.ToString();
     }
 
-    private static void AppendMagnitude(StringBuilder builder, ulong count, string magnitude)
+    private static void AppendKanjiMagnitude(StringBuilder sb, ulong count, string magnitude)
     {
         if (count == 0)
         {
@@ -147,10 +142,10 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
 
         if (count > 1)
         {
-            builder.Append(Digits[(int)count]);
+            sb.Append(KanjiDigits[(int)count]);
         }
 
-        builder.Append(magnitude);
+        sb.Append(magnitude);
     }
 }
 
