@@ -4,44 +4,44 @@
   <faction Name="Entropic">
     <property Name="EndVisibility" Value="true" />
   </faction>
-  <faction Name="Newly Sentient Beings" DisplayName="新知性体">
+  <faction Name="Newly Sentient Beings">
     <property Name="EndVisibility" Value="true" />
   </faction>
-  <faction Name="Robots" DisplayName="ロボット">
+  <faction Name="Robots">
     <property Name="EndVisibility" Value="true" />
   </faction>
-  <faction Name="Oozes" DisplayName="ウーズ">
+  <faction Name="Oozes">
     <property Name="EndVisibility" Value="true" />
     <intproperty Name="EndReputationMin" Value="-300" />
     <intproperty Name="EndReputationMax" Value="300" />
   </faction>
-  <faction Name="Cragmensch" DisplayName="クラッグメンシュ">
+  <faction Name="Cragmensch">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
   <faction Name="Issachari">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
-  <faction Name="Mechanimists" DisplayName="メカニマス教団">
+  <faction Name="Mechanimists">
     <property Name="EndVisibility" Value="Conceal" />
     <intproperty Name="EndReputationMin" Value="-300" />
     <intproperty Name="EndReputationMax" Value="300" />
   </faction>
-  <faction Name="Mopango" DisplayName="モパンゴ">
+  <faction Name="Mopango">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
   <faction Name="Naphtaali">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
-  <faction Name="Svardym" DisplayName="スヴァーディム">
+  <faction Name="Svardym">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
-  <faction Name="Snapjaws" DisplayName="スナップジョー">
+  <faction Name="Snapjaws">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
   <faction Name="Water">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
-  <faction Name="Goatfolk" DisplayName="山羊人">
+  <faction Name="Goatfolk">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
   <faction Name="Resheph">
