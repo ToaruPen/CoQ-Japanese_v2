@@ -19,8 +19,15 @@ csharp_style_var_when_type_is_apparent = true:warning
 csharp_new_line_before_open_brace = all
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:error
 
-# --- Roslyn / SonarAnalyzer Suppressions (project-specific) ---
+# Custom analyzer project intentionally omits release tracking markdown files.
+# Applied globally to [*.cs] because QudJP.Analyzers is not under the src/ path.
+dotnet_diagnostic.RS2008.severity = none
 
+# --- Harmony / net48 Suppressions (runtime mod source only) ---
+# These suppressions target Mods/QudJP/Assemblies/src/**/*.cs where the Harmony
+# patch code lives. Analyzer and test projects retain default rule severity.
+
+[**/Assemblies/src/**/*.cs]
 # Harmony requires double-underscore parameter names (__result, __instance, __originalMethod, __args)
 dotnet_diagnostic.CA1707.severity = none
 
@@ -67,9 +74,6 @@ dotnet_diagnostic.CA1845.severity = none
 # The fail-fast pattern for patches is: catch (Exception ex) { Trace.TraceError(...); }
 dotnet_diagnostic.CA1031.severity = none
 
-# Custom analyzer project intentionally omits release tracking markdown files.
-dotnet_diagnostic.RS2008.severity = none
-
 [**/QudJP.Tests/**/*.cs]
 # Magic numbers in test data and assertions are acceptable
 dotnet_diagnostic.S109.severity = none
@@ -94,6 +98,12 @@ dotnet_diagnostic.QJ003.severity = none
 dotnet_diagnostic.QJ001.severity = none
 dotnet_diagnostic.QJ002.severity = none
 dotnet_diagnostic.QJ003.severity = none
+
+# Test fixture classes are top-level application types — internal visibility not required by NUnit
+dotnet_diagnostic.CA1515.severity = none
+
+# NUnit test methods use Arrange_Act_Assert naming convention with underscores; this is idiomatic
+dotnet_diagnostic.CA1707.severity = none
 
 [*.xml]
 indent_style = space

@@ -31,6 +31,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--
+      Double-compilation pattern: ReferenceOutputAssembly="false" prevents linking against
+      the net48 QudJP output assembly. Instead, the Compile items below re-compile the same
+      production sources under net10.0 so tests exercise the real code without requiring a
+      net48 build or game DLLs.
+
+      Caveats to be aware of:
+        - API differences between net48 and net10.0 may produce subtly different behaviour.
+        - Any #if conditional compilation symbols defined for net48 (e.g. !NET5_0_OR_GREATER)
+          will evaluate differently here; check both paths when modifying guarded code.
+    -->
     <ProjectReference Include="../QudJP.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" />
   </ItemGroup>
 

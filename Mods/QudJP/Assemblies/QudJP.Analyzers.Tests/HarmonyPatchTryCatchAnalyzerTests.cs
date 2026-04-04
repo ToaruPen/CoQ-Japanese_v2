@@ -84,6 +84,29 @@ public static class SamplePatch
     }
 
     [Test]
+    public async Task Diagnostic_WhenPatchMethodMissingTopLevelTryCatch_PostfixAsync()
+    {
+        var source = """
+using HarmonyLib;
+""" + HarmonyStubs + """
+[HarmonyPatch]
+public static class SamplePatch
+{
+    public static void {|#0:Postfix|}(ref string __result)
+    {
+        __result = "ok";
+    }
+}
+""";
+
+        var expected = VerifyCS.Diagnostic(HarmonyPatchTryCatchAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Postfix", "SamplePatch");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task NoDiagnostic_ForTargetMethodEvenWithoutTryCatchAsync()
     {
         var source = """

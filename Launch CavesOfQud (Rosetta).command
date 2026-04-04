@@ -13,11 +13,13 @@ EXIT_CODE=$?
 set -e
 
 if [[ ${EXIT_CODE} -eq 0 ]]; then
+  # Escape double quotes in the TTY path to prevent AppleScript injection
+  ESCAPED_TTY="${CURRENT_TTY//\"/\\\"}"
   osascript <<EOF >/dev/null 2>&1 || true
 tell application "Terminal"
   repeat with terminalWindow in windows
     try
-      if tty of selected tab of terminalWindow is "${CURRENT_TTY}" then
+      if tty of selected tab of terminalWindow is "${ESCAPED_TTY}" then
         close terminalWindow saving no
         exit repeat
       end if
@@ -27,4 +29,4 @@ end tell
 EOF
 fi
 
-exit ${EXIT_CODE}
+exit "${EXIT_CODE}"

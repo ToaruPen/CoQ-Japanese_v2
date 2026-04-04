@@ -101,9 +101,14 @@ public sealed class FallbackLoggingAnalyzer : DiagnosticAnalyzer
         CancellationToken cancellationToken)
     {
         var containingStatement = coalesceExpression.FirstAncestorOrSelf<StatementSyntax>();
-        if (containingStatement is null || containingStatement.Parent is not BlockSyntax block)
+        if (containingStatement is null)
         {
-            return true;
+            return false;
+        }
+
+        if (containingStatement.Parent is not BlockSyntax block)
+        {
+            return false;
         }
 
         var statementIndex = block.Statements.IndexOf(containingStatement);

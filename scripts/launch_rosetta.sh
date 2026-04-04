@@ -2,7 +2,7 @@
 # =============================================================================
 # launch_rosetta.sh — Launch Caves of Qud under Rosetta 2 (x86_64 emulation)
 # =============================================================================
-#
+# [HELP_START]
 # WHY THIS SCRIPT EXISTS:
 #   On Apple Silicon (M1/M2/M3/M4) Macs, the game's bundled Harmony library
 #   (0Harmony.dll v2.2.2.0) crashes when applying patches natively on ARM64.
@@ -32,6 +32,7 @@
 #   launch option do NOT reliably work. Launching the binary directly from
 #   the terminal (as this script does) is the only confirmed working method.
 #   The game does not require Steam to be running for this to work.
+# [HELP_END]
 # =============================================================================
 
 set -euo pipefail
@@ -42,7 +43,7 @@ GAME_BINARY="${HOME}/Library/Application Support/Steam/steamapps/common/Caves of
 # --help
 # ---------------------------------------------------------------------------
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-  sed -n '3,34p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '/\[HELP_START\]/,/\[HELP_END\]/p' "$0" | sed '1d;$d' | sed 's/^# \{0,1\}//'
   exit 0
 fi
 

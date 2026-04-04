@@ -5,7 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>NU1701</NoWarn>
+    <!--
+      CA1515: Test fixture classes are top-level public types required by the NUnit test runner
+      CA1707: NUnit test methods use Arrange_Act_Assert naming convention with underscores
+    -->
+    <NoWarn>NU1701;CA1515;CA1707</NoWarn>
     <AnalysisLevel>latest-all</AnalysisLevel>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

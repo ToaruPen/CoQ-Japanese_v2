@@ -51,6 +51,28 @@ public static class Sample
     }
 
     [Test]
+    public async Task Diagnostic_WhenTraceErrorMessageDoesNotIncludePrefixAsync()
+    {
+        const string source = """
+using System.Diagnostics;
+
+public static class Sample
+{
+    public static void Log()
+    {
+        Trace.TraceError({|#0:"Missing prefix"|});
+    }
+}
+""";
+
+        var expected = VerifyCS.Diagnostic(TraceLogPrefixAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("TraceError");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected).ConfigureAwait(false);
+    }
+
+    [Test]
     public async Task NoDiagnostic_ForTraceInformationWithoutPrefixAsync()
     {
         const string source = """
