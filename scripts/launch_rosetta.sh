@@ -76,7 +76,13 @@ if [[ ! -f "${GAME_BINARY}" ]]; then
   echo "ERROR: Game binary not found at:" >&2
   echo "       ${GAME_BINARY}" >&2
   echo "" >&2
-  echo "Make sure Caves of Qud is installed via Steam in the default library." >&2
+  if [[ -n "${QUDJP_GAME_BINARY:-}" ]]; then
+    echo "QUDJP_GAME_BINARY is set — verify the path is correct:" >&2
+    echo "       ${QUDJP_GAME_BINARY}" >&2
+  else
+    echo "Make sure Caves of Qud is installed via Steam in the default library." >&2
+    echo "Or set QUDJP_GAME_BINARY to your custom CoQ binary path." >&2
+  fi
   exit 1
 fi
 

@@ -11,13 +11,23 @@
     <GameDir Condition="'$(GameDir)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Caves of Qud/CoQ.app/Contents/Resources/Data</GameDir>
     <ManagedDir>$(GameDir)/Managed</ManagedDir>
     <AssemblyCSharpPath>$(ManagedDir)/Assembly-CSharp.dll</AssemblyCSharpPath>
+    <!-- Gate HAS_TMP on all required Unity DLLs to prevent partial-install build failures -->
+    <HasTmpDeps Condition="
+      Exists('$(ManagedDir)/Unity.TextMeshPro.dll') and
+      Exists('$(ManagedDir)/UnityEngine.UI.dll') and
+      Exists('$(ManagedDir)/UnityEngine.CoreModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.SharedInternalsModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll') and
+      Exists('$(ManagedDir)/UnityEngine.TextRenderingModule.dll')
+    ">true</HasTmpDeps>
   </PropertyGroup>
 
   <PropertyGroup Condition="Exists('$(AssemblyCSharpPath)')">
     <DefineConstants>$(DefineConstants);HAS_GAME_DLL</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="Exists('$(ManagedDir)/Unity.TextMeshPro.dll')">
+  <PropertyGroup Condition="'$(HasTmpDeps)' == 'true'">
     <DefineConstants>$(DefineConstants);HAS_TMP</DefineConstants>
   </PropertyGroup>
 
@@ -66,7 +76,7 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('$(ManagedDir)/Unity.TextMeshPro.dll')">
+  <ItemGroup Condition="'$(HasTmpDeps)' == 'true'">
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(ManagedDir)/Unity.TextMeshPro.dll</HintPath>
       <Private>false</Private>
@@ -97,7 +107,7 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('$(ManagedDir)/Unity.TextMeshPro.dll')">
+  <ItemGroup Condition="'$(HasTmpDeps)' == 'true'">
     <None Include="$(ManagedDir)/Unity.TextMeshPro.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>Unity.TextMeshPro.dll</TargetPath>
