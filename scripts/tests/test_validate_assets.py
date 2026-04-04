@@ -1,9 +1,11 @@
 """Tests for validate_assets module."""
 
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from scripts.validate_assets import (
     Severity,
+    _find_overlay_match,
     check_overlay_placeholders,
     check_placeholders_in_file,
     check_utf8_no_bom,
@@ -181,3 +183,58 @@ class TestValidateFile:
         source_dir.mkdir()
         result = validate_file(ovl, source_dir=source_dir)
         assert any(i.check == "source_not_found" for i in result.issues)
+
+
+class TestOverlayOnlyKeyReported:
+    """Finding 2: overlay-only (Context, ID) pairs are reported as WARNING."""
+
+    def test_overlay_only_key_reported(self, tmp_path: Path) -> None:
+        source = '<strings><string Context="" ID="x" Value="hello"/></strings>'
+        overlay = (
+            "<strings>"
+            '<string Context="" ID="x" Value="こんにちは"/>'
+            '<string Context="" ID="extra" Value="余分"/>'
+            "</strings>"
+        )
+        src_path = _write(tmp_path, "source.xml", source)
+        ovl_path = _write(tmp_path, "overlay.xml", overlay)
+        issues = check_overlay_placeholders(ovl_path, src_path)
+        assert any(i.check == "overlay_key_not_in_source" for i in issues)
+        assert any(i.severity == Severity.WARNING for i in issues)
+
+
+class TestUnclosedTokenIsError:
+    """Finding 3: unclosed =token detects as ERROR, not WARNING."""
+
+    def test_unclosed_token_is_error(self, tmp_path: Path) -> None:
+        xml = '<strings><string ID="x" Value="=unclosed"/></strings>'
+        path = _write(tmp_path, "bad.xml", xml)
+        issues = check_placeholders_in_file(path)
+        token_issues = [i for i in issues if i.check == "token_unclosed"]
+        assert token_issues, "expected at least one token_unclosed issue"
+        assert all(i.severity == Severity.ERROR for i in token_issues)
+
+
+class TestAmbiguousPositionalMatchSkipped:
+    """Positional fallback returns None when sibling counts differ."""
+
+    def test_ambiguous_positional_match_skipped(self, tmp_path: Path) -> None:
+
+        # Source has 3 keyless <item> siblings; overlay has only 1.
+        source_xml = "<root><item Value='a'/><item Value='b'/><item Value='c'/></root>"
+        overlay_xml = "<root><item Value='x'/></root>"
+        source_root = ET.fromstring(source_xml)  # noqa: S314
+        overlay_root = ET.fromstring(overlay_xml)  # noqa: S314
+
+        src_children = list(source_root)
+        # None of the src children have key attributes, so positional fallback
+        # is triggered.  With mismatched sibling counts all must return None.
+        for idx, src_child in enumerate(src_children):
+            result = _find_overlay_match(src_child, idx, len(src_children), overlay_root)
+            assert result is None, f"Expected None for index {idx}, got {result}"
+
+        # Full overlay check must not raise and produce no placeholder issues.
+        src_path = _write(tmp_path, "source.xml", source_xml)
+        ovl_path = _write(tmp_path, "overlay.xml", overlay_xml)
+        issues = check_overlay_placeholders(ovl_path, src_path)
+        assert not any(i.severity == Severity.ERROR for i in issues)

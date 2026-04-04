@@ -198,13 +198,73 @@ def check_placeholders_in_file(filepath: Path) -> list[ValidationIssue]:
                 issues.append(
                     ValidationIssue(
                         file=str(filepath),
-                        severity=Severity.WARNING,
+                        severity=Severity.ERROR,
                         check="token_unclosed",
                         message=f"Possibly unclosed =token in {elem.tag}/{location}: {unclosed}",
                     )
                 )
 
     return issues
+
+
+def _compare_strings_overlays(
+    source_root: ET.Element,
+    overlay_root: ET.Element,
+    overlay_path: Path,
+    issues: list[ValidationIssue],
+) -> None:
+    """Compare <strings> overlay entries against source by Context+ID."""
+    source_map: dict[tuple[str, str], str] = {}
+    for elem in source_root.iter("string"):
+        ctx = elem.get("Context", "")
+        sid = elem.get("ID", "")
+        raw_text = (elem.text or "").strip()
+        val = raw_text or elem.get("Value", "")
+        source_map[(ctx, sid)] = val
+
+    for elem in overlay_root.iter("string"):
+        ctx = elem.get("Context", "")
+        sid = elem.get("ID", "")
+        raw_text = (elem.text or "").strip()
+        val = raw_text or elem.get("Value", "")
+        key = (ctx, sid)
+        if key in source_map:
+            src_ph = Counter(extract_placeholders(source_map[key]))
+            ovl_ph = Counter(extract_placeholders(val))
+            missing = sorted((src_ph - ovl_ph).elements())
+            added = sorted((ovl_ph - src_ph).elements())
+            if missing:
+                issues.append(
+                    ValidationIssue(
+                        file=str(overlay_path),
+                        severity=Severity.ERROR,
+                        check="placeholder_missing",
+                        message=f"String [{ctx}]{sid}: missing placeholders from source: {missing}",
+                    )
+                )
+            if added:
+                issues.append(
+                    ValidationIssue(
+                        file=str(overlay_path),
+                        severity=Severity.WARNING,
+                        check="placeholder_added",
+                        message=f"String [{ctx}]{sid}: new placeholders not in source: {added}",
+                    )
+                )
+
+    # Second pass: report overlay keys not present in source at all.
+    for elem in overlay_root.iter("string"):
+        ctx = elem.get("Context", "")
+        sid = elem.get("ID", "")
+        if (ctx, sid) not in source_map:
+            issues.append(
+                ValidationIssue(
+                    file=str(overlay_path),
+                    severity=Severity.WARNING,
+                    check="overlay_key_not_in_source",
+                    message=f"String [{ctx}]{sid}: key exists in overlay but not in source",
+                )
+            )
 
 
 def check_overlay_placeholders(
@@ -220,8 +280,28 @@ def check_overlay_placeholders(
 
     try:
         overlay_tree = ET.parse(overlay_path)  # noqa: S314
+    except ET.ParseError as e:
+        issues.append(
+            ValidationIssue(
+                file=str(overlay_path),
+                severity=Severity.ERROR,
+                check="overlay_parse_error",
+                message=f"Overlay XML parse error: {e}",
+            )
+        )
+        return issues
+
+    try:
         source_tree = ET.parse(source_path)  # noqa: S314
-    except ET.ParseError:
+    except ET.ParseError as e:
+        issues.append(
+            ValidationIssue(
+                file=str(overlay_path),
+                severity=Severity.ERROR,
+                check="source_parse_error",
+                message=f"Source XML parse error: {e}",
+            )
+        )
         return issues
 
     overlay_root = overlay_tree.getroot()
@@ -239,47 +319,15 @@ def check_overlay_placeholders(
         )
         return issues
 
-    # Strings-style files: <strings> with <string Context="" ID="">
     if source_root.tag == "strings":
-        source_map: dict[tuple[str, str], str] = {}
-        for elem in source_root.iter("string"):
-            ctx = elem.get("Context", "")
-            sid = elem.get("ID", "")
-            raw_text = (elem.text or "").strip()
-            val = raw_text or elem.get("Value", "")
-            source_map[(ctx, sid)] = val
-
-        for elem in overlay_root.iter("string"):
-            ctx = elem.get("Context", "")
-            sid = elem.get("ID", "")
-            raw_text = (elem.text or "").strip()
-            val = raw_text or elem.get("Value", "")
-            key = (ctx, sid)
-            if key in source_map:
-                src_ph = Counter(extract_placeholders(source_map[key]))
-                ovl_ph = Counter(extract_placeholders(val))
-                missing = sorted((src_ph - ovl_ph).elements())
-                added = sorted((ovl_ph - src_ph).elements())
-                if missing:
-                    issues.append(
-                        ValidationIssue(
-                            file=str(overlay_path),
-                            severity=Severity.ERROR,
-                            check="placeholder_missing",
-                            message=(f"String [{ctx}]{sid}: missing placeholders from source: {missing}"),
-                        )
-                    )
-                if added:
-                    issues.append(
-                        ValidationIssue(
-                            file=str(overlay_path),
-                            severity=Severity.WARNING,
-                            check="placeholder_added",
-                            message=(f"String [{ctx}]{sid}: new placeholders not in source: {added}"),
-                        )
-                    )
+        _compare_strings_overlays(source_root, overlay_root, overlay_path, issues)
     else:
-        # XML-attribute style: compare matching elements by key attributes
+        # XML-attribute style: compare matching elements by key attributes.
+        # Overlay-only element detection is deferred for XML files — the
+        # overlay structure mirrors source by design (elements are identified
+        # by key attributes, not by presence), so spurious-element detection
+        # would require a full bidirectional structural diff that is out of
+        # scope for this validator.
         _compare_xml_trees(source_root, overlay_root, overlay_path, issues)
 
     return issues
@@ -288,12 +336,15 @@ def check_overlay_placeholders(
 def _find_overlay_match(
     src_child: ET.Element,
     src_index: int,
+    src_total: int,
     overlay: ET.Element,
 ) -> ET.Element | None:
     """Find the overlay element matching a source child by tag and key attributes.
 
     When no key attributes (Name, ID, Command) are present, falls back to
-    positional matching among same-tag siblings.
+    positional matching among same-tag siblings.  If the overlay has a different
+    number of same-tag siblings than source (src_total), the positional binding
+    is ambiguous — return None to skip comparison rather than risk a wrong match.
     """
     key_attrs = {k: v for k, v in src_child.attrib.items() if k in {"Name", "ID", "Command"}}
     if key_attrs:
@@ -303,8 +354,12 @@ def _find_overlay_match(
             if all(ovl_child.get(k) == v for k, v in key_attrs.items()):
                 return ovl_child
         return None
-    # Positional fallback: match the Nth same-tag sibling
+    # Positional fallback: match the Nth same-tag sibling.
+    # Require that overlay has exactly the same number of same-tag siblings as
+    # source; if counts differ, the mapping is ambiguous and we skip.
     same_tag = [c for c in overlay if c.tag == src_child.tag]
+    if len(same_tag) != src_total:
+        return None
     return same_tag[src_index] if src_index < len(same_tag) else None
 
 
@@ -359,12 +414,18 @@ def _compare_xml_trees(
     path: str = "",
 ) -> None:
     """Recursively compare attributes of matching elements between source and overlay."""
+    # Pre-compute total count of each tag among source children so that the
+    # positional fallback in _find_overlay_match can detect count mismatches.
+    src_tag_totals: dict[str, int] = {}
+    for c in source:
+        src_tag_totals[c.tag] = src_tag_totals.get(c.tag, 0) + 1
+
     # Track positional index per tag for keyless sibling matching
     tag_counts: dict[str, int] = {}
     for src_child in source:
         idx = tag_counts.get(src_child.tag, 0)
         tag_counts[src_child.tag] = idx + 1
-        match = _find_overlay_match(src_child, idx, overlay)
+        match = _find_overlay_match(src_child, idx, src_tag_totals[src_child.tag], overlay)
         if match is None:
             continue
 
