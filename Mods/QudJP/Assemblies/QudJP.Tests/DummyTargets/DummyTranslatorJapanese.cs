@@ -88,7 +88,9 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
     {
         if (number < 0)
         {
-            return string.Concat("マイナス", ToKanjiCardinal(-number));
+            // Avoid negating long.MinValue which overflows; compute absolute value as ulong directly.
+            ulong absNeg = number == long.MinValue ? (ulong)long.MaxValue + 1UL : (ulong)(-number);
+            return string.Concat("マイナス", ToKanjiCardinalUnsigned(absNeg));
         }
 
         if (number == 0)
@@ -96,8 +98,13 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
             return KanjiDigits[0];
         }
 
-        ulong abs = (ulong)number;
+        return ToKanjiCardinalUnsigned((ulong)number);
+    }
+
+    private static string ToKanjiCardinalUnsigned(ulong abs)
+    {
         StringBuilder sb = new();
+        AppendKanjiGroup(sb, ref abs, 1_0000_0000_0000_0000UL, "京");
         AppendKanjiGroup(sb, ref abs, 1_0000_0000_0000UL, "兆");
         AppendKanjiGroup(sb, ref abs, 1_0000_0000UL, "億");
         AppendKanjiGroup(sb, ref abs, 1_0000UL, "万");

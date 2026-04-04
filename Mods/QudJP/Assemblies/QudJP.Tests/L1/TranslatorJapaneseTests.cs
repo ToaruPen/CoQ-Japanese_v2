@@ -30,6 +30,8 @@ public sealed class TranslatorJapaneseTests
     [TestCase(12, "第十二")]
     [TestCase(42, "第四十二")]
     [TestCase(100, "第百")]
+    [TestCase(1_0000_0000_0000_0000L, "第一京")]
+    [TestCase(-1_0000_0000_0000_0000L, "第マイナス一京")]
     public void Ordinal_ReturnsKanjiNumerals(long value, string expected) => Assert.That(translator.Ordinal(value), Is.EqualTo(expected));
 
     [TestCase(1, "1")]
