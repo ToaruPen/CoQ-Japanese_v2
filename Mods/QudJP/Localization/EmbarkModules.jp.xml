@@ -54,7 +54,7 @@
 				<icon Tile="Items/sw_clockthing.bmp" Foreground="w" Detail="W"></icon>
 				<description>
 					{{c|&#249;}} 固定キャラクターと固定シードで一発勝負。
-					{{c|&#249;}} 現在 {{W|{year}}} 年の {{W|{day_of_year}}} 日目。
+					{{c|&#249;}} 現在{{W|{year}}}年の{{W|{day_of_year}}}日目。
 				</description>
 				<stringgamestate Name="GameMode" Value="Daily"></stringgamestate>
 			</mode>

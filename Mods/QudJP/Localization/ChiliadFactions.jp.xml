@@ -38,7 +38,7 @@
   <faction Name="Snapjaws" DisplayName="スナップジョー">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
-  <faction Name="Water" DisplayName="水">
+  <faction Name="Water">
     <property Name="EndVisibility" Value="Conceal" />
   </faction>
   <faction Name="Goatfolk" DisplayName="山羊人">

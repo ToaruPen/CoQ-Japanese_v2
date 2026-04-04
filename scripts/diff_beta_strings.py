@@ -64,8 +64,21 @@ class DiffReport:
 # ---------------------------------------------------------------------------
 
 
-_KEY_ATTRS_SET = frozenset(("Name", "ID", "Command"))
-_SKIP_ATTRS = frozenset(("Lang", "Encoding", "Load"))
+_KEY_ATTRS_SET = frozenset(("Name", "ID", "Command", "Tags", "With"))
+# Structural/visual attributes that carry no translatable text and should not
+# appear as diff keys even in v1 overlay files that lack triangle markers.
+_SKIP_ATTRS = frozenset(
+    (
+        "Lang",
+        "Encoding",
+        "Load",
+        "Tile",
+        "Foreground",
+        "Detail",
+        "Background",
+        "State",
+    )
+)
 
 
 def _make_key_strings(context: str, string_id: str) -> str:

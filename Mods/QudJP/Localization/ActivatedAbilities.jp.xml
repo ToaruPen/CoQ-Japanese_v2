@@ -140,7 +140,7 @@
   <ability Command="CommandToggleFireSuppressionSystem">
 		<description>炎上しているあいだ、毎ラウンド自動で難燃ジェルを放出する。</description>
 		<UITile Tile="Abilities/abil_fire_suppression_toggle_off.bmp" Foreground="y" Detail="r" />
-		<UITile Tile="Abilities/abil_fire_suppression_toggle_on.bmp" Foreground="y" Detail="R" />
+		<UITile Tile="Abilities/abil_fire_suppression_toggle_on.bmp" Foreground="y" Detail="R" State="ToggleOn" />
   </ability>    
 	<ability Command="CommandRecomposite">
 		<description>
@@ -178,7 +178,7 @@
   <ability Command="CommandToggleCyberNightVision">
     <description>暗闇でも視界が得られる。</description>
     <UITile Tile="Abilities/abil_night_vision_toggle_off.bmp" Foreground="y" Detail="g" />
-		<UITile Tile="Abilities/abil_night_vision_toggle_on.bmp" Foreground="Y" Detail="G" />
+		<UITile Tile="Abilities/abil_night_vision_toggle_on.bmp" Foreground="Y" Detail="G" State="ToggleOn" />
 	</ability>
   <ability Command="CommandToggleNocturnalApex">
     <description>
@@ -212,7 +212,7 @@
       <br />
     </description>
     <UITile Tile="Abilities/abil_penetrating_radar_toggle_off.bmp" Foreground="B" Detail="y" />
-		<UITile Tile="Abilities/abil_penetrating_radar_toggle_on.bmp" Foreground="B" Detail="Y" />
+		<UITile Tile="Abilities/abil_penetrating_radar_toggle_on.bmp" Foreground="B" Detail="Y" State="ToggleOn" />
   </ability>
   <ability Command="CommandTogglePhaseHarmonicModulator">
     <description>位相の内外にある物体や生物の双方と相互作用できる。</description>
