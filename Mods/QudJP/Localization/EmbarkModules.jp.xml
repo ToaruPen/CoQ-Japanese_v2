@@ -72,7 +72,7 @@
         <icon Tile="UI/sw_preset.bmp" Foreground="W" Detail="w"></icon>
         <description>
           いくつかのプリセットから選ぶ。慣れたらカスタマイズしよう。
-         </description>
+        </description>
       </type>
       
       <type ID="New" Title="新規作成">
