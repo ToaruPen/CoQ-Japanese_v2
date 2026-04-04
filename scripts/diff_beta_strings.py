@@ -126,12 +126,13 @@ _KEY_ATTRS = frozenset(("Name", "ID", "Command"))
 _SKIP_STRUCTURAL = frozenset(("Lang", "Encoding", "Load"))
 
 
-def match_beta_keys_in_v1(beta_keys: dict[str, str], v1_filepath: Path) -> set[str]:
+def match_beta_keys_in_v1(beta_keys: dict[str, str], v1_filepath: Path, *, beta_root: str) -> set[str]:
     """Return the subset of beta_keys whose entries exist in the v1 file.
 
-    For <strings> files, checks that Context+ID pairs appear in the v1 overlay.
-    For LanguageXml files, checks that the element_path+attribute qualified key
-    resolves to an element with a matching identifier in the v1 tree.
+    For <strings> files (beta_root == "strings"), checks that Context+ID pairs
+    appear in the v1 overlay.  For LanguageXml files, checks that the
+    element_path+attribute qualified key resolves to an element with a matching
+    identifier in the v1 tree.
 
     The comparison is purely structural (element presence) — it does not require
     the translated value to match.
@@ -139,9 +140,7 @@ def match_beta_keys_in_v1(beta_keys: dict[str, str], v1_filepath: Path) -> set[s
     if not beta_keys:
         return set()
 
-    # Detect strings root: keys use '\x00' between context and id (no '.')
-    sample_key = next(iter(beta_keys))
-    is_strings = "." not in sample_key.split("\x00")[0]
+    is_strings = beta_root == "strings"
 
     try:
         tree = ET.parse(v1_filepath)  # noqa: S314
@@ -253,7 +252,7 @@ def diff_entries(
         beta_root, beta_keys = beta_map[stem]
         beta_file = f"{stem}.example.xml"
 
-        covered_keys = match_beta_keys_in_v1(beta_keys, v1_filepath)
+        covered_keys = match_beta_keys_in_v1(beta_keys, v1_filepath, beta_root=beta_root)
 
         for key in sorted(beta_keys):
             status = "covered" if key in covered_keys else "missing"
