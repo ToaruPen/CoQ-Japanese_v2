@@ -167,11 +167,11 @@ class TestXmlRootDiff:
         report = diff_entries(v1_map, beta_map)
 
         assert report.covered[0].root == "mutations"
-        # Fire is covered; Ice is missing (v1 has no triangle, so extract_xml_entries returns empty,
-        # but Fire is in v1 via element_path key — let's verify counts)
-        statuses = {e.status for e in report.entries}
-        assert "covered" in statuses or "missing" in statuses  # at minimum some entries exist
-        assert len(report.entries) > 0
+        # Fire is covered; Ice is missing (v1 has Fire, beta has Fire+Ice)
+        assert len(report.covered) == 1
+        assert len(report.missing) == 1
+        assert len(report.orphaned) == 0
+        assert len(report.entries) == 2
 
 
 # ---------------------------------------------------------------------------

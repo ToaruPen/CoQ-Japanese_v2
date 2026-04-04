@@ -656,7 +656,7 @@
 		<UITile Tile="Mutations/temporal_fugue.bmp" Foreground="y" Detail="G" />
   </ability>
   <ability Command="CommandQuantumFugue">
-    <!-- todo:jason -->
+    <!-- TODO: verify Quantum Fugue description accuracy (Issue #8) -->
     <description>
       <p>素早く時間を行き来し、自分の複数のコピーを作り出す。</p>
       <br />
@@ -1274,7 +1274,7 @@
 		<description>
       <p>高速で移動し、<switch Name="PowerSkate"><case Value="true">炎の排気を曳く</case><default>短時間だけ持続する</default></switch>。</p>  
       <br />
-      <p><switch Name="Multipler"><case Value="100">移動速度を2倍</case><case Value="200">移動速度を3倍</case><default>移動速度を+<stat Name="Multiplier" />%</default></switch>にし、<switch Name="PowerSkate"><case Value="true">燃料が尽きるまで</case><default><stat Name="Duration" /></default></switch>続く。</p>
+      <p><switch Name="Multiplier"><case Value="100">移動速度を2倍</case><case Value="200">移動速度を3倍</case><default>移動速度を+<stat Name="Multiplier" />%</default></switch>にし、<switch Name="PowerSkate"><case Value="true">燃料が尽きるまで</case><default><stat Name="Duration" /></default></switch>続く。</p>
       <switch Name="DV"><case Value="0"></case><default><p>DV <stat Name="DV" /></p></default></switch>
       <p>近接攻撃の命中に-10。</p>
       <switch Name="MissileAccuracy">

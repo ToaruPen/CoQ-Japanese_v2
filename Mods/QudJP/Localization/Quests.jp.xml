@@ -3,9 +3,9 @@
   
   <quest Name="What's Eating the Watervine?" Factions="Joppa" Reputation="200" Level="1" Achievement="ACH_COMPLETE_WATERVINE"
          Accomplishment="ジョッパの村人にギルシュを警告し、食い荒らされたウォーターヴァインの謎を解いた。"
-         Hagiograph="＝month＝月＝year＝年、＝name＝はクロームのアーチの下を歩き、ギルシュリングの群れを蹴散らし、萎れた作物を癒やした。"
+         Hagiograph="=month=月=year=年、=name=はクロームのアーチの下を歩き、ギルシュリングの群れを蹴散らし、萎れた作物を癒やした。"
          HagiographCategory="DoesSomethingRad"
-         Gospel="血塗れのレッドロックの戦いで、＝name＝はギルシュリングとバブーンの連合軍と戦い、ジョッパの村人を解放した。＝player.t＝に敬意を表し、彼らは &lt;spice.history.gospels.Celebration.LateSultanate.!random&gt;。">
+         Gospel="血塗れのレッドロックの戦いで、=name=はギルシュリングとバブーンの連合軍と戦い、ジョッパの村人を解放した。=player.t=に敬意を表し、彼らは &lt;spice.history.gospels.Celebration.LateSultanate.!random&gt;。">
 
     <step Name="Travel to Red Rock" XP="50">
       <text>ジョッパから北へ2パラサング進み、レッドロックへ向かう。</text>
@@ -27,9 +27,9 @@
  
   <quest Name="Raising Indrix" Level="20" 
          Factions="Kyakukya,Wardens" Reputation="100"
-         Hagiograph="恵みあれ！ ＝name＝は鬱蒼たるジャングルで黒いガラスの欠片を回収し、それで動く機械の山羊に返した。"
+         Hagiograph="恵みあれ！ =name=は鬱蒼たるジャングルで黒いガラスの欠片を回収し、それで動く機械の山羊に返した。"
          HagiographCategory="FindsObject"
-         Gospel="キャクキャ付近のジャングルをさまよいながら、＝name＝は＝player.subjective＝が暗い星を周回し、その巨大な降着円盤に自己の部品を積み上げる夢を見た。それ以来、＝name＝は星なき三角柱を＝player.possessive＝身に帯びた。">
+         Gospel="キャクキャ付近のジャングルをさまよいながら、=name=は=player.subjective=が暗い星を周回し、その巨大な降着円盤に自己の部品を積み上げる夢を見た。それ以来、=name=は星なき三角柱を=player.possessive=身に帯びた。">
     
     <step Name="Find Mamon Souldrinker" XP="1000">
       <text>山羊人の村へ行き、マモン・ソウルドリンカーを見つける。</text>
@@ -43,9 +43,9 @@
 
   <quest Name="Fetch Argyve a Knickknack" Level="3" 
          Accomplishment="老爺に小物を届けた。"
-         Hagiograph="水と蔓の寺院で、＝name＝は老爺にクロームの価値を教えた。"
+         Hagiograph="水と蔓の寺院で、=name=は老爺にクロームの価値を教えた。"
          HagiographCategory="Trysts"
-         Gospel="&lt;spice.elements.entity$elements[random].weddingConditions.!random.capitalize&gt;、＝name＝は工匠協会との友情を固めるため、アーギヴと結婚した。">
+         Gospel="&lt;spice.elements.entity$elements[random].weddingConditions.!random.capitalize&gt;、=name=は工匠協会との友情を固めるため、アーギヴと結婚した。">
     
     <step Name="Find a Knickknack" XP="0">
       <text>ジョッパ周辺の地帯で遺物を探す。</text>
@@ -59,9 +59,9 @@
 
   <quest Name="Fetch Argyve Another Knickknack" Level="5" 
          Accomplishment="老爺にもう一つ小物を届けた。"
-         Hagiograph="ハイソルトサンの下、鋼の影で、＝name＝は老爺にクロームの価値を教えた。"
+         Hagiograph="ハイソルトサンの下、鋼の影で、=name=は老爺にクロームの価値を教えた。"
          HagiographCategory="Trysts"
-         Gospel="&lt;spice.elements.entity$elements[random].weddingConditions.!random.capitalize&gt;、＝name＝は工匠協会との友情を固めるため、二度目の結婚でアーギヴと結ばれた。">
+         Gospel="&lt;spice.elements.entity$elements[random].weddingConditions.!random.capitalize&gt;、=name=は工匠協会との友情を固めるため、二度目の結婚でアーギヴと結ばれた。">
 
     <step Name="Find Another Knickknack" XP="0">
 			<text>ジョッパ周辺の地帯で別の遺物を探す。</text>
@@ -76,9 +76,9 @@
   <quest Name="Weirdwire Conduit... Eureka!" Level="7" 
          Accomplishment="あなたの助力で、アーギヴは奇妙な信号を検出した。"
 		 Achievement="ACH_WEIRDWIRE_CONDUIT"
-         Hagiograph="湿地の加護を受け、＝name＝はワイヤー・コンジットを発明し、隠された信号を検出した。"
+         Hagiograph="湿地の加護を受け、=name=はワイヤー・コンジットを発明し、隠された信号を検出した。"
          HagiographCategory="CreatesSomething"
-         Gospel="ジョッパのオアシスの外れにある工房で、＝name＝と＝player.possessive＝弟子アーギヴは、打楽器と灼熱のワイヤーの存在を喚起する装置を発明した。それを「ワイヤー・コンジット」と名付けた。">
+         Gospel="ジョッパのオアシスの外れにある工房で、=name=と=player.possessive=弟子アーギヴは、打楽器と灼熱のワイヤーの存在を喚起する装置を発明した。それを「ワイヤー・コンジット」と名付けた。">
 
     <step Name="Find 200 Feet of Wire" XP="50">
       <text>ジョッパ東のラスト・ウェルでワイヤー200フィートを探す。</text>
@@ -92,9 +92,9 @@
 
   <quest Name="A Canticle for Barathrum"
          Accomplishment="グリット・ゲートのバラサラム派と話をした。"
-         Hagiograph="＝name＝は地下に住む平和的なウルシーブに捧げる賛歌を書き、歌った。"
+         Hagiograph="=name=は地下に住む平和的なウルシーブに捧げる賛歌を書き、歌った。"
          HagiographCategory="SingsASong"
-         Gospel="西のジャングルをさまよううち、＝name＝は秘儀を行うウルシーブの一族に出会った。＝player.t＝の円盤のような瞳のおかげで彼らは＝name＝を受け入れ、秘密を授けた。">
+         Gospel="西のジャングルをさまよううち、=name=は秘儀を行うウルシーブの一族に出会った。=player.t=の円盤のような瞳のおかげで彼らは=name=を受け入れ、秘密を授けた。">
     
     <step Name="Travel to Grit Gate" XP="100">
       <text>ジョッパ北東の廃墟の地下門、グリット・ゲートへ向かう。</text>
@@ -112,9 +112,9 @@
 
   <quest Name="A Signal in the Noise"
          Accomplishment="グリット・ゲートのバラサラム派と話をした。"
-         Hagiograph="＝name＝は地下に住む平和的なウルシーブに捧げる賛歌を書き、歌った。"
+         Hagiograph="=name=は地下に住む平和的なウルシーブに捧げる賛歌を書き、歌った。"
          HagiographCategory="SingsASong"
-         Gospel="西のジャングルをさまよううち、＝name＝は秘儀を行うウルシーブの一族に出会った。＝player.t＝の円盤のような瞳のおかげで彼らは＝name＝を受け入れ、秘密を授けた。">
+         Gospel="西のジャングルをさまよううち、=name=は秘儀を行うウルシーブの一族に出会った。=player.t=の円盤のような瞳のおかげで彼らは=name=を受け入れ、秘密を授けた。">
     
     <step Name="Travel to Grit Gate" XP="100">
       <text>西のジャングルにある廃墟の地下門、グリット・ゲートへ向かう。</text>
@@ -132,9 +132,9 @@
 
   <quest Name="More Than a Willing Spirit"
          Accomplishment="ゴルゴタで武勇を示し、バラサラム派に認められた。"
-         Hagiograph="＝month＝月＝year＝年、＝name＝はゴルゴタのゴミ投入口から這い出し、スライムまみれのまま勝利した。"
+         Hagiograph="=month=月=year=年、=name=はゴルゴタのゴミ投入口から這い出し、スライムまみれのまま勝利した。"
          HagiographCategory="DoesSomethingRad"
-         Gospel="西のジャングルをさまよううち、＝name＝は秘儀を行うウルシーブの一族に出会った。＝player.t＝が悪臭のスライムに覆われていたおかげで彼らは＝name＝を受け入れ、秘密を授けた。">
+         Gospel="西のジャングルをさまよううち、=name=は秘儀を行うウルシーブの一族に出会った。=player.t=が悪臭のスライムに覆われていたおかげで彼らは=name=を受け入れ、秘密を授けた。">
     
     <step Name="Travel to Golgotha" XP="100">
       <text>グリット・ゲート北の大洞窟ゴルゴタへ向かう。</text>
@@ -156,9 +156,9 @@
 
   <quest Name="Decoding the Signal"
          Accomplishment="岩の寺院のベテルと話し、謎の信号を解読した。"
-         Hagiograph="勇気！ ＝name＝は開いた氷棚の口へ飛び込み、聖なる言葉でベテルと会話した。"
+         Hagiograph="勇気！ =name=は開いた氷棚の口へ飛び込み、聖なる言葉でベテルと会話した。"
          HagiographCategory="TalksToThing"
-         Gospel="巨大な氷塊の中で、＝name＝はベテルと囁き誓いを交わし、メカニマス教団と友情を結んだ。">
+         Gospel="巨大な氷塊の中で、=name=はベテルと囁き誓いを交わし、メカニマス教団と友情を結んだ。">
     
     <step Name="Get Q Girl's Instructions onto the Data Disk" XP="1000">
       <text>工房のQガールに話しかけ、ベテル用の指示をディスクにエンコードしてもらう。</text>
@@ -180,9 +180,9 @@
 
   <quest Name="O Glorious Shekhinah!"
          Accomplishment="求道者の頼みで、六日のスティルトの商人バザールと大聖堂を訪れた。"
-         Hagiograph="＝name＝は塩原を北西へ旅し、六日のスティルトの商人バザールと大聖堂に至った。そこではスルタンを讃える賛歌が歌われた。"
+         Hagiograph="=name=は塩原を北西へ旅し、六日のスティルトの商人バザールと大聖堂に至った。そこではスルタンを讃える賛歌が歌われた。"
          HagiographCategory="Pilgrimage"
-         Gospel="荒れた平原を越えて旅し、＝name＝は六日のスティルトの商人バザールと大聖堂に向かった。そこで＝player.subjective＝はメカニマスと親交を結び、聖なる井戸へ遺物を投じた。">
+         Gospel="荒れた平原を越えて旅し、=name=は六日のスティルトの商人バザールと大聖堂に向かった。そこで=player.subjective=はメカニマスと親交を結び、聖なる井戸へ遺物を投じた。">
     
     <step Name="Make a Pilgrimage to the Six Day Stilt" XP="0">
       <text>大塩砂漠を越え、商人バザールとメカニマス大聖堂へ巡礼し、求道者に頼まれた小物を奉納する。</text>
@@ -192,9 +192,9 @@
 
   <quest Name="The Earl of Omonporch"
          Accomplishment="アスフォデルと交渉し、スピンドル麓の支配権を確保した。"
-         Hagiograph="＝month＝月＝year＝年、＝name＝は美しきアスフォデルをオモンポーチの伯爵、スピンドル・ジャウズの守護者に任命した。"
+         Hagiograph="=month=月=year=年、=name=は美しきアスフォデルをオモンポーチの伯爵、スピンドル・ジャウズの守護者に任命した。"
          HagiographCategory="AppointsSomeone"
-         Gospel="＝year＝年、＝name＝は腐敗した行政官アスフォデルをオモンポーチの伯爵兼大臣に任命した。そこで彼／彼女／xは＝player.t＝の名のもとに &lt;spice.elements.entity$elements[random].practices.!random&gt; を義務付けた。">
+         Gospel="=year=年、=name=は腐敗した行政官アスフォデルをオモンポーチの伯爵兼大臣に任命した。そこで彼／彼女／xは=player.t=の名のもとに &lt;spice.elements.entity$elements[random].practices.!random&gt; を義務付けた。">
     
     <step Name="Travel to Omonporch" XP="5000">
       <text>北へ向かい、スピンドルが立つオモンポーチへ行く。</text>
@@ -221,9 +221,9 @@
 
   <quest Name="A Call to Arms"
          Accomplishment="プトゥス聖堂騎士団の攻撃からグリット・ゲートを勇敢に守った。"
-         Hagiograph="＝name＝はサンズとドーターズの大隊を巨大メインフレームに叩きつけ、周囲の寺院にガラスとガリウムの雨を降らせた。"
+         Hagiograph="=name=はサンズとドーターズの大隊を巨大メインフレームに叩きつけ、周囲の寺院にガラスとガリウムの雨を降らせた。"
          HagiographCategory="DefendsSomething"
-         Gospel="＝month＝月＝year＝年、＝name＝は血塗れのグリット・ゲートの戦いでプトゥス騎士団連合に決定的勝利を収めた。熱いガリウムと砕けたガラスで荒廃したため、グリット・ゲートはオソの墓場と呼ばれるようになった。">
+         Gospel="=month=月=year=年、=name=は血塗れのグリット・ゲートの戦いでプトゥス騎士団連合に決定的勝利を収めた。熱いガリウムと砕けたガラスで荒廃したため、グリット・ゲートはオソの墓場と呼ばれるようになった。">
     <step Name="Prepare Defenses" XP="0">
       <text>プトゥス騎士団の攻撃に備えて、レーザー砲座・フォース・プロジェクターに電力を入れ、クロームリングをオーバークロックし、ロダニスYを起動する。</text>
     </step>
@@ -240,9 +240,9 @@
 
   <quest Name="Pax Klanq, I Presume?"
          Accomplishment="コーラルの道を歩み、キノコの天才パクス・クランクを説得してQガール設計のバッテリーを造らせた。"
-         Hagiograph="宇宙の虚空で、石工＝name＝は星煉瓦でコーラルの道を築き、聖なる言葉でキノコと語らった。"
+         Hagiograph="宇宙の虚空で、石工=name=は星煉瓦でコーラルの道を築き、聖なる言葉でキノコと語らった。"
          HagiographCategory="TalksToThing"
-         Gospel="珊瑚と菌肉でできた異次元の大聖堂で、＝name＝はキノコ「パクス・クランク」と結婚し、真菌と関係を結んだ。">
+         Gospel="珊瑚と菌肉でできた異次元の大聖堂で、=name=はキノコ「パクス・クランク」と結婚し、真菌と関係を結んだ。">
     <step Name="Get Q Girl's Blueprints for the Climber" XP="0">
       <text>クライマーの設計図を入手し、パクス・クランクに渡す。</text>
     </step>
@@ -265,9 +265,9 @@
 
   <quest Name="Petals on the Wind"
          Accomplishment="ヒンドレンのパリアに頼まれ、秘密の村ベイ・ラーの謎を調べた。"
-         Hagiograph="慈悲深き＝name＝は鹿人のパリアの頼みで牧草地の揉め事に首を突っ込んだ。スルタンは慈愛をもって統治する！"
+         Hagiograph="慈悲深き=name=は鹿人のパリアの頼みで牧草地の揉め事に首を突っ込んだ。スルタンは慈愛をもって統治する！"
          HagiographCategory="InvestigatesSomething"
-         Gospel="&lt;spice.time.partsOfDay.!random&gt;、&lt;spice.commonPhrases.strange.!random.article&gt;空と牧草地の下で、ベイ・ラーのヒンドレンは地平線に大きな望遠鏡のような影を見た。それは＝name＝で、＝player.subjective＝が到着すると、ヒンドレンは＝player.objective＝のために記念碑を建て、以後「ルッキンググラス・ケンドレン」と呼んだ。">
+         Gospel="&lt;spice.time.partsOfDay.!random&gt;、&lt;spice.commonPhrases.strange.!random.article&gt;空と牧草地の下で、ベイ・ラーのヒンドレンは地平線に大きな望遠鏡のような影を見た。それは=name=で、=player.subjective=が到着すると、ヒンドレンは=player.objective=のために記念碑を建て、以後「ルッキンググラス・ケンドレン」と呼んだ。">
     <step Name="Investigate Bey Lah" XP="0">
       <text>秘密の村ベイ・ラーへ行き、問題を調査する。</text>
     </step>
@@ -275,9 +275,9 @@
 
   <quest Name="Find Eskhind"
          Accomplishment="ヒンドレンのパリア、エスキンドとその姉妹を中空の樹の中で見つけた。"
-         Hagiograph="忘れるな！ ＝name＝はパリアのエスキンドに使命から逃げるなと諭した。それ以来、彼女は『柔和なるエスキンド』と呼ばれた。"
+         Hagiograph="忘れるな！ =name=はパリアのエスキンドに使命から逃げるなと諭した。それ以来、彼女は『柔和なるエスキンド』と呼ばれた。"
          HagiographCategory="AdmonishesSomeone"
-         Gospel="＝month＝月＝year＝年、＝name＝は嫌疑を受けたエスキンドに、ヒンドレンの家宝キンドリッシュの所在を巡って決闘を挑まれた。＝name＝は勝利し、エスキンドを諭してベイ・ラーへ戻らせた。">
+         Gospel="=month=月=year=年、=name=は嫌疑を受けたエスキンドに、ヒンドレンの家宝キンドリッシュの所在を巡って決闘を挑まれた。=name=は勝利し、エスキンドを諭してベイ・ラーへ戻らせた。">
     <step Name="Find Eskhind" XP="0">
       <text>エスキンドを見つけ、キンドリッシュを取り戻す。</text>
     </step>
@@ -291,9 +291,9 @@
 
   <quest Name="Love and Fear"
          Accomplishment="捨てられた恋文を見つけて届けた。"
-         Hagiograph="なんと鼓舞的だろう、＝name＝の存在は。『柔和なるエスキンド』を救い、彼女がベイ・ラー最強の戦士に手を求めるほどに贖ったのだから！"
+         Hagiograph="なんと鼓舞的だろう、=name=の存在は。『柔和なるエスキンド』を救い、彼女がベイ・ラー最強の戦士に手を求めるほどに贖ったのだから！"
          HagiographCategory="ReunitesLovers"
-         Gospel="朽ちた切り株の中心で、＝name＝はエスキンドと監視官ニーラヒンドを結婚させ、ベイ・ラーのヒンドレンとの友情を固めた。"
+         Gospel="朽ちた切り株の中心で、=name=はエスキンドと監視官ニーラヒンドを結婚させ、ベイ・ラーのヒンドレンとの友情を固めた。"
     >
     <step Name="Rescue an Imperiled Love" XP="0">
       <text>恋人たちの運命が固まる前に介入する。</text>
@@ -305,9 +305,9 @@
 
   <quest Name="Kith and Kin"
          Accomplishment="ベイ・ラーの運命のため、キンドリッシュ失踪の謎を解き、監視官ニーラヒンドの裁きを助けた。"
-         Hagiograph="尊き救済者！ ＝name＝はベイ・ラーの鹿人が抱える問題に平和と繁栄をもたらした。"
+         Hagiograph="尊き救済者！ =name=はベイ・ラーの鹿人が抱える問題に平和と繁栄をもたらした。"
          HagiographCategory="InvestigatesSomething"
-         Gospel="盗賊とそれを助長する権力に抗し、＝name＝はベイ・ラーの村で調査を率いた。＝player.t＝の&lt;spice.elements.entity$elements[random].adjectives.!random&gt;機知のおかげで、監視官ニーラヒンドは正しく裁きを下せた。">
+         Gospel="盗賊とそれを助長する権力に抗し、=name=はベイ・ラーの村で調査を率いた。=player.t=の&lt;spice.elements.entity$elements[random].adjectives.!random&gt;機知のおかげで、監視官ニーラヒンドは正しく裁きを下せた。">
     <step Name="Brief Warden Neelahind" XP="0">
       <text>ベイ・ラーの監視官に、キンドリッシュ盗難の争点を伝える。</text>
     </step>
@@ -321,9 +321,9 @@
 
   <quest Name="The Buried Watchers"
          Accomplishment="墓に住むモパンゴの一団を訪ねた。"
-         Hagiograph="オモンポーチの喰らう者の墓所の奥深くで、＝name＝は秘儀を行うモパンゴの一族に出会った。彼／彼女／eyはスルタンを仲間に迎え、＝player.objective＝に秘奥を授けた。"
+         Hagiograph="オモンポーチの喰らう者の墓所の奥深くで、=name=は秘儀を行うモパンゴの一族に出会った。彼／彼女／eyはスルタンを仲間に迎え、=player.objective=に秘奥を授けた。"
          HagiographCategory="TalksToThing"
-         Gospel="オモンポーチの喰らう者の墓所の奥深くで、＝name＝は秘儀を行うモパンゴの一族に出会った。彼／彼女／eyは＝sultanTerm＝を仲間に迎え、＝player.objective＝に秘奥を授けた。">
+         Gospel="オモンポーチの喰らう者の墓所の奥深くで、=name=は秘儀を行うモパンゴの一族に出会った。彼／彼女／eyは=sultanTerm=を仲間に迎え、=player.objective=に秘奥を授けた。">
     <step Name="Visit the Mopango Settlement in the Tomb of the Eaters" XP="0">
       <text>喰らう者の墓所の北西墓地にいる友好的なタレット、ビヴィラを見つけ、ゾソムが寄越したと伝える。</text>
     </step>
@@ -386,9 +386,9 @@
 
   <quest Name="If, Then, Else"
          Accomplishment="生命の樹チャヴァの“-else化”の儀式を完遂し、その実体チャイムの一つを永遠に断った。"
-         Hagiograph="美は引き算にあり！ 剪定者＝name＝は生命の樹をより美しく整えた。"
+         Hagiograph="美は引き算にあり！ 剪定者=name=は生命の樹をより美しく整えた。"
          HagiographCategory="DoesSomethingRad"
-         Gospel="生命の樹の多くの意志に従い、＝name＝はトランジット岩をチャヴァの根の下にある発光するソフトへ運んだ。そこで＝player.subjective＝は秘儀を行い、地上へ戻って永遠に変わった。">
+         Gospel="生命の樹の多くの意志に従い、=name=はトランジット岩をチャヴァの根の下にある発光するソフトへ運んだ。そこで=player.subjective=は秘儀を行い、地上へ戻って永遠に変わった。">
     <step Name="Gather Tau's Chime" XP="0">
       <text>ケテルにある彼女の枝から、タウのチャイムを回収する。</text>
     </step>

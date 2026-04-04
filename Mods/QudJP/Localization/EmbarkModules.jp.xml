@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<embarkmodules>
+<embarkmodules Load="Merge">
 
   <module Class="XRL.CharacterBuilds.Qud.QudSpecificCharacterInitModule"> <!-- responsible for initializing the default humanoid object during character builds (returns a "humanoid" object) -->
 
@@ -167,7 +167,7 @@
         </description>
       </pregen>
     
-      <pregen Name="Dream Tortoise" Genotype="Mutated Human" Tile="Creatures/sw_dream_tortoise.bmp" Foreground="y" Detail="w" Background="k">
+      <pregen Name="Dream Tortoise" Genotype="Mutated Human" Tile="creatures/sw_dream_tortoise.bmp" Foreground="y" Detail="w" Background="k">
         <code>H4sIAAAAAAAACs1VUWvbMBB+L/Q/CLNHNySl67pBHjJvtNtayOrQDUYfZPuwxWTJSKeNEPLfe7LTxnZo044uxGBs3Xf33aez7rw4PGAsyHkJf8BYoVXwgQXHg+HgeHg6GJ0FYY0nTsis5TAih+EKK3XmJFgy//JrxhbN4wGazSvwQT+vLwdRwQ1PEcxHz2gH313m73NQGsntqg4I2cRaKBM5P4piCqhCdtPkHq+VhSxyEp2BsQKHhsuQTV0iRfoN5jP9G9RYOSkbjbWYjCMnGQ/qyPQGXyrtE5FsyFsnIc57f0975ZAjZOzClVx1vDZqeY8tm5dl+M+1jF2yp6XsKNteyZW7J52YVCvucFc1rD8ccds9rGJP2/Y6lhUxDtsWCxLSmmPdtc21aC/Y6gSvihyRnIqn0CavnW64EVwh+fgd9tFIuxobte3L8LlZL0DkBYLybQSUSOU7zq8NlWmnKWMJULFzbhkNEzCN/TUUrBe3jzbS6FUbaYJoROIQ9rGT+uK2t9JUC4V26kxacAtZN6cfWWhA5VgQcNb5JMEkF1LgnID3XWCmXV4osHYz5otCkFLkoFK/lXdd9IeQstJ/wRB02oU+55qMb9e29tkLeBVXUJ+Oo5OTLnANJRfK91hvYiS03YmfI92I/ziCo0JrCzFyg6TnUqd1G+zhKXpK6DN+cr04n+yrrir+sl+df9weHizvAPZg4hzPCQAA</code>
         <description>
         &amp;c&#249;&amp;y 近接戦闘型
@@ -177,7 +177,7 @@
         </description>
       </pregen>
       
-      <pregen Name="Gunwing" Genotype="Mutated Human" Tile="Creatures/sw_gunwing.bmp" Foreground="y" Detail="K" Background="k">
+      <pregen Name="Gunwing" Genotype="Mutated Human" Tile="creatures/sw_gunwing.bmp" Foreground="y" Detail="K" Background="k">
         <code>H4sIAJAIKGEA/81U32vbMBB+L/R/EGaPrnFD94NCHpJsa8dWSJvQDkYfZPuwRWTJSLqNMPq/96Qks53ADBuEGELs+07f9+l0p9/nZ4xFJa/hJxgrtIquWTRK0mSUjpKrqygOeIZCFp2ES0pIt1itC5RgKfzDfzMWKP2zhZbrBvyi7w/fklnFDc8dmKlntMk9Fv53A0o7SrsLC2I2sRbqTK4vZgta0MTscaM9bp3FbIbSoYGxAnSGy5jNMZMi/wrrpV6BGiuUcuMxmCm442TjjzsKvfGaf7HWt/WRCA6stQLEt8v3lHfouIOC3WLNVS/roI477GXz8rJN/oc6LjA7wTL2XA1XcZvuCW9QWSlUCeZYFQzHRtz2xGq452u4inVDbGk3YkFCHjjaWd08HSMhcyfm/UyBr7rEIWGmUTlCL/eBR24ED1DaRXYHMix3C6KsHCianHsU+UqBtUeUf6JmO6beZ21yYFPMMgn/L9t+PB9pXCbOGZGhg1Obl31jwwMz10I5O0eTV9xC0dfz15IzoEpXEfCudyDRpBRSuLU/qe7AEbLUWFahha/Zhz70RTmQUpSgcr+P9330SUjZ6F907x2ofSo1Bd+2sW63RbxZNBBa44IK3QMeoOZCUYPvXwwZ7Xfir4v+isG28X/P52cvrzAEiiVECAAA</code>
         <description>
         &amp;c&#249;&amp;y 主に遠隔戦闘を行う
@@ -196,7 +196,7 @@
         </description>
       </pregen>
     
-      <pregen Name="Firefrond" Genotype="Mutated Human" Tile="Creatures/sw_firefrond.bmp" Foreground="y" Detail="R" Background="k">
+      <pregen Name="Firefrond" Genotype="Mutated Human" Tile="creatures/sw_firefrond.bmp" Foreground="y" Detail="R" Background="k">
         <code>H4sIALEIKGEA/81UYWvbMBD9Xuh/EGYfXeOGso5BPqTZuo2tkCVZOxj9INuHLSpLRjp1mJH/XklJZsuBGTYWYgix7z3dezrd6df5GSFRSWt4BqWZFNFbEk2SNJmkk+TqKoo9nhnGix7h0hLSHVbLwnDQNvzDfRPiU7pnB63bBtyi78svybyiiuYI6sZl1MlXU7jfBxASLe3OL4jJTGuoM95ezFd2QROT+632tHMWk7nhaBRMBRhUlMdkYTLO8s/QruUTiKkwnG89ejMFRWpt/HZnQ6+c5h+shbbe2QQH1joBm2/PdynvDFKEgnw0NRUB66COe2yzfdnsyH9Rx5XJTrCMgavxKu7oLuGDLaF6ZgLILVU1qGPV0R+eza1PrJIDX+O1rBubLe1HNHDIfY5uYrdPz4hn7sWcn29CI804ENfiNfQ1PHcujUBLvBwC91Qx6qG0j+zPZlz5ltOaiZIsaXtE1UUlUepWYAXIcrJ6YsEM/2f1G6NKkMJu+99Fu4/HIw3PDFGxzCCc2vQMjY2Pz0IygXphVF5RDUWo564qVCBKrCzwJjiQaFYyzrA9BNbSlJUA7cZvAH0SCJyzEkTutnEdog+M80b+tJfgAfS+lDb4uov1Wy2izaoB3xkXts4BsISaMt9ng1sis9udubsjXDHaNe7v8fxs8wIqHOwZVwgAAA==</code>
         <description>
         &amp;c&#249;&amp;y 近接戦闘と精神系キャスターの混成
@@ -206,7 +206,7 @@
         </description>
       </pregen>
     
-      <pregen Name="bzzzt" Genotype="Mutated Human" Tile="Creatures/sw_bzzzt.bmp" Foreground="y" Detail="W" Background="k">
+      <pregen Name="bzzzt" Genotype="Mutated Human" Tile="creatures/sw_bzzzt.bmp" Foreground="y" Detail="W" Background="k">
         <code>H4sIAMEIKGEA/81VXYsaMRR9X9j/EIZ9dAdXpLQFH1y77ZZ2i9XBFso+ZGYumWAmGfJRkeJ/35uodaJQoaWDA6LmnJxzcpPc+XV9RUjCaA0/QRuuZPKWJIO0nw76g3Q4THoBzx0XZYtwh4T+DqtV6QQYHP7h/xMSJP2zg7J1A37S99nndFJRTQsL+t4rmvSrK/3nA0hlkfYUJvTI2Bioc7G+ncxxQtMji6336JCsRyZOWKdhJMFZTUWPTF0uePEJ1plaghxJJ8Q2YwhTUksxxu90OHTjPf8QLY71DgVOoh0MUG/P95JPzlILJXl0NZUR66SOe2yz/bHZkf+ijnOXX2AZo1Tnq7ije8GMyyXorqoXtgy1zYXV7yjX+QrWDar12yMGBBRB43BPt08rSGDuzXyee6e1WnHJyETQlWl7BO5EOWmReHcMLKjmNED9NrLfm/PODz6u5gUVBC8V6C3Qnf8jcFZZdMYLDCgmWYfmX7w3WfBwzruznTdcYqnBdrnRWcWLJXnvokv+vxeqCk6FWJMZNI5Jr/XP5oc/zx11q7HFC5I7C5fWro6Dne9XU8WlNVOni4oaKGM//0awGiSzFQJvog1JxowLbtcIvI6BTDlWSTC+3x1BH6UFITgDWfhlvIrRb1yIRq3wrXMy8YEpHBwextpHLqHNvIFwMm6xzhEwg5py6ZvIUVvOcblj36zjGWdPjf96vr7avABMFNzuvgkAAA==</code>
         <description>
         &amp;c&#249;&amp;y 近接と電撃攻撃のハイブリッド

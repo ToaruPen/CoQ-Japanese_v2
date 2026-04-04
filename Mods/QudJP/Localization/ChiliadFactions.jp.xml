@@ -658,7 +658,7 @@
       Old="false"
       PositiveSound="Sounds/Reputation/sfx_reputation_girsh_positive"
       NegativeSound="Sounds/Reputation/sfx_reputation_girsh_negative"
-      EmblemTile="Creatures/chiliad-godling.png"
+      EmblemTile="creatures/chiliad-godling.png"
       EmblemTileColor="m"
       EmblemDetailColor="M">
     <interests>
@@ -738,7 +738,7 @@
       FormatWithArticle="true"
       PositiveSound="Sounds/Reputation/sfx_reputation_childrenMamon_positive"
       NegativeSound="Sounds/Reputation/sfx_reputation_childrenMamon_negative"
-      EmblemTile="Creatures/sw_goatfolk_shaman.bmp"
+      EmblemTile="creatures/sw_goatfolk_shaman.bmp"
       EmblemTileColor="K"
       EmblemDetailColor="w"
   >

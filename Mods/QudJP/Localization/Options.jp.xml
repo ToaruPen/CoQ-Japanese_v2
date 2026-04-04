@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<options>
+<options Load="Merge">
   <option ID="OptionMasterVolume" DisplayText="マスター音量" Category="サウンド" Type="Slider" Min="0" Max="100" Increment="5" Default="100"></option>
   <option ID="OptionSound" DisplayText="効果音" Category="サウンド" Type="Checkbox" Default="Yes"></option>
   <option ID="OptionSoundVolume" Requires="OptionSound==Yes" DisplayText="効果音の音量" Category="サウンド" Type="Slider" Min="0" Max="100" Increment="5" Default="100"></option>
@@ -118,7 +118,7 @@
   <option ID="OptionAutoexploreChests" DisplayText="自動探索中にコンテナを調べる" Category="自動化" Type="Checkbox" Default="Yes"></option>
   <option ID="OptionDigOnMove" DisplayText="採掘具で壁に移動すると自動で掘る" Category="自動化" Type="Checkbox" Default="Yes"></option>
   <option ID="OptionAutosaveInterval" Requires="OptionShowAdvancedOptions==Yes" DisplayText="別ゾーンへ移動すると自動でセーブ" Category="自動化" Type="Combo" Values="0|None,1,2,3,5,7,10,15,20,30,40" Default="5"></option>
-  <option ID="OptionAutoexploreRate" Requires="OptionShowAdvancedOptions==Yes" DisplayText="自動移動セル/秒と自動攻撃回数/秒の上限" SearchKeywords="autoact autoexplore framerate" Category="自動化" Type="Combo" Values="1,2,3,5,7,10,15,20,30,60,0|&#236;" Default="20"></option>
+  <option ID="OptionAutoexploreRate" Requires="OptionShowAdvancedOptions==Yes" DisplayText="自動移動セル/秒と自動攻撃回数/秒の上限" SearchKeywords="autoact autoexplore framerate" Category="自動化" Type="Combo" Values="1,2,3,5,7,10,15,20,30,60,0|&#8734;" Default="20"></option>
 
   <!-- Autoget -->
   <option ID="OptionAutogetAmmo" Requires="OptionShowAdvancedOptions==Yes" DisplayText="弾薬を自動取得" Category="自動取得" Type="Checkbox" Default="Yes"></option>

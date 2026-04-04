@@ -101,7 +101,8 @@ def _extract_xml_keys(filepath: Path) -> tuple[str, dict[str, str]]:
     """
     try:
         tree = ET.parse(filepath)  # noqa: S314
-    except ET.ParseError:
+    except ET.ParseError as exc:
+        print(f"WARNING: failed to parse {filepath}: {exc}", file=sys.stderr)  # noqa: T201
         return "unknown", {}
 
     root_tag = tree.getroot().tag
