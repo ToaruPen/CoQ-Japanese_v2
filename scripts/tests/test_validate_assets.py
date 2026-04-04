@@ -1,7 +1,5 @@
 """Tests for validate_assets module."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from scripts.validate_assets import (

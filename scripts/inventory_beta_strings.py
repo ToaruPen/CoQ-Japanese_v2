@@ -14,8 +14,6 @@ The game generates these files under StreamingAssets/Base/ExampleLanguage/:
     - <Root>.example.xml           (per-[LanguageXml] document files)
 """
 
-from __future__ import annotations
-
 import argparse
 import csv
 import json

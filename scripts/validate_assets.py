@@ -18,8 +18,6 @@ Usage:
     python scripts/validate_assets.py <file_or_dir> [--overlay-source <source_dir>]
 """
 
-from __future__ import annotations
-
 import argparse
 import re
 import sys
