@@ -8,7 +8,7 @@ Beta runtime DLL and tests for code that must exist outside the official localiz
 
 - `QudJP.csproj` — runtime assembly (net48)
 - `QudJP.Tests/` — automated tests (net10.0, L1/L2/L2G layers)
-- `QudJP.Analyzers/` — custom Roslyn analyzers (QJ001–QJ003)
+- `QudJP.Analyzers/` — custom Roslyn analyzers (netstandard2.0, QJ001–QJ003)
 - `src/Patches/` — route-specific Harmony patches
 - `src/` — shared translators, builders, and helpers
 
