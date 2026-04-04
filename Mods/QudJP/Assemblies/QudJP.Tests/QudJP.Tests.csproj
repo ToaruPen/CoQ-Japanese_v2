@@ -1,0 +1,128 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <IsPackable>false</IsPackable>
+    <AssemblyCSharpPath>$(HOME)/Library/Application Support/Steam/steamapps/common/Caves of Qud/CoQ.app/Contents/Resources/Data/Managed/Assembly-CSharp.dll</AssemblyCSharpPath>
+    <ManagedDir>$([System.IO.Path]::GetDirectoryName('$(AssemblyCSharpPath)'))</ManagedDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(AssemblyCSharpPath)')">
+    <DefineConstants>$(DefineConstants);HAS_GAME_DLL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="Exists('$(ManagedDir)/Unity.TextMeshPro.dll')">
+    <DefineConstants>$(DefineConstants);HAS_TMP</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../QudJP.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../src/**/*.cs" Exclude="../src/AssemblyInfo.cs" Link="Production/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(AssemblyCSharpPath)')">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(AssemblyCSharpPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(AssemblyCSharpPath)')">
+    <None Include="$(AssemblyCSharpPath)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Assembly-CSharp.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ManagedDir)/Unity.TextMeshPro.dll')">
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(ManagedDir)/Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedDir)/UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>$(ManagedDir)/UnityEngine.SharedInternalsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(ManagedDir)/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ManagedDir)/Unity.TextMeshPro.dll')">
+    <None Include="$(ManagedDir)/Unity.TextMeshPro.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Unity.TextMeshPro.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.UI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.UI.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.CoreModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.CoreModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.SharedInternalsModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.SharedInternalsModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.TextCoreFontEngineModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.TextCoreTextEngineModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="$(ManagedDir)/UnityEngine.TextRenderingModule.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>UnityEngine.TextRenderingModule.dll</TargetPath>
+      <Visible>false</Visible>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+</Project>
