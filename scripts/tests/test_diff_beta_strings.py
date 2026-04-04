@@ -124,18 +124,21 @@ class TestOrphanedEntry:
         v1_dir.mkdir()
         beta_dir.mkdir()
 
-        # v1 has "Ok" + "Legacy"; beta only has "Ok"
-        _make_v1_strings(v1_dir, "Strings", [("UI", "Ok"), ("UI", "Legacy")])
+        # v1-only file (no matching beta) is reported as orphaned at file level.
+        # Beta keys are the source of truth: v1 extra entries within a matched
+        # file are silently ignored (not orphaned) under the beta-first approach.
+        _make_v1_strings(v1_dir, "OldStrings", [("UI", "Legacy")])
         _make_beta_strings(beta_dir, "Strings", [("UI", "Ok")])
 
         v1_map = load_v1_entries(v1_dir)
         beta_map = load_beta_entries(beta_dir)
         report = diff_entries(v1_map, beta_map)
 
+        # Strings.jp.xml has no v1 match → missing; OldStrings.jp.xml has no beta match → orphaned
         assert len(report.orphaned) == 1
-        assert "Legacy" in report.orphaned[0].key
-        assert len(report.covered) == 1
-        assert len(report.missing) == 0
+        assert report.orphaned[0].file == "OldStrings.jp.xml"
+        assert len(report.missing) == 1
+        assert len(report.covered) == 0
 
 
 # ---------------------------------------------------------------------------
@@ -195,11 +198,13 @@ class TestSummaryCounts:
         beta_map = load_beta_entries(beta_dir)
         report = diff_entries(v1_map, beta_map)
 
-        # A, B: covered; D: missing; C: orphaned
+        # Beta keys are ground truth: A and B are covered, D is missing.
+        # C exists only in v1 but is silently ignored (beta-first approach);
+        # no orphaned entries because the file stem matches on both sides.
         assert len(report.covered) == 2
         assert len(report.missing) == 1
-        assert len(report.orphaned) == 1
-        assert len(report.entries) == 4
+        assert len(report.orphaned) == 0
+        assert len(report.entries) == 3
 
 
 # ---------------------------------------------------------------------------
@@ -283,8 +288,9 @@ class TestUnmatchedFiles:
 
         assert len(report.orphaned) == 1
         assert report.orphaned[0].status == "orphaned"
-        assert "LegacyID" in report.orphaned[0].key
+        # Under the beta-first approach, v1-only files are reported at file level.
         assert report.orphaned[0].file == "OldFile.jp.xml"
+        assert report.orphaned[0].key == "OldFile.jp.xml"
 
 
 # ---------------------------------------------------------------------------
