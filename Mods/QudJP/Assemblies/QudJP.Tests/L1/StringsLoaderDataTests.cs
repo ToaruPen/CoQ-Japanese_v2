@@ -112,8 +112,8 @@ public sealed class StringsLoaderDataTests
         Dictionary<string, string> nullContext = loader.ContextStrings(null);
         Dictionary<string, string> emptyContext = loader.ContextStrings(string.Empty);
 
-        Assert.That(ReferenceEquals(nullContext, loader.Strings), Is.True);
-        Assert.That(ReferenceEquals(emptyContext, loader.Strings), Is.True);
+        Assert.That(nullContext, Is.SameAs(loader.Strings));
+        Assert.That(emptyContext, Is.SameAs(loader.Strings));
     }
 
     [Test]
@@ -124,7 +124,7 @@ public sealed class StringsLoaderDataTests
         Dictionary<string, string> first = loader.ContextStrings("ctx");
         Dictionary<string, string> second = loader.ContextStrings("ctx");
 
-        Assert.That(ReferenceEquals(first, second), Is.True);
+        Assert.That(first, Is.SameAs(second));
         Assert.That(loader.CStrings["ctx"], Is.SameAs(first));
     }
 
@@ -136,8 +136,8 @@ public sealed class StringsLoaderDataTests
         Dictionary<string, int> nullContext = loader.ContextOrders(null);
         Dictionary<string, int> emptyContext = loader.ContextOrders(string.Empty);
 
-        Assert.That(ReferenceEquals(nullContext, loader.OrderAdjust), Is.True);
-        Assert.That(ReferenceEquals(emptyContext, loader.OrderAdjust), Is.True);
+        Assert.That(nullContext, Is.SameAs(loader.OrderAdjust));
+        Assert.That(emptyContext, Is.SameAs(loader.OrderAdjust));
     }
 
     [Test]
@@ -148,7 +148,7 @@ public sealed class StringsLoaderDataTests
         Dictionary<string, int> first = loader.ContextOrders("ctx");
         Dictionary<string, int> second = loader.ContextOrders("ctx");
 
-        Assert.That(ReferenceEquals(first, second), Is.True);
+        Assert.That(first, Is.SameAs(second));
         Assert.That(loader.COrders["ctx"], Is.SameAs(first));
     }
 

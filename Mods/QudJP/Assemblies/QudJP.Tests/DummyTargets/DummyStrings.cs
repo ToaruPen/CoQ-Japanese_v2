@@ -13,6 +13,7 @@ internal sealed class DummyStrings
 
     public bool DebugEnabled { get; set; }
 
+    // These placeholders intentionally mirror the decompiled beta surface.
     public bool DebugMisses { get; set; }
 
     public string ActiveLanguage { get; set; } = "en";
