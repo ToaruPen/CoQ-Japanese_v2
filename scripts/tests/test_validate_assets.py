@@ -246,6 +246,17 @@ class TestTokenUnclosedFalsePositives:
         issues = check_placeholders_in_file(path)
         assert not any(i.check == "token_unclosed" for i in issues)
 
+    def test_token_followed_by_japanese(self) -> None:
+        """=month=月 and =name=は must be detected despite trailing CJK chars."""
+        result = extract_placeholders("=month=月の=name=は")
+        assert "=month=" in result
+        assert "=name=" in result
+
+    def test_token_between_japanese(self) -> None:
+        """Token surrounded by Japanese text must be detected."""
+        result = extract_placeholders("今日は=day=日です")
+        assert "=day=" in result
+
 
 class TestMarkupNormalization:
     """Regression tests for {{X|text}} markup normalization."""

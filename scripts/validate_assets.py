@@ -68,6 +68,10 @@ class ValidationResult:
         return self.error_count == 0
 
 
+# Attributes whose values are game logic / metadata, not translatable text.
+# Shared by check_placeholders_in_file() and _compare_xml_trees().
+_SKIP_ATTRS: frozenset[str] = frozenset({"Lang", "Encoding", "Load", "Requires", "Gospel", "Hagiograph"})
+
 # ---------------------------------------------------------------------------
 # Placeholder extraction
 # ---------------------------------------------------------------------------
@@ -81,8 +85,8 @@ _ESCAPE_PATTERNS: list[re.Pattern[str]] = [
 _BRACE_PATTERN = re.compile(r"\{\{([^}]+)\}\}")
 
 # Compiled token patterns; applied after escapes and {{...}} are consumed
-_TOKEN_CLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*=(?![=\w])")
-_TOKEN_UNCLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*(?![=\w])")
+_TOKEN_CLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*=(?![=\w])", re.ASCII)
+_TOKEN_UNCLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*(?![=\w])", re.ASCII)
 
 _REMAINING_PATTERNS: list[re.Pattern[str]] = [
     _TOKEN_CLOSED,
@@ -197,13 +201,10 @@ def check_placeholders_in_file(filepath: Path) -> list[ValidationIssue]:
     except ET.ParseError:
         return issues  # already caught by wellformedness check
 
-    # Attributes whose values are game logic, not translatable text
-    _skip_attrs = {"Lang", "Encoding", "Load", "Requires", "Gospel", "Hagiograph"}
-
     for elem in tree.iter():
         texts_to_check: list[tuple[str, str]] = []
         for attr_name, attr_value in elem.attrib.items():
-            if attr_name in _skip_attrs:
+            if attr_name in _SKIP_ATTRS:
                 continue
             texts_to_check.append((f"@{attr_name}", attr_value))
         if elem.text and elem.text.strip():
@@ -467,7 +468,7 @@ def _compare_xml_trees(
 
         # Compare attribute placeholders
         for attr_name in src_child.attrib:
-            if attr_name in {"Lang", "Encoding", "Load"}:
+            if attr_name in _SKIP_ATTRS:
                 continue
             # Overlay files only specify changed values; skip if overlay has no value
             ovl_val = match.get(attr_name, "")

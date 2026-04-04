@@ -4,7 +4,7 @@ Reports covered/missing/orphaned IDs by matching v1 *.jp.xml files against
 beta *.example.xml files and comparing their extracted entry keys.
 
 Usage:
-    python scripts/diff_beta_strings.py <v1_dir> <beta_dir> [--format text|json|csv] [-o output]
+    python -m scripts.diff_beta_strings <v1_dir> <beta_dir> [--format text|json|csv] [-o output]
 """
 
 import argparse
