@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Caves of Qud Japanese string table — pilot entries. 2.0.212.17
+
+  Schema: Context (optional), ID (required English source key), Value (translation).
+  Markup tokens to preserve exactly:
+    {{c|…}} {{W|…}} etc.  — color markup
+    =commandKey:Cmd…=     — key-binding token
+    =filename= =num= etc. — variable replacers
+    &amp; &lt; &#xA;      — XML entities (newline = &#xA;)
+-->
+<strings Lang="ja" Encoding="utf-8">
+
+  <!-- Main menu -->
+  <string Context="MainMenu Main" ID="New Game" Value="新しいゲーム" />
+  <string Context="MainMenu Main" ID="Continue" Value="続きから" />
+  <string Context="MainMenu Main" ID="Options" Value="オプション" />
+
+  <!-- Quit / save -->
+  <string Context="Core Quit Text" ID="Quit Without Saving" Value="保存せずに終了" />
+  <string Context="Core Quit Prompt" ID="QUIT" Value="終了" />
+  <string Context="MainMenu Quit Popup" ID="Are you sure you want to quit?" Value="本当に終了しますか？" />
+
+  <!-- Iconic phrase -->
+  <string Context="Tutorial ExploreJoppa end" ID="Live and drink." Value="生きて、飲め。" />
+  <string Context="HistoricEvent VillageProverb proverb" ID="Live and drink." Value="生きて、飲め。" />
+
+  <!-- Tutorial continue button -->
+  <string Context="TutorialManager popup Continue button" ID="[=commandKey:Accept=] Continue" Value="[=commandKey:Accept=] 続ける" />
+
+</strings>
