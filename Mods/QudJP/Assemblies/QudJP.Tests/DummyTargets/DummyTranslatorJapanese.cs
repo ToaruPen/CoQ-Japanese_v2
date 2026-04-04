@@ -47,13 +47,9 @@ internal sealed class DummyTranslatorJapanese : DummyTranslatorBase
 
     public override string CardinalNo(long number) => number == 0 ? "零" : Cardinal(number);
 
-    public override string Multiplicative(long number) => number switch
-    {
-        0 => "零回",
-        1 => "一度",
-        2 => "二度",
-        _ => string.Concat(number.ToString(CultureInfo.InvariantCulture), "回"),
-    };
+    public override string Multiplicative(long number) => number == 0
+        ? "一度もない"
+        : string.Concat(number.ToString(CultureInfo.InvariantCulture), "回");
 
     public override string MakeCommaList(IReadOnlyList<string> items) => items.Count switch
     {

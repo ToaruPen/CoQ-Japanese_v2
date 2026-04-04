@@ -50,9 +50,9 @@ public sealed class TranslatorJapaneseTests
     [TestCase(42, "四十二")]
     public void CardinalNo_ReturnsExpectedJapaneseForm(long value, string expected) => Assert.That(translator.CardinalNo(value), Is.EqualTo(expected));
 
-    [TestCase(0, "零回")]
-    [TestCase(1, "一度")]
-    [TestCase(2, "二度")]
+    [TestCase(0, "一度もない")]
+    [TestCase(1, "1回")]
+    [TestCase(2, "2回")]
     [TestCase(3, "3回")]
     [TestCase(42, "42回")]
     public void Multiplicative_ReturnsExpectedJapaneseForm(long value, string expected) => Assert.That(translator.Multiplicative(value), Is.EqualTo(expected));
