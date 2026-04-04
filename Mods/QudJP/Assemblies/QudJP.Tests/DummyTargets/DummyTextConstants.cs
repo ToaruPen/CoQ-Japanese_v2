@@ -46,7 +46,7 @@ internal sealed class DummyTextConstants
 
     public Dictionary<string, string> WeirdReverse { get; } = new(StringComparer.Ordinal);
 
-    public Dictionary<string, HashSet<string>> WordLists { get; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, HashSet<string>> WordLists { get; } = new(StringComparer.Ordinal);
 
     public Dictionary<string, GlyphData> Glyphs { get; } = new(StringComparer.Ordinal);
 
