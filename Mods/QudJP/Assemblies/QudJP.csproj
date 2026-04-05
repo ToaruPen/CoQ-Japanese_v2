@@ -35,6 +35,17 @@
     </PackageReference>
   </ItemGroup>
 
+  <PropertyGroup Condition="Exists('$(ManagedDir)/Assembly-CSharp.dll')">
+    <DefineConstants>$(DefineConstants);HAS_GAME_DLL</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="Exists('$(ManagedDir)/Assembly-CSharp.dll')">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedDir)/Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
   <ItemGroup Condition="Exists('$(ManagedDir)/0Harmony.dll')">
     <Reference Include="0Harmony">
       <HintPath>$(ManagedDir)/0Harmony.dll</HintPath>
