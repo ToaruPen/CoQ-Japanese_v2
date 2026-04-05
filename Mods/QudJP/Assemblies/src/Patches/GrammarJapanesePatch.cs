@@ -19,8 +19,8 @@ internal static class GrammarPluralizePatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaPluralizeResult(word);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaPluralizeResult(word, isJa);
             if (result == null)
             {
                 return true;
@@ -46,8 +46,8 @@ internal static class GrammarArticleStringPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaArticleResult(word, capitalize);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaArticleResult(word, capitalize, isJa);
             if (result == null)
             {
                 return true;
@@ -73,13 +73,12 @@ internal static class GrammarArticleStringBuilderPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            if (!GrammarPatchHelpers.IsJapaneseActive)
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            if (!GrammarPatchHelpers.JaArticleAppend(word, result, capitalize, isJa))
             {
                 return true;
             }
 
-            GrammarPatchHelpers.JaArticleAppend(word, result, capitalize);
             return false;
         }
         catch (Exception ex)
@@ -102,8 +101,8 @@ internal static class GrammarArticleTextBuilderPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var article = GrammarPatchHelpers.JaArticleResult(word, capitalize);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var article = GrammarPatchHelpers.JaArticleResult(word, capitalize, isJa);
             if (article == null)
             {
                 return true;
@@ -136,8 +135,8 @@ internal static class GrammarArticleNumberPatch
         try
         {
             _ = capitalize;
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            if (!GrammarPatchHelpers.IsJapaneseActive)
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            if (!isJa)
             {
                 return true;
             }
@@ -163,8 +162,8 @@ internal static class GrammarArticleNumberStringBuilderPatch
         try
         {
             _ = capitalize;
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            if (!GrammarPatchHelpers.IsJapaneseActive)
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            if (!isJa)
             {
                 return true;
             }
@@ -189,8 +188,8 @@ internal static class GrammarMakePossessivePatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaMakePossessiveResult(word);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaMakePossessiveResult(word, isJa);
             if (result == null)
             {
                 return true;
@@ -216,8 +215,8 @@ internal static class GrammarMakeAndListPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaMakeAndListResult(words, serial);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaMakeAndListResult(words, serial, isJa);
             if (result == null)
             {
                 return true;
@@ -243,8 +242,8 @@ internal static class GrammarMakeOrListArrayPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaMakeOrListResult((IReadOnlyList<string>)words, serial);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaMakeOrListResult((IReadOnlyList<string>)words, serial, isJa);
             if (result == null)
             {
                 return true;
@@ -270,8 +269,8 @@ internal static class GrammarMakeOrListPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaMakeOrListResult(words, serial);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaMakeOrListResult(words, serial, isJa);
             if (result == null)
             {
                 return true;
@@ -297,8 +296,8 @@ internal static class GrammarInitCapPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaInitCapResult(word);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaInitCapResult(word, isJa);
             if (result == null)
             {
                 return true;
@@ -324,8 +323,8 @@ internal static class GrammarInitLowerPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaInitLowerResult(word);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaInitLowerResult(word, isJa);
             if (result == null)
             {
                 return true;
@@ -351,8 +350,8 @@ internal static class GrammarThirdPersonPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaThirdPersonResult(word, prependSpace);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaThirdPersonResult(word, prependSpace, isJa);
             if (result == null)
             {
                 return true;
@@ -378,8 +377,8 @@ internal static class GrammarPastTenseOfPatch
     {
         try
         {
-            GrammarPatchHelpers.IsJapaneseActive = LanguageLoader.ActiveLanguage == "ja";
-            var result = GrammarPatchHelpers.JaPastTenseOfResult(verb);
+            var isJa = LanguageLoader.ActiveLanguage == "ja";
+            var result = GrammarPatchHelpers.JaPastTenseOfResult(verb, isJa);
             if (result == null)
             {
                 return true;
