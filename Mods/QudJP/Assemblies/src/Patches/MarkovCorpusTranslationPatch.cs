@@ -98,11 +98,6 @@ internal static class MarkovCorpusTranslationPatch
     private static string[] LoadJapaneseCorpusSentences()
     {
         var path = corpusPathOverride ?? ResolveCorpusPath();
-        if (!File.Exists(path))
-        {
-            throw new FileNotFoundException($"QudJP: Japanese corpus not found: {path}");
-        }
-
         var json = File.ReadAllBytes(path);
         var serializer = new DataContractJsonSerializer(typeof(JapaneseCorpusDocument));
         using var stream = new MemoryStream(json);
@@ -117,7 +112,7 @@ internal static class MarkovCorpusTranslationPatch
     /// </summary>
     private static string JoinAndNormalize(string[] sentences)
     {
-        var sb = new StringBuilder(sentences.Length * 30);
+        var sb = new StringBuilder(sentences.Length * 70);
         foreach (var sentence in sentences)
         {
             var normalized = CorpusNormalizer.NormalizeSentence(sentence);
@@ -165,9 +160,6 @@ internal static class MarkovCorpusTranslationPatch
     {
         corpusPathOverride = null;
     }
-
-    internal static bool ContainsJapaneseCharacters(string text) =>
-        CorpusNormalizer.ContainsJapaneseCharacters(text);
 
     internal static int GetOpeningWordCount(MarkovChainData data) =>
         data.OpeningWords.Count;

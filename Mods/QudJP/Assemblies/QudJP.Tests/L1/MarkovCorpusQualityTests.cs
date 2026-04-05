@@ -39,21 +39,9 @@ public sealed class MarkovCorpusQualityTests
     [Test]
     public void JapaneseCorpusFile_HasExpandedSegmentedSourceMaterial()
     {
-        // Sentence count
-        Assert.That(sentences.Length, Is.InRange(7_000, 8_500),
-            $"Expected 7,000-8,500 sentences, got {sentences.Length}");
-
-        // Token count
         var totalTokens = sentences.Sum(s => s.Split(' ').Length);
-        Assert.That(totalTokens, Is.GreaterThan(100_000),
-            $"Expected >100,000 tokens, got {totalTokens}");
-
-        // Average tokens per sentence
         var avgTokens = (double)totalTokens / sentences.Length;
-        Assert.That(avgTokens, Is.InRange(15.0, 25.0),
-            $"Expected average 15-25 tokens/sentence, got {avgTokens:F1}");
 
-        // Unique bigrams
         var bigrams = new HashSet<string>();
         foreach (var sentence in sentences)
         {
@@ -64,29 +52,29 @@ public sealed class MarkovCorpusQualityTests
             }
         }
 
-        Assert.That(bigrams.Count, Is.GreaterThan(60_000),
-            $"Expected >60,000 unique bigrams, got {bigrams.Count}");
-
-        // Unique sentence ratio
         var uniqueRatio = (double)new HashSet<string>(sentences).Count / sentences.Length;
-        Assert.That(uniqueRatio, Is.GreaterThan(0.98),
-            $"Expected >98% unique sentences, got {uniqueRatio:P1}");
 
-        // All sentences are morpheme-segmented (contain space)
-        Assert.That(sentences, Has.All.Matches<string>(s => s.Contains(' ', StringComparison.Ordinal)),
-            "All sentences must be morpheme-segmented (contain spaces)");
-
-        // All sentences end with '.' (ASCII period)
-        Assert.That(sentences, Has.All.EndsWith("."),
-            "All sentences must end with ASCII period");
-
-        // No Japanese periods
-        Assert.That(sentences, Has.All.Matches<string>(s => !s.Contains('\u3002', StringComparison.Ordinal)),
-            "No sentences should contain Japanese period (\u3002)");
-
-        // No double spaces
-        Assert.That(sentences, Has.All.Matches<string>(s => !s.Contains("  ", StringComparison.Ordinal)),
-            "No sentences should contain double spaces");
+        Assert.Multiple(() =>
+        {
+            Assert.That(sentences.Length, Is.InRange(7_000, 8_500),
+                $"Expected 7,000-8,500 sentences, got {sentences.Length}");
+            Assert.That(totalTokens, Is.GreaterThan(100_000),
+                $"Expected >100,000 tokens, got {totalTokens}");
+            Assert.That(avgTokens, Is.InRange(15.0, 25.0),
+                $"Expected average 15-25 tokens/sentence, got {avgTokens:F1}");
+            Assert.That(bigrams.Count, Is.GreaterThan(60_000),
+                $"Expected >60,000 unique bigrams, got {bigrams.Count}");
+            Assert.That(uniqueRatio, Is.GreaterThan(0.98),
+                $"Expected >98% unique sentences, got {uniqueRatio:P1}");
+            Assert.That(sentences, Has.All.Matches<string>(s => s.Contains(' ', StringComparison.Ordinal)),
+                "All sentences must be morpheme-segmented (contain spaces)");
+            Assert.That(sentences, Has.All.EndsWith("."),
+                "All sentences must end with ASCII period");
+            Assert.That(sentences, Has.All.Matches<string>(s => !s.Contains('\u3002', StringComparison.Ordinal)),
+                "No sentences should contain Japanese period (\u3002)");
+            Assert.That(sentences, Has.All.Matches<string>(s => !s.Contains("  ", StringComparison.Ordinal)),
+                "No sentences should contain double spaces");
+        });
     }
 
     [Test]

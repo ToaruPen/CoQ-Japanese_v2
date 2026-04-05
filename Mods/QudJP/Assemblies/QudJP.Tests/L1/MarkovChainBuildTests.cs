@@ -1,6 +1,7 @@
 #pragma warning disable CA1515
 #pragma warning disable CA1707
 
+using QudJP.Corpus;
 using QudJP.Tests.DummyTargets;
 
 namespace QudJP.Tests.L1;
@@ -81,7 +82,7 @@ public sealed class MarkovChainBuildTests
         DummyMarkovChainData data = DummyMarkovChain.BuildChain(JapaneseCorpus, 2);
 
         Assert.That(data.OpeningWords, Has.Some.Matches<string>(
-            w => w.Any(c => c >= '\u3040' && c <= '\u9FFF')));
+            w => CorpusNormalizer.ContainsJapaneseCharacters(w)));
     }
 
     [Test]
@@ -114,7 +115,7 @@ public sealed class MarkovChainBuildTests
 
         string sentence = DummyMarkovChain.GenerateSentence(data, random);
 
-        Assert.That(sentence.Any(c => c >= '\u3040' && c <= '\u9FFF'), Is.True,
+        Assert.That(CorpusNormalizer.ContainsJapaneseCharacters(sentence), Is.True,
             $"Expected Japanese characters in: {sentence}");
     }
 

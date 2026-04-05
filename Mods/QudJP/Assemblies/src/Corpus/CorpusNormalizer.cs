@@ -38,7 +38,8 @@ internal static class CorpusNormalizer
 
         var normalized = WhitespacePattern.Replace(sentence.Trim(), " ");
 
-        // Convert Japanese period (。) to ASCII period
+        // Convert trailing Japanese period (。) to ASCII period.
+        // Only the final character is converted; mid-sentence 。 is not expected in the corpus.
         if (normalized.Length > 0 && normalized[normalized.Length - 1] == '\u3002')
         {
             normalized = normalized.Substring(0, normalized.Length - 1) + ".";
