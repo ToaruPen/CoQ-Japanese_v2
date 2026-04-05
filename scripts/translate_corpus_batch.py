@@ -85,7 +85,7 @@ def _build_progress_id_lookup(all_entries: list[dict]) -> tuple[dict[int, int], 
     return unique_ids, duplicate_ids
 
 
-def _resolve_progress_key(
+def _resolve_progress_key(  # noqa: PLR0913
     entry: dict,
     *,
     all_entries: list[dict],
@@ -103,10 +103,7 @@ def _resolve_progress_key(
         expected_id = all_entries[progress_index]["id"]
         actual_id = entry.get("id")
         if actual_id != expected_id:
-            msg = (
-                f"{label} row {row_index} has id {actual_id!r} for index {progress_index}, "
-                f"expected {expected_id!r}."
-            )
+            msg = f"{label} row {row_index} has id {actual_id!r} for index {progress_index}, expected {expected_id!r}."
             raise ValueError(msg)
         return progress_index
 
@@ -225,8 +222,12 @@ def translate_chunk(chunk: list[dict], chunk_idx: int, total_chunks: int) -> lis
 
     result = subprocess.run(
         [
-            "codex", "exec", "--full-auto", "--json",
-            "-c", 'model_reasoning_effort="high"',
+            "codex",
+            "exec",
+            "--full-auto",
+            "--json",
+            "-c",
+            'model_reasoning_effort="high"',
             prompt,
         ],
         capture_output=True,
@@ -306,9 +307,7 @@ def _collect_chunk_translations(chunk: list[dict], translated: list[object]) -> 
         expected_entry = expected_entries[translation_index]
         tid = item.get("id")
         if tid != expected_entry["id"]:
-            invalid_results.append(
-                f"index={translation_index!r} expected id={expected_entry['id']!r}, got {tid!r}"
-            )
+            invalid_results.append(f"index={translation_index!r} expected id={expected_entry['id']!r}, got {tid!r}")
             continue
 
         ja = item.get("ja")
@@ -355,7 +354,7 @@ def main() -> None:
         return
 
     # Split into chunks
-    chunks = [remaining[i:i + CHUNK_SIZE] for i in range(0, len(remaining), CHUNK_SIZE)]
+    chunks = [remaining[i : i + CHUNK_SIZE] for i in range(0, len(remaining), CHUNK_SIZE)]
     total_chunks = len(chunks)
     print(f"Chunks: {total_chunks} (size={CHUNK_SIZE})")
 
