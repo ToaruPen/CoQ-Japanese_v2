@@ -286,12 +286,14 @@ internal static class DummyHistoricStringExpander
     /// </summary>
     public static string DelegateExpandQuery(DummySpiceContext Context, params string[] Strings)
     {
+        Context.Variables ??= new Dictionary<string, string>(StringComparer.Ordinal);
+        Context.NodeVariables ??= new Dictionary<string, object>(StringComparer.Ordinal);
         return InternalExpandQuery(
             SplitParts(Strings),
             Context.Entity,
             Context.History,
-            Context.Variables ?? new Dictionary<string, string>(StringComparer.Ordinal),
-            Context.NodeVariables ?? new Dictionary<string, object>(StringComparer.Ordinal),
+            Context.Variables,
+            Context.NodeVariables,
             Context.Random);
     }
 
