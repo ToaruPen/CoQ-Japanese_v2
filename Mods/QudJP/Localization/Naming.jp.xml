@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<naming Load="Merge">
+<naming Load="Merge" Encoding="utf-8">
   <namestyles>
     <namestyle Name="Qudish" Load="Merge">
       <prefixes Amount="1" Load="Replace">
@@ -162,87 +162,87 @@
     </namestyle>
     <namestyle Name="Qudish Banana Grove Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="バナナ園・*Name*" />
+        <template Name="バナナ園・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Baroque Ruins Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="バロック遺構・*Name*" />
+        <template Name="バロック遺構・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Deep Jungle Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="深密林・*Name*" />
+        <template Name="深密林・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Desert Canyon Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="砂漠峡谷・*Name*" />
+        <template Name="砂漠峡谷・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Flower Fields Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="花原・*Name*" />
+        <template Name="花原・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Fungal Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="菌類森・*Name*" />
+        <template Name="菌類森・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Hills Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="丘陵・*Name*" />
+        <template Name="丘陵・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Jungle Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="ジャングル・*Name*" />
+        <template Name="ジャングル・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Lake Hinnom Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="水辺・*Name*" />
+        <template Name="水辺・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Moon Stair Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="ムーン・ステアー・*Name*" />
+        <template Name="ムーン・ステアー・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Mountains Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="山岳・*Name*" />
+        <template Name="山岳・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Palladium Reef Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="パラジウム礁・*Name*" />
+        <template Name="パラジウム礁・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Ruins Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="遺構・*Name*" />
+        <template Name="遺構・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Salt Dunes Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="塩砂漠・*Name*" />
+        <template Name="塩砂漠・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Salt Marsh Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="塩湿原・*Name*" />
+        <template Name="塩湿原・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Spindle Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="スピンドル・*Name*" />
+        <template Name="スピンドル・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Qudish Water Site" Load="Merge">
       <templates Load="Replace">
-        <template Name="水辺・*Name*" />
+        <template Name="水辺・=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Eater" Load="Merge">
@@ -412,10 +412,10 @@
         <postfix Name="ゾ" />
       </postfixes>
       <templates Load="Replace">
-        <template Name="*Name*・*Suffix*" />
+        <template Name="=name=・=suffix=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Suffix">
+        <templatevar Name="suffix">
           <value Name="カ" />
           <value Name="キ" />
           <value Name="ク" />
@@ -886,10 +886,10 @@
     </namestyle>
     <namestyle Name="Baboon Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Rings*輪のヒヒ・*Position*" />
+        <template Name="=rings=輪のヒヒ・=position=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Position">
+        <templatevar Name="position">
           <value Name="プヒランデレル" />
           <value Name="リッドレル" />
           <value Name="ヘルミト" />
@@ -990,10 +990,10 @@
     </namestyle>
     <namestyle Name="Crab Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Adjective*な*CreatureTypeCap*・*Position*" />
+        <template Name="=adjective=な=creatureTypeCap=・=position=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="エクホイング" />
           <value Name="フレネティク" />
           <value Name="マニ・レッゲド" />
@@ -1001,7 +1001,7 @@
           <value Name="オネ・クラウェド" />
           <value Name="シェッル・クラッケド" />
         </templatevar>
-        <templatevar Name="Position">
+        <templatevar Name="position">
           <value Name="アンスイエント" />
           <value Name="デエプクラウレル" />
           <value Name="ゴリアトフ" />
@@ -1038,15 +1038,15 @@
     </namestyle>
     <namestyle Name="Goatfolk Hero" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Name*" />
+        <template Name="=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Goatfolk Hero Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Epithet*" />
+        <template Name="=epithet=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Epithet">
+        <templatevar Name="epithet">
           <value Name="スタルガゼル" />
           <value Name="ヘアルトビテル" />
           <value Name="トウィセタルケル" />
@@ -1058,10 +1058,10 @@
     </namestyle>
     <namestyle Name="Goatfolk Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="氏族*Clan*の山羊人シャーマン" />
+        <template Name="氏族=clan=の山羊人シャーマン" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Clan">
+        <templatevar Name="clan">
           <value Name="ホトゥル" />
           <value Name="イベクス" />
           <value Name="ソル" />
@@ -1088,18 +1088,18 @@
         <infix Name="ラア" />
       </infixes>
       <templates Load="Replace">
-        <template Name="*Name**Suffix*" Weight="1800" />
-        <template Name="*Prefix**Suffix*" Weight="1800" />
-        <template Name="*Sultan**Suffix*" Weight="450" />
-        <template Name="*Name**Location*" Weight="1125" />
-        <template Name="*Prefix**Location*" Weight="1125" />
-        <template Name="*Sultan**Location*" Weight="250" />
-        <template Name="*Name**Forest*" Weight="1575" />
-        <template Name="*Prefix**Forest*" Weight="1575" />
-        <template Name="*Sultan**Forest*" Weight="350" />
+        <template Name="=name==suffix=" Weight="1800" />
+        <template Name="=prefix==suffix=" Weight="1800" />
+        <template Name="=sultan==suffix=" Weight="450" />
+        <template Name="=name==location=" Weight="1125" />
+        <template Name="=prefix==location=" Weight="1125" />
+        <template Name="=sultan==location=" Weight="250" />
+        <template Name="=name==forest=" Weight="1575" />
+        <template Name="=prefix==forest=" Weight="1575" />
+        <template Name="=sultan==forest=" Weight="350" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Prefix">
+        <templatevar Name="prefix">
           <value Name="アスフ" />
           <value Name="ブラック" />
           <value Name="ブロオド" />
@@ -1115,10 +1115,10 @@
           <value Name="スタル" />
           <value Name="ウヒテ" />
         </templatevar>
-        <templatevar Name="Sultan">
+        <templatevar Name="sultan">
           <value Name="レシェフ" />
         </templatevar>
-        <templatevar Name="Suffix">
+        <templatevar Name="suffix">
           <value Name="バア" />
           <value Name="バアーアーアー" />
           <value Name="バアーアーー" />
@@ -1137,7 +1137,7 @@
           <value Name="ラアーー" />
           <value Name="ラアー" />
         </templatevar>
-        <templatevar Name="Forest">
+        <templatevar Name="forest">
           <value Name="ボスク" />
           <value Name="ダレ" />
           <value Name="デッル" />
@@ -1152,7 +1152,7 @@
           <value Name="ウェエプ" />
           <value Name="ウォオド" />
         </templatevar>
-        <templatevar Name="Location">
+        <templatevar Name="location">
           <value Name="ベンド" />
           <value Name="ビテ" />
           <value Name="ボウ" />
@@ -1183,14 +1183,14 @@
         <infix Name="ラア" />
       </infixes>
       <templates Load="Replace">
-        <template Name="*Prefix**Suffix*" Weight="1800" />
-        <template Name="*Name**Location*" Weight="1125" />
-        <template Name="*Prefix**Location*" Weight="1125" />
-        <template Name="*Sultan**Location*" Weight="250" />
-        <template Name="*Prefix**Forest*" Weight="1575" />
+        <template Name="=prefix==suffix=" Weight="1800" />
+        <template Name="=name==location=" Weight="1125" />
+        <template Name="=prefix==location=" Weight="1125" />
+        <template Name="=sultan==location=" Weight="250" />
+        <template Name="=prefix==forest=" Weight="1575" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Prefix">
+        <templatevar Name="prefix">
           <value Name="アスフ" />
           <value Name="ブラック" />
           <value Name="グホスト" />
@@ -1207,10 +1207,10 @@
           <value Name="エヴェル" />
           <value Name="ヌッル" />
         </templatevar>
-        <templatevar Name="Sultan">
+        <templatevar Name="sultan">
           <value Name="レシェフ" />
         </templatevar>
-        <templatevar Name="Suffix">
+        <templatevar Name="suffix">
           <value Name="バア" />
           <value Name="バアーアーアー" />
           <value Name="バアーアーー" />
@@ -1229,7 +1229,7 @@
           <value Name="ラアーー" />
           <value Name="ラアー" />
         </templatevar>
-        <templatevar Name="Forest">
+        <templatevar Name="forest">
           <value Name="ボスク" />
           <value Name="ダレ" />
           <value Name="デッル" />
@@ -1245,7 +1245,7 @@
           <value Name="ウォオド" />
           <value Name="ホッロウ" />
         </templatevar>
-        <templatevar Name="Location">
+        <templatevar Name="location">
           <value Name="クレッセント" />
           <value Name="デエプ" />
           <value Name="ポオル" />
@@ -1326,10 +1326,10 @@
     </namestyle>
     <namestyle Name="Godhed Hero Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Honorific*・ゴッドヘッド" />
+        <template Name="=honorific=・ゴッドヘッド" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Honorific">
+        <templatevar Name="honorific">
           <value Name="spice.adjectives.!random" />
           <value Name="spice.nouns.!random" />
         </templatevar>
@@ -1337,32 +1337,32 @@
     </namestyle>
     <namestyle Name="Godhed Hero Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Adjective*・ゴッドヘッド" />
+        <template Name="=adjective=・ゴッドヘッド" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="spice.adjectives.!random" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Godhed Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Noun1*のゴッドヘッド" />
-        <template Name="*Noun1*・*Noun2*のゴッドヘッド" Weight="2" />
-        <template Name="*Adj*・*Noun1*のゴッドヘッド" Weight="2" />
-        <template Name="*NounPlural*のゴッドヘッド" />
+        <template Name="=noun1=のゴッドヘッド" />
+        <template Name="=noun1=・=noun2=のゴッドヘッド" Weight="2" />
+        <template Name="=adj=・=noun1=のゴッドヘッド" Weight="2" />
+        <template Name="=nounPlural=のゴッドヘッド" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Noun1">
+        <templatevar Name="noun1">
           <value Name="spice.nouns.!random" />
         </templatevar>
-        <templatevar Name="Noun2">
+        <templatevar Name="noun2">
           <value Name="spice.nouns.!random" />
         </templatevar>
-        <templatevar Name="NounPlural">
+        <templatevar Name="nounPlural">
           <value Name="spice.nouns.!random.pluralize" />
         </templatevar>
-        <templatevar Name="Adj">
+        <templatevar Name="adj">
           <value Name="spice.adjectives.!random" />
         </templatevar>
       </templatevars>
@@ -1436,10 +1436,10 @@
     </namestyle>
     <namestyle Name="Snapjaw Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Adjective*なスナップジョー・*Occupation*" />
+        <template Name="=adjective=なスナップジョー・=occupation=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="カッロウセド" />
           <value Name="フェアルソメ" />
           <value Name="フレエト・フォオテド" />
@@ -1448,7 +1448,7 @@
           <value Name="ニムブレ" />
           <value Name="スタルワルト" />
         </templatevar>
-        <templatevar Name="Occupation">
+        <templatevar Name="occupation">
           <value Name="ベアル・バイテル" />
           <value Name="フィレスナルレル" />
           <value Name="グトスピッレル" />
@@ -1649,10 +1649,10 @@
     </namestyle>
     <namestyle Name="Troll Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Adjective*なトロル・*Occupation*" />
+        <template Name="=adjective=なトロル・=occupation=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="トウィステド" />
           <value Name="エヴェルラスティング" />
           <value Name="フウルキング" />
@@ -1662,7 +1662,7 @@
           <value Name="ブロオドトヒルスティ" />
           <value Name="トウォ・ヘアデド" />
         </templatevar>
-        <templatevar Name="Occupation">
+        <templatevar Name="occupation">
           <value Name="スクッル・コッレクトル" />
           <value Name="ヘアルト・エアテル" />
           <value Name="フウント・マステル" />
@@ -1774,10 +1774,10 @@
     </namestyle>
     <namestyle Name="Mechanimist Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Cognomen*" />
+        <template Name="=cognomen=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Cognomen">
+        <templatevar Name="cognomen">
           <value Name="シェキナーに選ばれし者" />
           <value Name="クロームに鍛えられし" />
           <value Name="アージェント・ファーザーに愛されし者" />
@@ -1909,7 +1909,7 @@
     </namestyle>
     <namestyle Name="Bear Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="蜂蜜好きで名高い*CreatureType*" />
+        <template Name="蜂蜜好きで名高い=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Ape" Load="Merge">
@@ -1964,10 +1964,10 @@
     </namestyle>
     <namestyle Name="Ape Hero Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="トヘ・*Adjective*" />
+        <template Name="トヘ・=adjective=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="クオロルフル" />
           <value Name="エレガント" />
           <value Name="ファシオナブレ" />
@@ -1981,7 +1981,7 @@
     </namestyle>
     <namestyle Name="Ape Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" />
+        <template Name="伝説の=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Robot" Load="Merge">
@@ -2368,10 +2368,10 @@
     </namestyle>
     <namestyle Name="Tortoise Hero Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="トヘ・*Disposition*" />
+        <template Name="トヘ・=disposition=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Disposition">
+        <templatevar Name="disposition">
           <value Name="クアンタンケロウス" />
           <value Name="チョレリク" />
           <value Name="グロウクヒ" />
@@ -2383,7 +2383,7 @@
     </namestyle>
     <namestyle Name="Tortoise Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" />
+        <template Name="伝説の=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Fish" Load="Merge">
@@ -2501,7 +2501,7 @@
     </namestyle>
     <namestyle Name="Arachnid Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*にして名手の織り手" />
+        <template Name="伝説の=creatureType=にして名手の織り手" />
       </templates>
     </namestyle>
     <namestyle Name="Bird" Load="Merge">
@@ -2522,10 +2522,10 @@
     </namestyle>
     <namestyle Name="Bird Hero Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="トヘ・*Singer*" />
+        <template Name="トヘ・=singer=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Singer">
+        <templatevar Name="singer">
           <value Name="バルド" />
           <value Name="ミンストレル" />
           <value Name="ソングステル" />
@@ -2536,10 +2536,10 @@
     </namestyle>
     <namestyle Name="Bird Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Disposition*な*CreatureType*" />
+        <template Name="=disposition=な=creatureType=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Disposition">
+        <templatevar Name="disposition">
           <value Name="ブロオディング" />
           <value Name="クヘエルフル" />
           <value Name="ドウル" />
@@ -2830,10 +2830,10 @@
     </namestyle>
     <namestyle Name="Antelope Hero" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Name*・*Adjective*" />
+        <template Name="=name=・=adjective=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="フレエト・ホオフェド" />
           <value Name="クウイックスキッペル" />
           <value Name="フロリッケル" />
@@ -2845,7 +2845,7 @@
     </namestyle>
     <namestyle Name="Antelope Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" />
+        <template Name="伝説の=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Dromad" Load="Merge">
@@ -3099,7 +3099,7 @@
     </namestyle>
     <namestyle Name="Templar Grand Newfather" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Name*" />
+        <template Name="=name=" />
       </templates>
     </namestyle>
     <namestyle Name="Templar Grand Newfather Honorific" Load="Merge">
@@ -3360,15 +3360,15 @@
     </namestyle>
     <namestyle Name="Barathrumite Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Adjective*・バラサラム派・*Role*" />
+        <template Name="=adjective=・バラサラム派・=role=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Adjective">
+        <templatevar Name="adjective">
           <value Name="アックライメド" />
           <value Name="ディスティングイシェド" />
           <value Name="エステエメド" />
         </templatevar>
-        <templatevar Name="Role">
+        <templatevar Name="role">
           <value Name="アーコノート" />
           <value Name="講師" />
           <value Name="修理工" />
@@ -3521,90 +3521,90 @@
     </namestyle>
     <namestyle Name="Two-Headed" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Name*／*AltName*" />
+        <template Name="=name=／=altName=" />
       </templates>
     </namestyle>
     <namestyle Name="Seeker" Load="Merge" Format="SpacesToHyphens">
       <templates Load="Replace">
-        <template Name="*Name*・ノー・ロンガー" />
+        <template Name="=name=・ノー・ロンガー" />
       </templates>
     </namestyle>
     <namestyle Name="Seeker Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Position*" />
+        <template Name="=position=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="Position">
+        <templatevar Name="position">
           <value Name="プトーの従者" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Seeker Dervish Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" />
+        <template Name="伝説の=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Pariah Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CreatureTypeCap*の棄民" />
+        <template Name="=creatureTypeCap=の棄民" />
       </templates>
     </namestyle>
     <namestyle Name="Barathrumite Pariah Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CreatureTypeCap*の偶像破壊者" />
+        <template Name="=creatureTypeCap=の偶像破壊者" />
       </templates>
     </namestyle>
     <namestyle Name="Mechanimist Pariah Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CreatureTypeCap*の異端者" />
+        <template Name="=creatureTypeCap=の異端者" />
       </templates>
     </namestyle>
     <namestyle Name="Hindren Pariah Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CreatureTypeCap*" />
+        <template Name="=creatureTypeCap=" />
       </templates>
     </namestyle>
     <namestyle Name="General Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" />
+        <template Name="伝説の=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Lair Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" />
+        <template Name="伝説の=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Newly Sentient Being Hero Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Descriptor*" />
+        <template Name="=descriptor=" />
       </templates>
     </namestyle>
     <namestyle Name="Newly Sentient Being Hero Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="トヘ・*Descriptor*" />
+        <template Name="トヘ・=descriptor=" />
       </templates>
     </namestyle>
     <namestyle Name="Newly Sentient Being Hero Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="伝説の*CreatureType*" Weight="6" />
-        <template Name="名高い*CreatureType*" />
+        <template Name="伝説の=creatureType=" Weight="6" />
+        <template Name="名高い=creatureType=" />
       </templates>
     </namestyle>
     <namestyle Name="Newly Sentient Being Hero Extra Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="*Clientele*の友" />
+        <template Name="=clientele=の友" />
       </templates>
     </namestyle>
     <namestyle Name="Mayor Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*MayorSynCap*" />
+        <template Name="=mayorSynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="MayorSyn">
+        <templatevar Name="mayorSyn">
           <value Name="村長" />
           <value Name="長老" />
         </templatevar>
-        <templatevar Name="MayorSynCap">
+        <templatevar Name="mayorSynCap">
           <value Name="村長" />
           <value Name="長老" />
         </templatevar>
@@ -3612,15 +3612,15 @@
     </namestyle>
     <namestyle Name="Mayor Title" Load="Merge">
       <templates Load="Replace">
-        <template Name="村の*MayorSyn*" />
-        <template Name="村の*MayorSyn*" />
+        <template Name="村の=mayorSyn=" />
+        <template Name="村の=mayorSyn=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="MayorSyn">
+        <templatevar Name="mayorSyn">
           <value Name="村長" />
           <value Name="長老" />
         </templatevar>
-        <templatevar Name="MayorSynCap">
+        <templatevar Name="mayorSynCap">
           <value Name="村長" />
           <value Name="長老" />
         </templatevar>
@@ -3628,101 +3628,101 @@
     </namestyle>
     <namestyle Name="King Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*MonarchSynCap*" />
+        <template Name="=monarchSynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="MonarchSyn">
+        <templatevar Name="monarchSyn">
           <value Name="王" />
         </templatevar>
-        <templatevar Name="MonarchSynCap">
+        <templatevar Name="monarchSynCap">
           <value Name="王" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Queen Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*MonarchSynCap*" />
+        <template Name="=monarchSynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="MonarchSyn">
+        <templatevar Name="monarchSyn">
           <value Name="女王" />
         </templatevar>
-        <templatevar Name="MonarchSynCap">
+        <templatevar Name="monarchSynCap">
           <value Name="女王" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Councilor Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CouncilorSynCap*" />
+        <template Name="=councilorSynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="CouncilorSyn">
+        <templatevar Name="councilorSyn">
           <value Name="評議員" />
         </templatevar>
-        <templatevar Name="CouncilorSynCap">
+        <templatevar Name="councilorSynCap">
           <value Name="評議員" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Senator Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CouncilorSynCap*" />
+        <template Name="=councilorSynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="CouncilorSyn">
+        <templatevar Name="councilorSyn">
           <value Name="元老院議員" />
         </templatevar>
-        <templatevar Name="CouncilorSynCap">
+        <templatevar Name="councilorSynCap">
           <value Name="元老院議員" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Parliamentarian Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*CouncilorSynCap*" />
+        <template Name="=councilorSynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="CouncilorSyn">
+        <templatevar Name="councilorSyn">
           <value Name="議員" />
         </templatevar>
-        <templatevar Name="CouncilorSynCap">
+        <templatevar Name="councilorSynCap">
           <value Name="議員" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Viceroy Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*ViceroySynCap*" />
+        <template Name="=viceroySynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="ViceroySyn">
+        <templatevar Name="viceroySyn">
           <value Name="総督" />
         </templatevar>
-        <templatevar Name="ViceroySynCap">
+        <templatevar Name="viceroySynCap">
           <value Name="総督" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Governor Honorific" Load="Merge">
       <templates Load="Replace">
-        <template Name="*ViceroySynCap*" />
+        <template Name="=viceroySynCap=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="ViceroySyn">
+        <templatevar Name="viceroySyn">
           <value Name="総督" />
         </templatevar>
-        <templatevar Name="ViceroySynCap">
+        <templatevar Name="viceroySynCap">
           <value Name="総督" />
         </templatevar>
       </templatevars>
     </namestyle>
     <namestyle Name="Administrator Epithet" Load="Merge">
       <templates Load="Replace">
-        <template Name="トヘ・*WiseAdjective*" />
+        <template Name="トヘ・=wiseAdjective=" />
       </templates>
       <templatevars Load="Replace">
-        <templatevar Name="WiseAdjective">
+        <templatevar Name="wiseAdjective">
           <value Name="エルディテ" />
           <value Name="ジュディスイオウス" />
           <value Name="サゲ" />
