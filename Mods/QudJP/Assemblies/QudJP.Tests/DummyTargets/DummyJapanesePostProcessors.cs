@@ -70,6 +70,12 @@ internal static class DummyJapanesePostProcessors
     public static string? ScanForAn(DummyVariableContext ctx, object[] _) => null;
 
     /// <summary>
+    /// Japanese secondToThirdPerson: no-op.
+    /// Override: "secondToThirdPerson".
+    /// </summary>
+    public static string? SecondToThirdPerson(DummyVariableContext ctx, object[] _) => null;
+
+    /// <summary>
     /// Japanese makeHedge: adapts for Japanese plant/tree naming.
     /// Removes 「の木」「の草」 and appends 「の垣根」.
     /// Override: "makeHedge".
@@ -129,6 +135,11 @@ internal static class DummyJapanesePostProcessors
         DummyVariableReplacers.RegisterPost(
             ["scanForAn", "a.to.an"],
             new DummyReplacerEntry(ScanForAn, []),
+            @override: true);
+
+        DummyVariableReplacers.RegisterPost(
+            ["secondToThirdPerson"],
+            new DummyReplacerEntry(SecondToThirdPerson, []),
             @override: true);
 
         DummyVariableReplacers.RegisterPost(
