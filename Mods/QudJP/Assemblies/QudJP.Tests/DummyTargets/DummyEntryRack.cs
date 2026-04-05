@@ -120,6 +120,7 @@ internal sealed class DummyEntryRack
 
         if (@override)
         {
+            entry.Priority = CalculatePriority(entry);
             _items[existingIndex] = entry;
             return true;
         }

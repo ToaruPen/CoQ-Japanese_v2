@@ -1,5 +1,5 @@
 #pragma warning disable CA1707
-#pragma warning disable CA1308 // Lower() is faithful to decompiled source using ToLower
+#pragma warning disable CA1308 // Lower() is faithful to decompiled source using ToLowerInvariant
 
 using System.Text;
 

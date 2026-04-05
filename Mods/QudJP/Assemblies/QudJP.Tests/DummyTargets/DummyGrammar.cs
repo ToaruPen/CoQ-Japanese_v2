@@ -302,7 +302,7 @@ internal static class DummyGrammar
     {
         foreach (string exception in ArticleExceptions)
         {
-            if (string.Equals(word, exception, StringComparison.OrdinalIgnoreCase))
+            if (word.StartsWith(exception, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

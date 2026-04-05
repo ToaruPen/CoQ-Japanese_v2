@@ -129,6 +129,20 @@ public sealed class TextFiltersCompatTests
         Assert.That(result, Is.EqualTo("[crypticmachine:the quick brown fox]"));
     }
 
+    [Test]
+    public void Stutterize_DispatchesThroughPipeline()
+    {
+        string result = DummyGameText.Process("=text|stutterize=");
+        Assert.That(result, Is.EqualTo("[stutterize:the quick brown fox]"));
+    }
+
+    [Test]
+    public void Obfuscate_DispatchesThroughPipeline()
+    {
+        string result = DummyGameText.Process("=text|obfuscate=");
+        Assert.That(result, Is.EqualTo("[obfuscate:the quick brown fox]"));
+    }
+
     // --- Chained flavor filters ---
 
     [Test]

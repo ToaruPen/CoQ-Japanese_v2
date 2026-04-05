@@ -512,14 +512,25 @@ internal static class DummyGameText
         argument = null;
         type = DummyTargetType.None;
 
-        Dictionary<string, int>? aliases = invocation.Aliases;
+        if (sectionLength == 0)
+        {
+            return false;
+        }
+
+        Dictionary<string, int> aliases = invocation.Aliases ??= [];
+        List<object> args = invocation.Arguments ??= [];
         int targetIndex = -1;
         int end = start + sectionLength - 1;
 
         // Check for bracket notation: key[index] (line 701-713)
         if (buffer[end] == ']')
         {
-            int bracketStart = Array.LastIndexOf(buffer, '[', end - 2);
+            int bracketStart = -1;
+            for (int bi = end - 2; bi >= start; bi--)
+            {
+                if (buffer[bi] == '[') { bracketStart = bi; break; }
+            }
+
             if (bracketStart != -1)
             {
                 string keyPart = new(buffer, start, bracketStart - start);
@@ -536,7 +547,7 @@ internal static class DummyGameText
         {
             // Standard lookup (line 716-723)
             string token = new(buffer, start, sectionLength);
-            if ((aliases == null || !aliases.TryGetValue(token, out int aliasValue)) &&
+            if (!aliases.TryGetValue(token, out int aliasValue) &&
                 !DefaultTargets.TryGetValue(token, out aliasValue))
             {
                 return false;
@@ -558,33 +569,31 @@ internal static class DummyGameText
                 break;
         }
 
-        List<object>? arguments = invocation.Arguments;
-
         // Handle special sentinel targets via resolver (line 736-759)
         if (targetIndex == TARGET_PLAYER)
         {
             type = DummyTargetType.Player;
-            return resolver(TARGET_PLAYER, aliases!, arguments!, out argument);
+            return resolver(TARGET_PLAYER, aliases, args, out argument);
         }
 
         if (targetIndex == TARGET_SPICE)
         {
-            return resolver(TARGET_SPICE, aliases!, arguments!, out argument);
+            return resolver(TARGET_SPICE, aliases, args, out argument);
         }
 
         if (targetIndex == TARGET_GAME)
         {
-            return resolver(TARGET_GAME, aliases!, arguments!, out argument);
+            return resolver(TARGET_GAME, aliases, args, out argument);
         }
 
         if (targetIndex == TARGET_ACTIVE_ZONE)
         {
-            return resolver(TARGET_ACTIVE_ZONE, aliases!, arguments!, out argument);
+            return resolver(TARGET_ACTIVE_ZONE, aliases, args, out argument);
         }
 
         if (targetIndex == TARGET_NOW)
         {
-            return resolver(TARGET_NOW, aliases!, arguments!, out argument);
+            return resolver(TARGET_NOW, aliases, args, out argument);
         }
 
         // Negative indices that weren't handled above are invalid (line 762-763)
@@ -594,16 +603,16 @@ internal static class DummyGameText
         }
 
         // Resolve from arguments list (line 766-778)
-        if (arguments == null || targetIndex >= arguments.Count)
+        if (targetIndex >= args.Count)
         {
             return false;
         }
 
-        argument = arguments[targetIndex];
+        argument = args[targetIndex];
         if (argument is DummyArgumentGenerator generator)
         {
             argument = generator();
-            arguments[targetIndex] = argument;
+            args[targetIndex] = argument;
         }
 
         return true;
