@@ -28,13 +28,17 @@ public sealed class GrammarPatchHelperTests
     }
 
     [Test]
-    public void JaArticleAppend_JapaneseActive_AppendsRawWordOnly()
+    public void JaArticleAppend_JapaneseActive_AppendsRawWordAndReturnsTrue()
     {
         StringBuilder result = new();
 
-        GrammarPatchHelpers.JaArticleAppend("sword", result, capitalize: true, isJa: true);
+        var handled = GrammarPatchHelpers.JaArticleAppend("sword", result, capitalize: true, isJa: true);
 
-        Assert.That(result.ToString(), Is.EqualTo("sword"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(handled, Is.True);
+            Assert.That(result.ToString(), Is.EqualTo("sword"));
+        });
     }
 
     [TestCase("sword", "swordの")]
@@ -88,13 +92,17 @@ public sealed class GrammarPatchHelperTests
     }
 
     [Test]
-    public void JaArticleAppend_JapaneseInactive_DoesNotAppend()
+    public void JaArticleAppend_JapaneseInactive_DoesNotAppendAndReturnsFalse()
     {
         StringBuilder result = new();
 
-        GrammarPatchHelpers.JaArticleAppend("sword", result, capitalize: false, isJa: false);
+        var handled = GrammarPatchHelpers.JaArticleAppend("sword", result, capitalize: false, isJa: false);
 
-        Assert.That(result.ToString(), Is.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(handled, Is.False);
+            Assert.That(result.ToString(), Is.Empty);
+        });
     }
 }
 

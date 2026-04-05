@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using HarmonyLib;
 using XRL.Language;
 using XRL.World.Text;
@@ -96,6 +97,8 @@ internal static class GrammarArticleTextBuilderPatch
     private static readonly MethodInfo? AppendStringMethod =
         typeof(TextBuilder).GetMethod(nameof(TextBuilder.Append), new Type[] { typeof(string) });
 
+    private static int appendMethodWarned;
+
     [HarmonyPrefix]
     internal static bool Prefix(string word, TextBuilder result, bool capitalize)
     {
@@ -110,7 +113,11 @@ internal static class GrammarArticleTextBuilderPatch
 
             if (AppendStringMethod == null)
             {
-                Trace.TraceWarning("QudJP: GrammarArticleTextBuilderPatch could not resolve TextBuilder.Append(string), falling back to English.");
+                if (Interlocked.Exchange(ref appendMethodWarned, 1) == 0)
+                {
+                    Trace.TraceWarning("QudJP: GrammarArticleTextBuilderPatch could not resolve TextBuilder.Append(string), falling back to English.");
+                }
+
                 return true;
             }
 
