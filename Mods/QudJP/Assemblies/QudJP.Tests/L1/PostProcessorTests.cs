@@ -151,6 +151,16 @@ public sealed class PostProcessorTests
         Assert.That(GetValue(), Is.EqualTo("{{|snapjaw scavenger}}"));
     }
 
+    // --- Color with typed argument ---
+
+    [Test]
+    public void Color_WithTypedStringArgument_WrapsInColorTag()
+    {
+        SetValue("snapjaw scavenger");
+        DummyPostProcessors.Color(_ctx, ["W"]);
+        Assert.That(GetValue(), Is.EqualTo("{{W|snapjaw scavenger}}"));
+    }
+
     // --- SpaceAfter ---
 
     [Test]

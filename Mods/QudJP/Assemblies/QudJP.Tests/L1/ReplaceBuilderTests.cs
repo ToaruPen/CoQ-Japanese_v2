@@ -226,6 +226,8 @@ public sealed class ReplaceBuilderTests
     }
 
     // --- ForceThirdPerson ---
+    // NOTE: Observable rendering requires Grammar.AllowSecondPerson (game singleton,
+    // not available in DummyTargets). Flag verification is L1 ceiling.
 
     [Test]
     public void ForceThirdPerson_SetsFlag()

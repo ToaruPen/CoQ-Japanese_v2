@@ -228,9 +228,10 @@ internal static class DummyPostProcessors
     }
 
     /// <summary>
-    /// Replaces double spaces with single spaces.
+    /// Replaces double spaces with single spaces (single-pass, no loop).
     /// Key: "slim".
-    /// Faithful to PostProcessors.Slim.
+    /// Faithful to PostProcessors.Slim — beta calls Replace once without looping,
+    /// so runs of 3+ spaces are intentionally NOT fully collapsed.
     /// </summary>
     public static string? Slim(DummyVariableContext ctx, object[] _)
     {
@@ -321,6 +322,7 @@ internal static class DummyPostProcessors
         DummyVariableReplacers.RegisterPost("initLower", InitLower);
         DummyVariableReplacers.RegisterPost("strip", Strip);
         DummyVariableReplacers.RegisterPost(["color"], new DummyReplacerEntry(Color, []));
+        DummyVariableReplacers.RegisterPost(["color"], new DummyReplacerEntry(Color, [typeof(string)]));
         DummyVariableReplacers.RegisterPost("rules", Rules);
         DummyVariableReplacers.RegisterPost("colorSafe", ColorSafe);
         DummyVariableReplacers.RegisterPost("spaceAfter", SpaceAfter);

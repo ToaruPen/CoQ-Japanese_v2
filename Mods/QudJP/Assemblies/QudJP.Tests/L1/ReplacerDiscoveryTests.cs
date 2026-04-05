@@ -198,10 +198,13 @@ public sealed class ReplacerDiscoveryTests
     }
 
     /// <summary>
-    /// Simulates the game's LoadReplacers with lang-filtered YieldMethods.
-    /// Faithful to VariableReplacers.YieldMethods (line 417-433):
-    /// classes with Lang=null are always loaded; classes with Lang="xx"
-    /// are only loaded when activeLang matches.
+    /// Simulates lang-gated override registration order, NOT the reflection-based
+    /// discovery itself. DummyTargets use manual registration (no reflection), so
+    /// there is no attribute-driven <c>YieldMethods</c> path to exercise at L1.
+    /// This helper validates that when registration order mimics
+    /// <c>YieldMethods</c> filtering (base always loaded, ja only when active),
+    /// the <c>EntryRack.TryAdd</c> Override mechanism produces correct results.
+    /// Actual reflection-based discovery belongs in L2 integration testing.
     /// </summary>
     private static void RegisterWithLangFilter(string activeLang)
     {
