@@ -85,8 +85,8 @@ _ESCAPE_PATTERNS: list[re.Pattern[str]] = [
 _BRACE_PATTERN = re.compile(r"\{\{([^}]+)\}\}")
 
 # Compiled token patterns; applied after escapes and {{...}} are consumed
-_TOKEN_CLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*=(?![=\w])", re.ASCII)
-_TOKEN_UNCLOSED = re.compile(r"(?<![=\w])=[a-zA-Z_][a-zA-Z0-9_.:]*(?![=\w])", re.ASCII)
+_TOKEN_CLOSED = re.compile(r"(?<!\w)=[a-zA-Z_][a-zA-Z0-9_.:]*=(?!\w)", re.ASCII)
+_TOKEN_UNCLOSED = re.compile(r"(?<!\w)=[a-zA-Z_][a-zA-Z0-9_.:]*(?!\w)", re.ASCII)
 
 _REMAINING_PATTERNS: list[re.Pattern[str]] = [
     _TOKEN_CLOSED,
