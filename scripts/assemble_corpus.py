@@ -97,22 +97,26 @@ def _assign_translations_to_manifest(
     positions_by_key = _build_manifest_position_queues(manifest_rows)
     translated_by_manifest_index: dict[int, str] = {}
 
-    for index, translated_row in enumerate(translated_rows):
-        input_row = translation_input_rows[index]
-        expected_id = _require_int(input_row, "id", label="translation input", index=index)
-        actual_id = _require_int(translated_row, "id", label="translated corpus", index=index)
+    for row_index, translated_row in enumerate(translated_rows):
+        input_index = _require_int(translated_row, "index", label="translated corpus", index=row_index)
+        if not 0 <= input_index < len(translation_input_rows):
+            raise RuntimeError(f"translated corpus row {row_index} has out-of-range index {input_index}.")
+
+        input_row = translation_input_rows[input_index]
+        expected_id = _require_int(input_row, "id", label="translation input", index=input_index)
+        actual_id = _require_int(translated_row, "id", label="translated corpus", index=row_index)
         if actual_id != expected_id:
             raise RuntimeError(
                 "Translated rows are not aligned with corpus_en_for_translation.json at "
-                f"index {index}: expected id {expected_id}, got {actual_id}."
+                f"index {input_index}: expected id {expected_id}, got {actual_id}."
             )
 
-        key = _manifest_key(input_row, label="translation input", index=index)
+        key = _manifest_key(input_row, label="translation input", index=input_index)
         matching_positions = positions_by_key.get(key)
         if not matching_positions:
             raise RuntimeError(
                 "Could not map translation input row back to reuse_manifest.json at "
-                f"index {index}: id={key[0]!r} en={key[1]!r}"
+                f"index {input_index}: id={key[0]!r} en={key[1]!r}"
             )
 
         manifest_index = matching_positions.popleft()
@@ -120,7 +124,7 @@ def _assign_translations_to_manifest(
             translated_row,
             "ja",
             label="translated corpus",
-            index=index,
+            index=row_index,
         )
 
     return translated_by_manifest_index
@@ -149,9 +153,7 @@ def _merge_japanese_sentences(
 
         translated = translated_by_manifest_index.get(index)
         if translated is None:
-            missing.append(
-                f"index={index} id={row.get('id')!r} en={str(row.get('en', ''))[:80]!r}"
-            )
+            missing.append(f"index={index} id={row.get('id')!r} en={str(row.get('en', ''))[:80]!r}")
             continue
 
         sentences.append(translated)
@@ -188,8 +190,8 @@ def _normalize_sentence(text: str) -> str:
     text = text.replace("[", " ").replace("]", " ")
     text = text.replace("~", " ")
     text = text.replace("。", ".")
-    text = text.replace("\uFF01", ".")
-    text = text.replace("\uFF1F", ".")
+    text = text.replace("\uff01", ".")
+    text = text.replace("\uff1f", ".")
     text = ELLIPSIS_PATTERN.sub("…", text)
     # Remove trailing duplicate periods
     while text.endswith(".."):
@@ -286,8 +288,7 @@ def main() -> None:
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(
-        json.dumps({"order": CORPUS_ORDER, "sentences": tokenized_sentences}, ensure_ascii=False, indent=2)
-        + "\n",
+        json.dumps({"order": CORPUS_ORDER, "sentences": tokenized_sentences}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
 

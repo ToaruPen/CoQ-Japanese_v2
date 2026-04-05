@@ -338,7 +338,7 @@ def save_progress(translations: dict[int, str], all_entries: list[dict]) -> None
     OUTPUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def main() -> None:
+def main() -> None:  # noqa: PLR0915
     entries = load_input()
     translations = load_existing_translations(entries)
     print(f"Total sentences: {len(entries)}")
@@ -395,6 +395,10 @@ def main() -> None:
 
     print("\n=== Complete ===")
     print(f"Translated: {len(translations)}/{len(entries)}")
+    if len(translations) != len(entries):
+        missing = len(entries) - len(translations)
+        print(f"Missing translations: {missing}")
+        raise SystemExit(1)
     if failed_chunks:
         print(f"Failed chunks: {failed_chunks}")
         raise SystemExit(1)

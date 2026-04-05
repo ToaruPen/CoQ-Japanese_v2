@@ -109,9 +109,12 @@ public sealed class MarkovCorpusQualityTests
             foreach (var sentence in containingBySentence)
             {
                 var tokens = sentence.Split(' ');
+                // Contains (not Equals): protected terms may appear as substrings
+                // of longer protected terms (e.g. 喰らう者 inside 喰らう者の墓所).
+                // The check verifies the term is not split across token boundaries.
                 var found = tokens.Any(t => t.Contains(term, StringComparison.Ordinal));
                 Assert.That(found, Is.True,
-                    $"Term '{term}' should appear as a single token in: {sentence}");
+                    $"Term '{term}' should appear within a single token in: {sentence}");
             }
         }
     }
