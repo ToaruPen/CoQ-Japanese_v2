@@ -70,6 +70,14 @@ public sealed class ReplacerDiscoveryTests
         Assert.That(DummyVariableReplacers.Map.ContainsKey("key1"), Is.True);
         Assert.That(DummyVariableReplacers.Map.ContainsKey("key2"), Is.True);
         Assert.That(DummyVariableReplacers.Map.ContainsKey("key3"), Is.True);
+
+        // All keys resolve to the same entry instance
+        DummyVariableReplacers.Map["key1"].TryFind([], out var e1);
+        DummyVariableReplacers.Map["key2"].TryFind([], out var e2);
+        DummyVariableReplacers.Map["key3"].TryFind([], out var e3);
+        Assert.That(e1, Is.SameAs(entry));
+        Assert.That(e2, Is.SameAs(entry));
+        Assert.That(e3, Is.SameAs(entry));
     }
 
     // --- Override behavior ---
@@ -86,7 +94,7 @@ public sealed class ReplacerDiscoveryTests
         DummyVariableReplacers.Register(["name"], jaEntry, @override: true);
 
         // Should resolve to ja version
-        DummyVariableReplacers.Map["name"].TryFind([], out var found);
+        Assert.That(DummyVariableReplacers.Map["name"].TryFind([], out var found), Is.True);
         string? result = found.Delegate(new DummyVariableContext(), []);
         Assert.That(result, Is.EqualTo("japanese"));
     }
@@ -103,24 +111,24 @@ public sealed class ReplacerDiscoveryTests
         DummyVariableReplacers.Register(["name"], jaEntry);
 
         // Should resolve to original en version (duplicate skipped)
-        DummyVariableReplacers.Map["name"].TryFind([], out var found);
+        Assert.That(DummyVariableReplacers.Map["name"].TryFind([], out var found), Is.True);
         string? result = found.Delegate(new DummyVariableContext(), []);
         Assert.That(result, Is.EqualTo("english"));
     }
 
-    // --- Lang filtering simulation ---
-    // In the game, YieldMethods filters by HasVariableReplacerAttribute.Lang.
-    // We simulate this by conditionally registering based on "active language".
+    // --- Lang-gated override simulation ---
+    // DummyTargets use manual registration — no reflection-based discovery.
+    // These tests validate the Override mechanism in EntryRack.TryAdd when
+    // registration order mimics YieldMethods lang filtering.
 
     [Test]
     public void LangFilter_EnReplacerLoaded_WhenActiveLangIsEn()
     {
-        // Simulate LoadReplacers with activeLang="en"
         string activeLang = "en";
         RegisterWithLangFilter(activeLang);
 
         Assert.That(DummyVariableReplacers.Map.ContainsKey("langTest"), Is.True);
-        DummyVariableReplacers.Map["langTest"].TryFind([], out var found);
+        Assert.That(DummyVariableReplacers.Map["langTest"].TryFind([], out var found), Is.True);
         string? result = found.Delegate(new DummyVariableContext(), []);
         Assert.That(result, Is.EqualTo("en-value"));
     }
@@ -131,10 +139,10 @@ public sealed class ReplacerDiscoveryTests
         string activeLang = "en";
         RegisterWithLangFilter(activeLang);
 
-        // ja-specific entry should not override
-        DummyVariableReplacers.Map["langTest"].TryFind([], out var found);
+        // ja-specific entry should not override — still en-value
+        Assert.That(DummyVariableReplacers.Map["langTest"].TryFind([], out var found), Is.True);
         string? result = found.Delegate(new DummyVariableContext(), []);
-        Assert.That(result, Is.Not.EqualTo("ja-value"));
+        Assert.That(result, Is.EqualTo("en-value"));
     }
 
     [Test]
@@ -143,7 +151,7 @@ public sealed class ReplacerDiscoveryTests
         string activeLang = "ja";
         RegisterWithLangFilter(activeLang);
 
-        DummyVariableReplacers.Map["langTest"].TryFind([], out var found);
+        Assert.That(DummyVariableReplacers.Map["langTest"].TryFind([], out var found), Is.True);
         string? result = found.Delegate(new DummyVariableContext(), []);
         Assert.That(result, Is.EqualTo("ja-value"));
     }
