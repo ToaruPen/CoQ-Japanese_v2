@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<factions Load="Merge" Encoding="utf-8">
+<factions Lang="ja" Encoding="utf-8">
   <faction Name="Player" DisplayName="プレイヤー" />
   <faction Name="Inanimate" DisplayName="無生物" />
   <faction Name="Beasts" DisplayName="獣" />

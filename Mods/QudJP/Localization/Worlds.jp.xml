@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<worlds Load="Merge" Encoding="utf-8">
+<worlds Lang="ja" Encoding="utf-8">
   <world Name="ThinWorld" ZoneFactory="ThinWorldZoneFactory" DisplayName="薄界（シン・ワールド）" Protocol="THIN" CustomClock="UI/time_sheol"></world>
 
   <world Name="Tzimtzlum" ZoneFactory="TzimtzlumWorldZoneFactory" DisplayName="ツィムツルム" Plane="Tzimtzlum" CustomClock="UI/time_clam1"></world>
