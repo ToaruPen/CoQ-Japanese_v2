@@ -3,6 +3,21 @@
 Comprehensive audit of all Grammar/Semantics direct calls and raw string
 concatenation hotspots in the decompiled beta source (212.17).
 
+## Scope
+
+**This audit covers:**
+- All `Grammar.*` static method call sites (366+ calls across ~80 files)
+- All `Semantics.*` call sites (3 calls)
+- Raw string concatenation hotspots that bypass `_S()`/`_T()`/`GameText`/Provider/Replacer pipelines
+
+**Out of scope (handled by other issues):**
+- `Strings/_S/_T` pipeline and `StringsLoader` — Issue #6
+- `GameText`/`ReplaceBuilder` — Issue #10
+- `HistoricStringExpander` — Issue #11
+- `TextConstants` — Issue #14
+- `[LanguageProvider]` — Issue #15
+- Direct TMP/TextBuilder text assignment — tracked as needed in route-specific issues
+
 ## Classification Legend
 
 | Code | Meaning | Action |
@@ -52,8 +67,8 @@ These 14 Harmony Prefix patches intercept **all** call sites globally when
 | `ConvertAtoAn(string)` | 14 | Medium | Scans sentence for "a" before vowels; irrelevant in Japanese. Patch: return input unchanged when ja. |
 | `IndefiniteArticleShouldBeAn(string)` | 7 | Low | Returns bool for a/an choice. Called from TranslatorBase and parts. Patch: return false when ja (no article distinction). |
 | `IndefiniteArticleShouldBeAn(int)` | (included above) | Low | Number overload. Same patch. |
-| `MakeAndList(IReadOnlyList<GameObject>, ...)` | ~10 | High | 8-param overload builds display names + joins. May call patched string overload internally — **needs investigation**. |
-| `MakeOrList(List<GameObject>, ...)` | ~4 | Medium | 7-param overload. Same investigation needed. |
+| `MakeAndList(IReadOnlyList<GameObject>, ...)` | ~10 | **H-done** | Investigated: internally delegates to `MakeAndList(List<string>, bool)` at Grammar.cs:910. Already intercepted by existing patch. |
+| `MakeOrList(List<GameObject>, ...)` | ~4 | **H-done** | Investigated: internally delegates to `MakeOrList(List<string>, bool)` at Grammar.cs:886. Already intercepted by existing patch. |
 | `MakeTheList(IReadOnlyList<string>, bool)` | unknown | Low | "The X, the Y, and the Z" — adds definite articles. Patch: join without "the" when ja. |
 | `AOrAnBeforeNumber(int)` | 1 | Low | "a 0" vs "an 8". Patch: return Cardinal(number) when ja. |
 
@@ -127,7 +142,7 @@ These 14 Harmony Prefix patches intercept **all** call sites globally when
 
 | File | Lines | Pattern | Classification |
 |------|-------|---------|----------------|
-| `RandomStatue.cs` | 42, 46, 54, 58 | `material + " statue of " + name` | **S** / **H-new** |
+| `RandomStatue.cs` | 42, 46, 54, 58 | `material + " statue of " + name` | **S** — `_T()` template with word order inversion. Simple `_S()` insufficient due to Japanese word order (`name + "の" + material + "像"`); requires template key with positional placeholders. |
 | `SultanMuralController.cs` | 347, 375, 401, 440 | `"mural of " + text` | **S** |
 | `VillageCoda.cs` | 2118, 2122, 2444 | `"village of " + name` (`_T()` missing) | **S** |
 | `SultanShrine.cs` | 247 | `"shrine to " + name` | **S** |
@@ -189,11 +204,13 @@ Section 2b.
 | 3 | `IndefiniteArticleShouldBeAn(string)` | Low — return false when ja |
 | 4 | `IndefiniteArticleShouldBeAn(int)` | Low — return false when ja |
 | 5 | `AOrAnBeforeNumber(int)` | Low — return Cardinal(number) when ja |
-| 6 | `MakeAndList(IReadOnlyList<GameObject>, ...)` | Medium — investigate if string overload is called internally |
-| 7 | `MakeOrList(List<GameObject>, ...)` | Medium — same investigation |
-| 8 | `MakeTheList(IReadOnlyList<string>, bool)` | Low — join without "the" when ja |
+| 6 | `MakeTheList(IReadOnlyList<string>, bool)` | Low — join without "the" when ja |
 
-**Total: 8 new patches (6 trivial, 2 need investigation)**
+~~`MakeAndList(IReadOnlyList<GameObject>)`~~ and ~~`MakeOrList(List<GameObject>)`~~
+were investigated and found to delegate to the string overloads internally
+(Grammar.cs:910, :886). Already covered by existing patches — no new patches needed.
+
+**Total: 6 new patches (all trivial)**
 
 ---
 
@@ -201,8 +218,8 @@ Section 2b.
 
 | Category | Count |
 |----------|-------|
-| Call sites covered by existing Harmony patches | ~357 |
-| Call sites needing new Harmony patches | ~40 |
+| Call sites covered by existing Harmony patches | ~371 |
+| Call sites needing new Harmony patches | ~26 |
 | Call sites covered by Replacer/PostProcessor | ~5 |
 | Call sites covered by Provider | ~16 |
 | Call sites needing `_S()`/`_T()` wrapping | ~50+ |
