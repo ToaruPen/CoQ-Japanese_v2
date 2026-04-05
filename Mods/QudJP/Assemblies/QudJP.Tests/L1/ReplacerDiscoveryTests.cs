@@ -72,9 +72,9 @@ public sealed class ReplacerDiscoveryTests
         Assert.That(DummyVariableReplacers.Map.ContainsKey("key3"), Is.True);
 
         // All keys resolve to the same entry instance
-        DummyVariableReplacers.Map["key1"].TryFind([], out var e1);
-        DummyVariableReplacers.Map["key2"].TryFind([], out var e2);
-        DummyVariableReplacers.Map["key3"].TryFind([], out var e3);
+        Assert.That(DummyVariableReplacers.Map["key1"].TryFind([], out var e1), Is.True);
+        Assert.That(DummyVariableReplacers.Map["key2"].TryFind([], out var e2), Is.True);
+        Assert.That(DummyVariableReplacers.Map["key3"].TryFind([], out var e3), Is.True);
         Assert.That(e1, Is.SameAs(entry));
         Assert.That(e2, Is.SameAs(entry));
         Assert.That(e3, Is.SameAs(entry));
