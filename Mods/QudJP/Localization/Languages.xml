@@ -10,6 +10,6 @@
   is specified here, FontManager.UpdateFontFallbacks() automatically inserts it into
   TMP_Settings.fallbackFontAssets so every UITextSkin picks it up.
 -->
-<languages>
+<languages Encoding="utf-8">
   <lang Code="ja" DisplayName="日本語" FontFamily="Source Han Mono JP" />
 </languages>

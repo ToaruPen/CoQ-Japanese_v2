@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<books>
+<books Load="Merge" Encoding="utf-8">
   <!-- 書籍本文は CDATA で包み、段落区切りは \n\n で管理する -->
 
   <book ID="DagashasSpur" Title="{{W|Dagasha Remembers}}">

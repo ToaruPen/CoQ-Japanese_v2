@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<worlds Load="Merge">
+<worlds Load="Merge" Encoding="utf-8">
   <world Name="ThinWorld" ZoneFactory="ThinWorldZoneFactory" DisplayName="薄界（シン・ワールド）" Protocol="THIN" CustomClock="UI/time_sheol"></world>
 
   <world Name="Tzimtzlum" ZoneFactory="TzimtzlumWorldZoneFactory" DisplayName="ツィムツルム" Plane="Tzimtzlum" CustomClock="UI/time_clam1"></world>
@@ -57,7 +57,7 @@
         <builder Class="FlagInside"></builder>
       </zone>
     </cell>
-    <cell Name="コーダ">
+    <cell Name="Coda">
       <boolproperty Name="JoinPartyLeaderPossible" Value="false" />
       <zone Level="10" x="1" y="1" Name="コーダ" IncludeStratumInZoneDisplay="false">
         <widget Blueprint="DaylightWidget" />
@@ -69,9 +69,6 @@
   </world>
 
   <world Name="JoppaWorld" ZoneFactory="JoppaWorldZoneFactory" Map="QudWorldMap.rpm" AmbientBed="amb_worldMap_sky" DisplayName="クッド">
-    <builder Class="JoppaWorldBuilder"></builder>
-    <builder Class="RingGateBuilder" StaticGateZones="JoppaWorld.17.17.1.1.14"></builder>
-
     <cell Name="DefaultJoppaCell" Inherits="" ApplyTo="*Default">
       <zone Level="0-9" x="0-2" y="0-2" Name="開けた空" IndefiniteArticle="the" GroundLiquid="" HasWeather="true" WindSpeed="0-80" WindDirections="N,NW,NW,W,W,SW,S,SE" WindDuration="500-6000">
         <builder Class="Sky"></builder>
@@ -740,7 +737,7 @@
       </zone>
     </cell>-->
 
-    <cell Name="キャクキャ" Inherits="Jungle" ApplyTo="TerrainKyakukya" Mutable="false">
+    <cell Name="Kyakukya" Inherits="Jungle" ApplyTo="TerrainKyakukya" Mutable="false">
       <zone Level="5-9" x="0-2" y="0-2" Name="キャクキャの上空" IndefiniteArticle="the">
         <builder Class="Sky"></builder>
       </zone>
@@ -754,7 +751,7 @@
       </zone>
     </cell>
 
-    <cell Name="ジョッパ" Inherits="WatervineCell" ApplyTo="TerrainJoppa" Mutable="false">
+    <cell Name="Joppa" Inherits="WatervineCell" ApplyTo="TerrainJoppa" Mutable="false">
 
       <zone Level="5-9" x="0-2" y="0-2" Name="ジョッパの上空" IndefiniteArticle="the">
         <builder Class="Sky"></builder>
@@ -826,7 +823,7 @@
       </zone>
     </cell>
 
-    <cell Name="ジョッパ" Inherits="WatervineCell" ApplyTo="TerrainJoppaRuins" Mutable="false">
+    <cell Name="JoppaRuins" Inherits="WatervineCell" ApplyTo="TerrainJoppaRuins" Mutable="false">
 
       <zone Level="5-9" x="0-2" y="0-2" Name="ジョッパの上空" IndefiniteArticle="the">
         <builder Class="Sky"></builder>
@@ -901,7 +898,7 @@
 
     <!-- Rust Well -->
 
-    <cell Name="ラスト・ウェル" Inherits="DesertCanyon" ApplyTo="TerrainRustWell" Mutable="false">
+    <cell Name="Rustwell" Inherits="DesertCanyon" ApplyTo="TerrainRustWell" Mutable="false">
 
       <zone Level="5-9" x="0-2" y="0-2" Name="ラスト・ウェルの上空" IndefiniteArticle="the">
         <builder Class="Sky"></builder>
@@ -1300,7 +1297,7 @@
 
     <!-- Bethesda Susa -->
 
-    <cell Name="ベテスダ・スーサ" Inherits="Hills" ApplyTo="TerrainBethesdaSusa" Mutable="false" Tier="4">
+    <cell Name="Bethesda Susa" Inherits="Hills" ApplyTo="TerrainBethesdaSusa" Mutable="false" Tier="4">
 
       <zone Level="5-9" x="0-2" y="0-2" Name="ベテスダ・スーサの上空" IndefiniteArticle="the">
         <builder Class="Sky"></builder>
@@ -2463,7 +2460,7 @@
         <music Track="Music/A New World" />
       </zone>     
     </cell>
-    <cell Name="QuayCell" Inherits="DefaultNorthShevaCell" ApplyTo="TerrainSurfaceStratumNorthwiseMoors">
+    <cell Name="QuayCellSurface" Inherits="DefaultNorthShevaCell" ApplyTo="TerrainSurfaceStratumNorthwiseMoors">
       <zone Level="10" x="0" y="2" Name="北の湿原" NameContext="星渡りの桟橋" IncludeStratumInZoneDisplay="false" DisableForcedConnections="Yes">
         <map FileName="NorthSheva/StarfarersQuayHigh.rpm"/>
         <music Track="Music/A New World" />
