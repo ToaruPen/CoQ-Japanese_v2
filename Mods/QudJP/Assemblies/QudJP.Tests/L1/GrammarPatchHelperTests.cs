@@ -60,12 +60,26 @@ public sealed class GrammarPatchHelperTests
     }
 
     [Test]
+    public void JaMakeAndListResult_SerialTrue_SameOutputAsSerialFalse()
+    {
+        Assert.That(GrammarPatchHelpers.JaMakeAndListResult(["A", "B"], serial: true, isJa: true), Is.EqualTo("AとB"));
+        Assert.That(GrammarPatchHelpers.JaMakeAndListResult(["A", "B", "C"], serial: true, isJa: true), Is.EqualTo("A、B、とC"));
+    }
+
+    [Test]
     public void JaMakeOrListResult_JapaneseActive_FormatsExpectedLists()
     {
         Assert.That(GrammarPatchHelpers.JaMakeOrListResult([], serial: false, isJa: true), Is.EqualTo(string.Empty));
         Assert.That(GrammarPatchHelpers.JaMakeOrListResult(["A"], serial: false, isJa: true), Is.EqualTo("A"));
         Assert.That(GrammarPatchHelpers.JaMakeOrListResult(["A", "B"], serial: false, isJa: true), Is.EqualTo("AまたはB"));
         Assert.That(GrammarPatchHelpers.JaMakeOrListResult(["A", "B", "C"], serial: false, isJa: true), Is.EqualTo("A、B、またはC"));
+    }
+
+    [Test]
+    public void JaMakeOrListResult_SerialTrue_SameOutputAsSerialFalse()
+    {
+        Assert.That(GrammarPatchHelpers.JaMakeOrListResult(["A", "B"], serial: true, isJa: true), Is.EqualTo("AまたはB"));
+        Assert.That(GrammarPatchHelpers.JaMakeOrListResult(["A", "B", "C"], serial: true, isJa: true), Is.EqualTo("A、B、またはC"));
     }
 
     [Test]
