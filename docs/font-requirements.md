@@ -49,37 +49,46 @@ This means:
 ## Bundled Source Han variants
 
 `FontManager.UpdateFontFallbacks` references names starting with `"Source Han"`.
-Based on game beta 2.0.212.17 the following variants are known to be bundled:
+Direct string extraction from `sharedassets0.assets` (game beta 2.0.212.17)
+confirms the following five regional variants are bundled as separate
+`TMP_FontAsset`s:
 
 | `TMP_FontAsset.faceInfo.familyName` | Script coverage |
 |---|---|
-| `Source Han Mono SC` | Simplified Chinese + Basic Latin |
-| `Source Han Mono JP` | Japanese (preferred for `ja` locale) |
+| `Source Han Mono` | **Japanese (primary, per Adobe naming)** |
+| `Source Han Mono SC` | Simplified Chinese |
+| `Source Han Mono TC` | Traditional Chinese (Taiwan) |
+| `Source Han Mono HC` | Traditional Chinese (Hong Kong) |
+| `Source Han Mono K` | Korean |
 
-`"Source Han Mono JP"` is the correct value for the `FontFamily` attribute in
-`Mods/QudJP/Localization/Languages.xml`.
+Adobe's Source Han family uses the **unsuffixed** name for the Japanese
+primary variant (see [Source Han Sans ReadMe](https://github.com/adobe-fonts/source-han-sans)
+Font Resources table). Accordingly, `"Source Han Mono"` — *not* a hypothetical
+`"Source Han Mono JP"` — is the correct value for the `FontFamily` attribute in
+`Mods/QudJP/Localization/Languages.xml`. See Issue #37 for the historical
+`"Source Han Mono JP"` bug that resulted in tofu (U+25A1) rendering.
 
 ## What Japanese display needs
 
 | Requirement | Notes |
 |---|---|
-| Hiragana (U+3040–U+309F) | Fully covered by Source Han Mono JP |
+| Hiragana (U+3040–U+309F) | Fully covered by Source Han Mono |
 | Katakana (U+30A0–U+30FF) | Fully covered |
-| CJK Unified Ideographs (U+4E00–U+9FFF) | Covered; JP variant uses JIS-preferred glyphs |
+| CJK Unified Ideographs (U+4E00–U+9FFF) | Covered; JP primary uses JIS-preferred glyphs |
 | Half-width Katakana (U+FF65–U+FF9F) | Covered via Source Han |
 | Punctuation (U+3000–U+303F) | Covered |
 | Latin / ASCII overlay | Already in the primary (monospace) font |
 
 No additional font files need to be distributed by the mod, because
-`Source Han Mono JP` is already present in the game's `resources.assets` bundle.
+`Source Han Mono` is already present in the game's `sharedassets0.assets` bundle.
 The `NotoSansCJKjp-Regular-Subset.otf` file in `Mods/QudJP/Fonts/` is retained as a
 fallback reference for future tooling (e.g., offline rendering previews) but is **not**
 loaded at runtime.
 
 ## What would be needed if the bundled font is absent
 
-If a future game update removes or renames the Source Han JP asset, the mod would
-need to:
+If a future game update removes or renames the bundled `Source Han Mono` asset,
+the mod would need to:
 
 1. Register a custom `TMP_FontAsset` via a Harmony patch or Unity asset bundle — both
    are non-trivial and outside the current beta-first scope.

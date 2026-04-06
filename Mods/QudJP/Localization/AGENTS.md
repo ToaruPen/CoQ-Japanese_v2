@@ -6,7 +6,7 @@ Beta-first Japanese localization assets: XML overlays, dictionaries, and corpus 
 
 ## What
 
-- `Languages.xml` — language registration (`"ja"` with Source Han Mono JP font)
+- `Languages.xml` — language registration (`"ja"` with Source Han Mono font, the unsuffixed = JP primary variant per Adobe naming)
 - `Strings.ja.xml` — Japanese string table entries
 - `*.jp.xml` — XML merge overlays for game documents
 - `Dictionaries/*.ja.json` — dictionary assets (v1 legacy, triage needed)
