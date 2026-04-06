@@ -6,10 +6,15 @@
   YieldXMLStreamsWithRoot("languages") and calls HandleLangNode for each <lang> child.
 
   FontFamily must match TMP_FontAsset.faceInfo.familyName in FontManager.Fonts.
-  "Source Han Mono JP" is the Japanese-script variant bundled by the game; when it
-  is specified here, FontManager.UpdateFontFallbacks() automatically inserts it into
-  TMP_Settings.fallbackFontAssets so every UITextSkin picks it up.
+  "Source Han Mono" is the pan-CJK variant bundled by the game and contains all JP
+  glyphs with natural Japanese-style rendering. FontManager.UpdateFontFallbacks()
+  inserts it into TMP_Settings.fallbackFontAssets so every UITextSkin picks it up.
+  Note: "Source Han Mono JP" does NOT exist as a TMP_FontAsset — the bundled assets
+  are the pan-CJK family (see Issue #37). If a name starting with "Source Han" does
+  not resolve, FontManager silently adds null to the fallback list and all Japanese
+  glyphs render as U+25A1 (tofu). "Source Han Mono SC" also works but has
+  Chinese-leaning glyph forms.
 -->
 <languages Encoding="utf-8">
-  <lang Code="ja" DisplayName="日本語" FontFamily="Source Han Mono JP" />
+  <lang Code="ja" DisplayName="日本語" FontFamily="Source Han Mono" />
 </languages>
